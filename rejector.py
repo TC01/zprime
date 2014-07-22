@@ -7,42 +7,17 @@ import sys
 
 import optparse
 
-#from optparse import OptionParser
-#parser = OptionParser()
-#parser.add_option('--n', metavar='N', type='string', action='store',
- #                 dest='nm',
-#                  help='')
-#parser.add_option('--o', metavar='N', type='string', action='store',
-#                  dest='out',
-#                  help='')
-#(options, args) = parser.parse_args()
+rejection = "jet3pt>50&&numjets>2"
 
-#f = TFile(options.nm)
-#t = f.Get('tree')
-
-#newf = TFile("holding.root", "recreate" )
-#newf.cd()
-
-#T = t.CopyTree("(isHad<1.0&numjets>1&jet2pt>50&leppt>50&metpt>50)")
-#T.SetName('TREE')
-
-#newnewf = TFile(options.out+".root", "recreate")
-#newnewf.cd()
-
-#TT = T.CopyTree('')
-#TT.SetName('tree')
-
-#newnewf.Write()
-#newnewf.Save()
-
-def rejectLeptons(location, name):
+def rejectEvents(location, name):
+	global rejection
 	file = ROOT.TFile(location)
 	tree = file.Get('tree')
 
 	holding = ROOT.TFile("holding.root", "recreate")
 	holding.cd()
 
-	copy = tree.CopyTree("isHad>=1.0&&numjets>1")
+	copy = tree.CopyTree(rejection)
 	copy.SetName('TREE')
 
 	newfile = ROOT.TFile(os.path.join(os.getcwd(), name), "RECREATE")
@@ -68,7 +43,7 @@ def main():
 		if path == location:
 			for file in files:
 				if ".root" in file:
-					rejectLeptons(os.path.join(path, file), file)
+					rejectEvents(os.path.join(path, file), file)
 					print "Applied rejection cuts to " + file
 
 	os.remove(os.path.join(os.getcwd(), "holding.root"))
