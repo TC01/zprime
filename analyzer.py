@@ -50,8 +50,10 @@ def main():
 	cuts.append(cut('jet1csv<0.75||jet2csv<0.75||jet3csv<0.75', 'wtag_loose'))
 	cuts.append(cut('jet1csv>0.697||jet2csv>0.697||jet3csv>0.697', 'btag'))
 	cuts.append(cut('jet1tau21<0.5||jet2tau21<0.5||jet3tau21<0.5', 'tau'))
+	cuts.append(cut('jet3pt>50', 'pt_test'))
+	cuts.append(cut('(jet1tau32>0&&jet1tau32<0.5)||(jet2tau32>0&&jet2tau32<0.5)||(jet3tau32>0&&jet3tau32<0.5)', 'tau32'))
 	for realcut in cuts:
-		if not options.cuts is None and realcut.getName() in options.cuts:
+		if options.cuts is None or realcut.getName() in options.cuts:
 			step.addCut(realcut)
 
 	none = AnaStep('hadronic', step, lumi, 'RECO123mass', [50, 0, 4000], "no")
