@@ -11,22 +11,25 @@ import optparse
 lumi = 19800
 path = os.path.join(os.getcwd(), "trees")
 
-signal15file = os.path.join(path, "Gstar_Hadronic_1500GeV.root")
-signal20file = os.path.join(path, "Gstar_Hadronic_2000GeV.root")
-signal30file = os.path.join(path, "Gstar_Hadronic_3000GeV.root")
-
-ttbar_hadronic_file = os.path.join(path, "TTJets_HadronicMGDecays_8TeV-madgraph.root")
-qcd_file = os.path.join(path, "QCD_TuneZ2star_8TeV-pythia6.root")
-
 def main():
 	global lumi, path
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
 
 	parser = optparse.OptionParser()
+	parser.add_option("-p", "--path", type="string", default=path, help="Path where trees can be found.")
 	parser.add_option("-c", "--cut", action="append", dest="cuts", help="Name of a cut to use.")
 	options, args = parser.parse_args()
 
+	if os.path.exists(os.path.abspath(options.path)):
+		path = os.path.abspath(options.path)
+
+	signal15file = os.path.join(path, "Gstar_Hadronic_1500GeV.root")
+	signal20file = os.path.join(path, "Gstar_Hadronic_2000GeV.root")
+	signal30file = os.path.join(path, "Gstar_Hadronic_3000GeV.root")
+
+	ttbar_hadronic_file = os.path.join(path, "TTJets_HadronicMGDecays_8TeV-madgraph.root")
+	qcd_file = os.path.join(path, "QCD_TuneZ2star_8TeV-pythia6.root")
 
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*0.2/160000, "no")
 	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.37*0.68*0.2/160000, "no")
