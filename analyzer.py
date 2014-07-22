@@ -32,8 +32,10 @@ def main():
 	qcd_file = os.path.join(path, "QCD_TuneZ2star_8TeV-pythia6.root")
 
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*0.2/160000, "no")
-	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.37*0.68*0.2/160000, "no")
-	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.37*0.68*0.2/160000, "no")
+	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.054*0.68*0.2/160000, "no")
+
+	# Unfortunately, Marc forgets what the weighting for the G* 3000 is, and I dunno where to find it.
+#	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.37*0.68*0.2/160000, "no")
 
 	ttbar_hadronic = dist(ttbar_hadronic_file, "ttbar_hadronic", ROOT.TColor.kRed, 53.4/10537444, "no")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
@@ -41,7 +43,7 @@ def main():
 	step = pile("tree")
 	step.addSig(signal15)
 	step.addSig(signal20)
-	step.addSig(signal30)
+#	step.addSig(signal30)
 	step.addBkg(ttbar_hadronic)
 	step.addBkg(qcd)
 
