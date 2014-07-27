@@ -11,7 +11,7 @@ import sys
 
 import ROOT
 from marclib import *
-from AnaStep import *
+from marclib.AnaStep import *
 
 lumi = 19800
 
@@ -69,7 +69,7 @@ def fixOutputFiles(location):
 			if "qcd" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "QCD_TuneZ2star_8TeV-pythia6.root"))
 
-def doAnalysis(jobname, path, treepath, cutfile, cutArray=None, nowait):
+def doAnalysis(jobname, path, treepath, cutfile, nowait, cutArray=None):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file

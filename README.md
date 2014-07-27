@@ -27,6 +27,20 @@ patch < patch/sequencer.patch
 
 Once I write the tool to automatically fix from x import * imports, that will be ran too.
 
+Analysis-in-a-box:
+------------------
+
+This is really cool, but probably not practical!
+
+Just run "make". That will *automatically* apply all the cuts in the right
+sequence, bringing the analysis up to speed to however far I've gotten!
+
+Useful in case I accidentally rm -rf something.
+
+All output from the analyzer is logged, and all trees and plots are stored.
+
+Sidebands, etc, are not currently being generated. I feel like they should be.
+
 Credits:
 --------
 Ben Rosser <bjr@pha.jhu.edu>

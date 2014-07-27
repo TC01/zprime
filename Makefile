@@ -1,13 +1,13 @@
 BASEDIR=${CURDIR}
 ANALYSISDIR=${CURDIR}/working/
-TREES=/uscms_data/d3/bjr/zprime/treemaker/trees/
+TREES=/uscms_data/d3/bjr/zprime/hadronic/trees/
 
-all: prepare
+all: clean prepare analyze
 
 analyze:
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES}
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/hadronic_looser.conf -p ${ANALYSISDIR}/preselection/hadronic_looser
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/hadronic_looser.conf -p ${ANALYSISDIR}/preselection/hadronic_tighter
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --nowait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/hadronic_looser.conf -p ${ANALYSISDIR}/preselection/hadronic_looser --nowait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/hadronic_looser.conf -p ${ANALYSISDIR}/preselection/hadronic_tighter --nowait
 
 prepare:
 	mkdir ${ANALYSISDIR}
