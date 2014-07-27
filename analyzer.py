@@ -47,31 +47,21 @@ def generateCuts(cutTemplates, numjets=3):
 		cuts[name] = fullCut
 	return cuts
 
-def oldmain():
-	global lumi, path
+def doAnalysis(name, path, treepath, cutfile, cutArray=None):
+	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
 	global defaultCuts
 
-	parser = optparse.OptionParser()
-	parser.add_option("-p", "--path", type="string", default=path, help="Path where trees can be found.")
-	parser.add_option("-c", "--cut", action="append", dest="cuts", help="Name of a cut to use.")
-	parser.add_option('-o', '--output', type='string', default=os.path.join(os.getcwd(), "output"), help="Dir to copy output plots to.")
-	parser.add_option('-n', '--name', type='string', default="hadronic", help="Identifying part of output name.")
-	options, args = parser.parse_args()
-
-	if os.path.exists(os.path.abspath(options.path)):
-		path = os.path.abspath(options.path)
-
 	cuts = generateCuts(defaultCuts)
 
-	signal15file = os.path.join(path, "Gstar_Hadronic_1500GeV.root")
-	signal20file = os.path.join(path, "Gstar_Hadronic_2000GeV.root")
-	signal30file = os.path.join(path, "Gstar_Hadronic_3000GeV.root")
+	signal15file = os.path.join(treepath, "Gstar_Hadronic_1500GeV.root")
+	signal20file = os.path.join(treepath, "Gstar_Hadronic_2000GeV.root")
+	signal30file = os.path.join(treepath, "Gstar_Hadronic_3000GeV.root")
 
-	ttbar_hadronic_file = os.path.join(path, "TTJets_HadronicMGDecays_8TeV-madgraph.root")
-	qcd_file = os.path.join(path, "QCD_TuneZ2star_8TeV-pythia6.root")
-	wjet_hadronic_file = os.path.join(path, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root")
+	ttbar_hadronic_file = os.path.join(treepath, "TTJets_HadronicMGDecays_8TeV-madgraph.root")
+	qcd_file = os.path.join(treepath, "QCD_TuneZ2star_8TeV-pythia6.root")
+	wjet_hadronic_file = os.path.join(treepath, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root")
 
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*0.2/160000, "no")
 	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.054*0.68*0.2/160000, "no")
@@ -90,21 +80,29 @@ def oldmain():
 	step.addBkg(qcd)
 	step.addBkg(wjet_hadronic)
 
-	if options.cuts is None:
+	if cutArray is None:
 		for name, realcut in cuts.iteritems():
 			step.addCut(cut(realcut, name))
 			print "Added cut " + name + ": " + cuts[name]
 	else:
-		for name in options.cuts:
+		for name in cutArray:
 			try:
 				step.addCut(cut(cuts[name], name))
 				print "Added cut " + name + ": " + cuts[name]
 			except:
 				print "Cut not understood: " + name			
 
-	none = AnaStep(options.name, step, lumi, 'RECO123mass', [50, 0, 4000], "yes")
+	none = AnaStep(name, step, lumi, 'RECO123mass', [50, 0, 4000], "yes")
 
+	# Process output files.
 	os.remove(os.path.join(os.getcwd(), "DELETEMEIFYOUWANT.root"))
+	for location, dir, files in os.walk(os.getcwd()):
+		if location == os.getcwd():
+			if ".root" in name:
+				shutil.copy(name, os.path.join(path, "output"))
+			if ".png" in name or ".pdf" in name:
+				shutil.copy(name, os.path.join(path, "plots"))
+
 	raw_input()
 
 def main():
@@ -161,7 +159,7 @@ def main():
 		os.mkdir(os.path.join(path, "plots"))
 
 	name = options.name
-#	doAnalysis(name, path, treepath, cutfile)
+	doAnalysis(name, path, treepath, cutfile)
 
 	print path
 	print name
