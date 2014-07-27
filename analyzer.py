@@ -13,6 +13,8 @@
 # ALSO: write output thing to make our output files have the same names they did before.
 # and to move them somewhere nicer.
 
+# I suppose the input should really look for path/../output/.
+
 import glob
 import math
 import optparse
@@ -34,6 +36,21 @@ defaultCuts = { "topmass": "jet[X]tau32>0&&jet[X]tau32<0.50&&jet[X]mass<270&&jet
 				"wmass": "(jet[X]tau21<0.75)&&jet[X]mass<100&&jet[X]mass>70",
 				"btag": "(jet[X]csv>0.333)"}
 
+def createCutTemplates(filename=None):
+	global defaultCuts
+	if filename is None:
+		return defaultCuts
+	
+	cutDict = {}
+	with open(filename) as cutfile:
+		for line in cutfile:
+			if '#' == line[0]:
+				continue
+			cutname, sep, cut = line.partition(': ')
+			cut = cut.rstrip('\n')
+			cutDict[cutname] = cut
+	return cutDict
+
 def generateCuts(cutTemplates, numjets=3):
 	cuts = {}
 	for name, template in cutTemplates.iteritems():
@@ -49,13 +66,31 @@ def generateCuts(cutTemplates, numjets=3):
 		cuts[name] = fullCut
 	return cuts
 
+def fixOutputFiles(location):
+
+	for path, dir, files in os.walk(location):
+		for file in files:
+			if "signal_1500" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Hadronic_1500GeV.root"))
+			if "signal_2000" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Hadronic_2000GeV.root"))
+			if "signal_3000" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Hadronic_3000GeV.root"))
+			if "wjet_hadronic" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root"))
+			if "ttbar_hadronic" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_HadronicMGDecays_8TeV-madgraph.root"))
+			if "qcd" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "QCD_TuneZ2star_8TeV-pythia6.root"))
+
 def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
 	global defaultCuts
 
-	cuts = generateCuts(defaultCuts)
+	cuts = createCutTemplates(cutfile)
+	cuts = generateCuts(cuts)
 
 	signal15file = os.path.join(treepath, "Gstar_Hadronic_1500GeV.root")
 	signal20file = os.path.join(treepath, "Gstar_Hadronic_2000GeV.root")
@@ -105,13 +140,14 @@ def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
 					shutil.move(file, os.path.join(path, "output"))
 				if ".png" in file or ".pdf" in file:
 					shutil.move(file, os.path.join(path, "plots"))
+	fixOutputFiles(os.path.join(path, "output"))
 
 	raw_input()
 
 def main():
 #	global 
 
-	# Hierarchy: source/, output/, plots/, cuts.conf in path/
+	# Hierarchy: output/, plots/, cuts.conf in path/
 
 	parser = optparse.OptionParser()
 	parser.add_option("-p", "--path", type="string", default='', help="Path where source can be found and output will be written.")
@@ -136,10 +172,10 @@ def main():
 		if os.path.exists(os.path.abspath(options.trees)):
 			treepath = os.path.abspath(options.trees)
 	if treepath == "":
-		if not os.path.exists(os.path.join(path, "source")):
+		if not os.path.exists(os.path.join(path, "..", "source")):
 			print "Error: unable to find source trees."
 			sys.exit(1)
-		treepath = os.path.join(path, "source")
+		treepath = os.path.join(path, "..", "source")
 
 	# Extract location of cutfile from command line options.
 	cutfile = ""
@@ -155,12 +191,17 @@ def main():
 	if not os.path.exists(path):
 		os.mkdir(path)
 
-	if not os.path.exists(os.path.join(path, "output")):
-		os.mkdir(os.path.join(path, "output"))
+	if os.path.exists(os.path.join(path, "output")):
+		print "WARNING: Deleting contents of " + path + "/output/"
+		shutil.rmtree(os.path.join(path, "output"))
+	os.mkdir(os.path.join(path, "output"))
 
-	if not os.path.exists(os.path.join(path, "plots")):
-		os.mkdir(os.path.join(path, "plots"))
+	if os.path.exists(os.path.join(path, "plots")):
+		print "WARNING: Deleting contents of " + path + "/plots/"
+		shutil.rmtree(os.path.join(path, "plots"))
+	os.mkdir(os.path.join(path, "plots"))
 
+	print "\n"
 	name = options.name
 	doAnalysis(name, path, treepath, cutfile)
 
