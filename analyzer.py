@@ -152,7 +152,7 @@ def main():
 	parser = optparse.OptionParser()
 	parser.add_option("-p", "--path", type="string", default='', help="Path where source can be found and output will be written.")
 	parser.add_option("-c", "--cut", action="append", dest="cuts", help="Name of a cut to use that is stored in cuts.conf.")
-	parser.add_option('-n', '--name', type='string', default="hadronic", help="Identifying part of output name.")
+	parser.add_option('-n', '--name', type='string', default="", help="Identifying part of output name.")
 
 	# These options are ignored if not specified, and path/source/ and path/cuts.conf are used instead.
 	parser.add_option('-t', '--trees', type='string', default=None, dest='trees', help="Location of trees, separate from working path.")
@@ -203,6 +203,9 @@ def main():
 
 	print "\n"
 	name = options.name
+	if name == "":
+		working = path.rstrip('/')
+		name = os.path.basename(working)
 	doAnalysis(name, path, treepath, cutfile)
 
 if __name__ == '__main__':
