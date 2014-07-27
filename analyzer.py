@@ -13,13 +13,15 @@
 # ALSO: write output thing to make our output files have the same names they did before.
 # and to move them somewhere nicer.
 
-import os
 import glob
 import math
-import ROOT
-import sys
-from AnaStep import *
 import optparse
+import os
+import shutil
+import sys
+
+import ROOT
+from AnaStep import *
 
 lumi = 19800
 path = os.path.join(os.getcwd(), "trees")
@@ -47,7 +49,7 @@ def generateCuts(cutTemplates, numjets=3):
 		cuts[name] = fullCut
 	return cuts
 
-def doAnalysis(name, path, treepath, cutfile, cutArray=None):
+def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
@@ -92,16 +94,17 @@ def doAnalysis(name, path, treepath, cutfile, cutArray=None):
 			except:
 				print "Cut not understood: " + name			
 
-	none = AnaStep(name, step, lumi, 'RECO123mass', [50, 0, 4000], "yes")
+	none = AnaStep(jobname, step, lumi, 'RECO123mass', [50, 0, 4000], "yes")
 
 	# Process output files.
 	os.remove(os.path.join(os.getcwd(), "DELETEMEIFYOUWANT.root"))
 	for location, dir, files in os.walk(os.getcwd()):
 		if location == os.getcwd():
-			if ".root" in name:
-				shutil.copy(name, os.path.join(path, "output"))
-			if ".png" in name or ".pdf" in name:
-				shutil.copy(name, os.path.join(path, "plots"))
+			for file in files:
+				if ".root" in file:
+					shutil.move(file, os.path.join(path, "output"))
+				if ".png" in file or ".pdf" in file:
+					shutil.move(file, os.path.join(path, "plots"))
 
 	raw_input()
 
@@ -160,12 +163,6 @@ def main():
 
 	name = options.name
 	doAnalysis(name, path, treepath, cutfile)
-
-	print path
-	print name
-	print treepath
-	print cutfile
-
 
 if __name__ == '__main__':
 	main()
