@@ -1,19 +1,6 @@
 #!/usr/bin/env python
 
-# TODO: write cut thingy.
-# that is, write a thing that can open a file and read from it
-# i.e: ./analyzer.py -p output/ -o bprime/ -i bprime/cuts
-# cuts file format:
-#  name: {cut description language}
-# which is a fancy word for "jet[X] like we process.
-# -i can be overridden by -c options to select only specific ones.
-
-# cuts file loaded into dictionary which is then passed to generate cuts.
-
-# ALSO: write output thing to make our output files have the same names they did before.
-# and to move them somewhere nicer.
-
-# I suppose the input should really look for path/../output/.
+# We need to capture stdout.
 
 import glob
 import math
@@ -26,7 +13,6 @@ import ROOT
 from AnaStep import *
 
 lumi = 19800
-path = os.path.join(os.getcwd(), "trees")
 
 #defaultCuts = { "topmass": "jet[X]tau32>0&&jet[X]tau32<0.5&&jet[X]mass<270&&jet[X]mass>130",
 #				"wmass": "(jet[X]tau32<0||jet[X]tau32>0.5)&&jet[X]mass<100&&jet[X]mass>70",
@@ -67,7 +53,6 @@ def generateCuts(cutTemplates, numjets=3):
 	return cuts
 
 def fixOutputFiles(location):
-
 	for path, dir, files in os.walk(location):
 		for file in files:
 			if "signal_1500" in file:
@@ -87,7 +72,6 @@ def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
-	global defaultCuts
 
 	cuts = createCutTemplates(cutfile)
 	cuts = generateCuts(cuts)
@@ -140,13 +124,13 @@ def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
 					shutil.move(file, os.path.join(path, "output"))
 				if ".png" in file or ".pdf" in file:
 					shutil.move(file, os.path.join(path, "plots"))
+				if "output.log" in file:
+					shutil.move(file, path)
 	fixOutputFiles(os.path.join(path, "output"))
 
 	raw_input()
 
 def main():
-#	global 
-
 	# Hierarchy: output/, plots/, cuts.conf in path/
 
 	parser = optparse.OptionParser()
@@ -206,6 +190,10 @@ def main():
 	if name == "":
 		working = path.rstrip('/')
 		name = os.path.basename(working)
+	try:
+		os.remove(os.path.join(os.getcwd(), 'output.log'))
+	except:
+		pass
 	doAnalysis(name, path, treepath, cutfile)
 
 if __name__ == '__main__':

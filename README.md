@@ -14,6 +14,19 @@ It'll probably stay private for now.
 
 Stuff that I work on that *is* probably useful to other people will get spun off and publicized or whatever is necessary.
 
+Patches:
+-------
+
+To preserve the hot-swappable nature of Marc's code, any patches to it are
+available here.
+
+Run, from your working folder:
+
+patch < patch/onecut.patch
+patch < patch/sequencer.patch
+
+Once I write the tool to automatically fix from x import * imports, that will be ran too.
+
 Credits:
 --------
 Ben Rosser <bjr@pha.jhu.edu>

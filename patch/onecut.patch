@@ -1,0 +1,15 @@
+--- OneCut.py	2014-07-21 16:29:57.281271060 -0500
++++ /uscms/home/bjr/bluearc/zprime/hadronic/analysis/OneCut.py	2014-07-27 17:23:14.448616000 -0500
+@@ -25,6 +25,12 @@
+ 		print '-- New Tree has '+str(self.NumSon)+' events.'
+ 		if self.NumFather > 0:
+ 			print '--        Efficiency: {0:4.3}%'.format(100*float(self.NumSon)/float(self.NumFather))
++		with open('output.log', 'ab') as logfile:
++			logfile.write('-- Original Tree had '+str(self.NumFather)+' events.\n')
++			logfile.write('-- New Tree has '+str(self.NumSon)+' events.\n')
++			if self.NumFather > 0:
++				logfile.write('--        Efficiency: {0:4.3}% \n'.format(100*float(self.NumSon)/float(self.NumFather)))
++
+ 		return Vals
+ 	def getPlot(self, var, name, bins, minbin, maxbin, scale): #Returns a formatted binned histogram for quick plotting
+ 		plot = ROOT.TH1F(name, name, bins, minbin, maxbin)
