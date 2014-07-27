@@ -10,6 +10,7 @@ import shutil
 import sys
 
 import ROOT
+from marclib import *
 from AnaStep import *
 
 lumi = 19800
@@ -68,7 +69,7 @@ def fixOutputFiles(location):
 			if "qcd" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "QCD_TuneZ2star_8TeV-pythia6.root"))
 
-def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
+def doAnalysis(jobname, path, treepath, cutfile, cutArray=None, nowait):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
@@ -128,7 +129,8 @@ def doAnalysis(jobname, path, treepath, cutfile, cutArray=None):
 					shutil.move(file, path)
 	fixOutputFiles(os.path.join(path, "output"))
 
-	raw_input()
+	if not nowait:
+		raw_input()
 
 def main():
 	# Hierarchy: output/, plots/, cuts.conf in path/
@@ -143,6 +145,7 @@ def main():
 	parser.add_option('-f', '--cut-file', type='string', default=None, dest='cutfile', help="Location of cuts config file, separate from working path.")
 
 	parser.add_option('--no-cwd', action='store_true', dest='nocwd', default=False, help="Make paths absolute instead of relative to cwd.")
+	parser.add_option('--no-wait', action='store_true', dest='nowait', default=False, help="Do not wait to allow the user to look at plots.")
 	options, args = parser.parse_args()
 
 	if options.nocwd:
@@ -194,7 +197,7 @@ def main():
 		os.remove(os.path.join(os.getcwd(), 'output.log'))
 	except:
 		pass
-	doAnalysis(name, path, treepath, cutfile)
+	doAnalysis(name, path, treepath, cutfile, options.nowait)
 
 if __name__ == '__main__':
 	main()
