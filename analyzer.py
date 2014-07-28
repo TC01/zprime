@@ -23,6 +23,18 @@ defaultCuts = { "topmass": "jet[X]tau32>0&&jet[X]tau32<0.50&&jet[X]mass<270&&jet
 				"wmass": "(jet[X]tau21<0.75)&&jet[X]mass<100&&jet[X]mass>70",
 				"btag": "(jet[X]csv>0.333)"}
 
+def getOtherNum(jetnum, max):
+    # This is a really bad function but it works, so I'll fix it later.
+    string = ""
+    for i in range(max):
+        if i + 1 == int(jetnum):
+            continue
+        string += str(i + 1)
+    if "13" == string:
+        string = "31"
+    return string
+
+
 def createCutTemplates(filename=None):
 	global defaultCuts
 	if filename is None:
@@ -32,6 +44,8 @@ def createCutTemplates(filename=None):
 	with open(filename) as cutfile:
 		for line in cutfile:
 			if '#' == line[0]:
+				continue
+			if line.lstrip().rstrip() == "":
 				continue
 			cutname, sep, cut = line.partition(': ')
 			cut = cut.rstrip('\n')
@@ -45,6 +59,7 @@ def generateCuts(cutTemplates, numjets=3):
 		if "jet[X]" in template:
 			for i in range(numjets):
 				jetCut = template.replace("[X]", str(i+1))
+				jetCut = jetCut.replace("[Y]", getOtherNum(i+1, 3))
 				fullCut += "(" + jetCut + ")"
 				if i < numjets - 1:
 					fullCut += "||"
@@ -126,6 +141,10 @@ def doAnalysis(jobname, path, treepath, cutfile, nowait, cutArray=None):
 				if ".png" in file or ".pdf" in file:
 					shutil.move(file, os.path.join(path, "plots"))
 				if "output.log" in file:
+					try:
+						os.remove(os.path.join(path, "output.log"))
+					except:
+						pass
 					shutil.move(file, path)
 	fixOutputFiles(os.path.join(path, "output"))
 
