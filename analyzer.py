@@ -153,30 +153,33 @@ def main():
 	else:
 		path = os.path.abspath(os.path.join(os.getcwd(), options.path))
 
+	# This needs to happen up here.
+	if not os.path.exists(path):
+		os.mkdir(path)
+
 	# Extract location of trees from command line options.
 	treepath = ""
 	if not options.trees is None:
 		if os.path.exists(os.path.abspath(options.trees)):
 			treepath = os.path.abspath(options.trees)
 	if treepath == "":
-		if not os.path.exists(os.path.join(path, "..", "source")):
+		print os.path.join(path, "..", "output")
+		if not os.path.exists(os.path.join(path, "..", "output")):
 			print "Error: unable to find source trees."
 			sys.exit(1)
-		treepath = os.path.join(path, "..", "source")
+		treepath = os.path.join(path, "..", "output")
 
 	# Extract location of cutfile from command line options.
 	cutfile = ""
 	if not options.cutfile is None:
 		if os.path.exists(os.path.abspath(options.cutfile)):
 			cutfile = os.path.abspath(options.cutfile)
+		shutil.copy(cutfile, os.path.join(path, "cuts.conf"))
 	if cutfile == "":
 		if not os.path.exists(os.path.join(path, "cuts.conf")):
 			print "Error: unable to find cut config file."
 			sys.exit(1)
 		cutfile = os.path.join(path, "cuts.conf")
-
-	if not os.path.exists(path):
-		os.mkdir(path)
 
 	if os.path.exists(os.path.join(path, "output")):
 		print "WARNING: Deleting contents of " + path + "/output/"
