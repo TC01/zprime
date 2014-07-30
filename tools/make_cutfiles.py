@@ -22,9 +22,9 @@ def main():
 			for b_name, bottom_cut in bottom_cuts.iteritems():
 				filename = t_name + "_" + w_name + "_" + b_name + ".conf"
 				cutfile = open('../cuts/' + filename, 'wb')
-				cutfile.write(top_cut + "&&!(" + w_cut + ")\n")
-				cutfile.write(w_cut + "&&!(" + top_cut + ")\n")
-				cutfile.write(bottom_cut + "\n")
+				cutfile.write(t_name + ": " + top_cut + "&&!(" + w_cut + ")\n")
+				cutfile.write(w_name + ": " + w_cut + "&&!(" + top_cut + ")\n")
+				cutfile.write(b_name + ": " + bottom_cut + "\n")
 				cutfile.close()
 
 if __name__ == '__main__':

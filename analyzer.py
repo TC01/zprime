@@ -84,7 +84,7 @@ def fixOutputFiles(location):
 			if "qcd" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "QCD_TuneZ2star_8TeV-pythia6.root"))
 
-def doAnalysis(jobname, path, treepath, cutfile, nowait, varname, cutArray=None):
+def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
@@ -158,7 +158,7 @@ def main():
 	parser.add_option("-p", "--path", type="string", default='', help="Path where source can be found and output will be written.")
 	parser.add_option("-c", "--cut", action="append", dest="cuts", help="Name of a cut to use that is stored in cuts.conf.")
 	parser.add_option('-n', '--name', type='string', default="", help="Identifying part of output name.")
-	parser.add_option('-v', '--variable', type='string', default="RECO123mass", help="The variable to plot, defaults to total mass.")
+	parser.add_option('-v', '--variable', type='string', dest="varname", default="RECO123mass", help="The variable to plot, defaults to total mass.")
 
 	# These options are ignored if not specified, and path/source/ and path/cuts.conf are used instead.
 	parser.add_option('-t', '--trees', type='string', default=None, dest='trees', help="Location of trees, separate from working path.")
