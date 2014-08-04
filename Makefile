@@ -42,6 +42,62 @@ analyze:
 #	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime.conf -p ${ANALYSISDIR}/preselection/hadronic_looser/test_tprime --no-wait
 #	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/hadronic_tighter/test_tprime_tight --no-wait
 
+tprime:
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_tight.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_loose/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_mid/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_mid/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_tight/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_tight.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_tight/bprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose/tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose/bprime --no-wait
+
 prepare:
 	mkdir ${ANALYSISDIR}
 	cp ${BASEDIR}/analyzer.py ${ANALYSISDIR}
