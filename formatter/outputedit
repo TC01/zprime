@@ -1,0 +1,78 @@
+#!/usr/bin/env python
+
+import os
+
+def getCutNames(name):
+	t_name = name[name.find("t_") + 2:name.find("t_") + 7]
+	w_name = name[name.find("w_") + 2:name.find("w_") + 7]
+	b_name = name[name.find("b_") + 2:name.find("b_") + 7]
+	if "mid" in t_name:
+		t_name = "mid"
+	if "mid" in w_name:
+		w_name = "mid"
+	if "mid" in b_name:
+		b_name = "mid"
+
+	message = "The selection used in this sequence of cuts was:\n" + "Top jet: " + t_name + "\nBottom jet: " + b_name + "\nW jet: " + w_name + "\n\n\n"
+	return message
+
+def processPrimeText(text):
+	newlines = text.count('\n')
+	newtext = ""
+	lines = text.split('\n')
+	flag = False
+	for i in range(newlines):
+		line = lines[i]
+		if "Applying" in line:
+			if "prime" in line:
+				desc = line[line.find("prime_") + 6:]
+			else:
+				desc = line[line.find("b_") + 2:]
+				desc = desc[desc.find("_") + 1:]
+			newtext += "Applying cut to " + desc + ":\n"
+		elif "Original" in line:
+			working_length = len("-- Original Tree had ")
+			newtext += "Original: " + line[working_length:-1] + ", new has: "
+			if " 0 events" in line:
+				flag = True
+		elif "New" in line:
+			working_length = len("-- New Tree has ")
+			newtext += line[working_length:-1] +  ", efficiency is "
+			if flag:
+				flag = False
+				newtext += "N/A.\n"
+		elif "Efficiency" in line:
+			working_length = len("--        Efficiency: ")
+			newtext += line[working_length:-1] + ".\n"
+		else:
+			newtext += "\n"
+
+	return newtext
+
+def processText(text, name):
+	if "tprime" in name:
+		text = processPrimeText(text)
+		text = "Attempt to isolate the tprime peak, using {800, 1100} as the tprime mass window. \nWe require one jet to be a top jet and the other two to be in the tprime mass window.\n\n" + text
+	elif "bprime" in name:
+		text = processPrimeText(text)
+		text = "Attempt to isolate the bprime peak, using {800, 1100} as the tprime mass window. \nWe require one jet to be a bottom jet and the other two to be in the bprime mass window.\n\n" + text
+	else:
+		text = processPrimeText(text)
+		text = getCutNames(name) + text
+	return text
+
+def main():
+	for path, dir, files in os.walk("plots"):
+		for file in files:
+			if ".log" in file:
+				name, sep, ext = file.partition(".")
+				fullpath = os.path.join(path, file)
+				newfile = os.path.join(path, name + ".txt")
+				with open(fullpath, 'rb') as object:
+					text = object.read()
+				text = processText(text, newfile)
+				with open(newfile, 'wb') as object:
+					object.write(text)
+
+if __name__ == '__main__':
+	main()
