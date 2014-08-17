@@ -5,19 +5,23 @@ import shutil
 
 def main():
 	root = "/uscms_data/d3/bjr/zprime/hadronic/analysis/zprime/working/preselection/"
-	shutil.rmtree("plots")
+	try:
+		shutil.rmtree("plots")
+	except:
+		pass
 	os.mkdir("plots")
-	for path, dirs, files in os.walk("source"):
+	for path, dirs, files in os.walk("../cuts/"):
 		for file in files:
-			name = file[:file.rfind(".")]
-			location = os.path.join(root, name)
-			os.mkdir("plots/" + name)
-			os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/plots/" + file + " plots/" + name + "/stage1_plot.png")
-			os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/output.log" + " plots/" + name + "/stage1_output.log")
-			os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/bprime/plots/bprime.png" + " plots/" + name + "/stage2_bprime_plot.png")
-			os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/bprime/output.log" + " plots/" + name + "/stage2_bprime_output.log")
-			os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/tprime/plots/tprime.png" + " plots/" + name + "/stage3_tprime_plot.png")
-			os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/tprime/output.log" + " plots/" + name + "/stage3_tprime_output.log")
-
+			if file.count("_") == 5:
+				name = file[:file.rfind(".")]
+				location = os.path.join(root, name)
+				os.mkdir("plots/" + name)
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/plots/" + name + ".png plots/" + name + "/stage1_plot.png")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/output.log" + " plots/" + name + "/stage1_output.log")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/bprime/plots/bprime.png" + " plots/" + name + "/stage2_bprime_plot.png")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/bprime/output.log" + " plots/" + name + "/stage2_bprime_output.log")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/tprime/plots/tprime.png" + " plots/" + name + "/stage3_tprime_plot.png")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/tprime/output.log" + " plots/" + name + "/stage3_tprime_output.log")
+		
 if __name__ == '__main__':
 	main()
