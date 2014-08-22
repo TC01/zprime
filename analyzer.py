@@ -56,6 +56,10 @@ def generateCuts(cutTemplates, numjets=3):
 	cuts = {}
 	for name, template in cutTemplates.iteritems():
 		fullCut = ""
+		invert = False
+		if "INV " == template[:4]:
+			invert = True
+			template = template[4:]
 		if "[X]" in template or "[Y]" in template:
 			for i in range(numjets):
 				jetCut = template.replace("[X]", str(i+1))
@@ -65,6 +69,8 @@ def generateCuts(cutTemplates, numjets=3):
 					fullCut += "||"
 		else:
 			fullCut = template
+		if invert:
+			fullCut = "!(" + fullCut + ")"
 		cuts[name] = fullCut
 	return cuts
 

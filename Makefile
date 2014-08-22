@@ -98,6 +98,115 @@ tprime:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/tprime_mid.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose/tprime --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/bprime_loose.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose/bprime --no-wait
 
+sidebands:
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_mid_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_mid_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_tight_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_tight_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_loose_w_loose_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_mid_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_mid_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_tight_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_tight_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_tight_w_loose_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_tight_w_loose_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_mid_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_mid_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_tight_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_tight_b_loose_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_mid_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_mid_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_mid_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_mid_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_mid_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_mid_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_tight_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_tight_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_tight_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_tight_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_tight_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_tight_sideband_bw --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_loose_sideband_b.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose_sideband_b --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_loose_sideband_w.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose_sideband_w --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/sidebands/t_mid_w_loose_b_loose_sideband_bw.conf -p ${ANALYSISDIR}/preselection/t_mid_w_loose_b_loose_sideband_bw --no-wait
+
 prepare:
 	mkdir ${ANALYSISDIR}
 	cp ${BASEDIR}/analyzer.py ${ANALYSISDIR}
