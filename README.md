@@ -22,8 +22,10 @@ available here.
 
 Run, from your working folder:
 
+```
 patch < patch/onecut.patch
 patch < patch/sequencer.patch
+```
 
 Once I write the tool to automatically fix from x import * imports, that will be ran too.
 

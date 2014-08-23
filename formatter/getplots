@@ -22,6 +22,14 @@ def main():
 				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/bprime/output.log" + " plots/" + name + "/stage2_bprime_output.log")
 				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/tprime/plots/tprime.png" + " plots/" + name + "/stage3_tprime_plot.png")
 				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "/tprime/output.log" + " plots/" + name + "/stage3_tprime_output.log")
+
+				# Grab the sidebands.
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "_sideband_b/plots/" + name + "_sideband_b.png" + " plots/" + name + "/stage4_sideband_b_plot.png")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "_sideband_b/output.log" + " plots/" + name + "/stage4_sideband_b_output.log")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "_sideband_w/plots/" + name + "_sideband_w.png" + " plots/" + name + "/stage5_sideband_w_plot.png")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "_sideband_w/output.log" + " plots/" + name + "/stage5_sideband_w_output.log")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "_sideband_bw/plots/" + name + "_sideband_b.png" + " plots/" + name + "/stage6_sideband_bw_plot.png")
+				os.system("scp bjr@cmslpc-sl5.fnal.gov:" + location + "_sideband_bw/output.log" + " plots/" + name + "/stage6_sideband_bw_output.log")
 		
 if __name__ == '__main__':
 	main()

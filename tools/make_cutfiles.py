@@ -12,7 +12,10 @@ def getPrimeName(string):
 
 def writeCutfile(filename, t_name, top_cut, w_name, w_cut, b_name, bottom_cut):
 	with open(filename, 'wb') as cutfile:
-		cutfile.write(t_name + ": " + top_cut + "&&!(" + w_cut + ")\n")
+		w_cut_top = w_cut
+		if "INV " == w_cut[:4]:
+			w_cut_top = w_cut[4:]
+		cutfile.write(t_name + ": " + top_cut + "&&!(" + w_cut_top + ")\n")
 		cutfile.write(w_name + ": " + w_cut + "&&!(" + top_cut + ")\n")
 		cutfile.write(b_name + ": " + bottom_cut + "\n")
 	return
