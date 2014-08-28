@@ -5,6 +5,19 @@ TREES=/uscms_data/d3/bjr/zprime/hadronic/trees/
 all: clean prepare analyze
 
 analyze:
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/top_cut.conf -p ${ANALYSISDIR}/preselection/top_cut -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/signal.conf -p ${ANALYSISDIR}/preselection/top_cut/signal -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/sideband.conf -p ${ANALYSISDIR}/preselection/top_cut/sideband -t ${TREES} --no-wait
+
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/btag_loose.conf -p ${ANALYSISDIR}/preselection/top_cut/signal/btag_loose -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/btag_loose.conf -p ${ANALYSISDIR}/preselection/top_cut/sideband/btag_loose -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/btag_mid.conf -p ${ANALYSISDIR}/preselection/top_cut/signal/btag_mid -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/btag_mid.conf -p ${ANALYSISDIR}/preselection/top_cut/sideband/btag_mid -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/btag_tight.conf -p ${ANALYSISDIR}/preselection/top_cut/signal/btag_tight -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/btag_tight.conf -p ${ANALYSISDIR}/preselection/top_cut/sideband/btag_tight -t ${TREES} --no-wait
+
+old_analyze:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
 
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/t_loose_w_loose_b_loose.conf -p ${ANALYSISDIR}/preselection/t_loose_w_loose_b_loose  --no-wait
