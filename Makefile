@@ -271,6 +271,7 @@ prepare:
 	mkdir ${ANALYSISDIR}
 	cp ${BASEDIR}/analyzer.py ${ANALYSISDIR}
 	cp -r ${BASEDIR}/marclib/ ${ANALYSISDIR}
+	cp -r ${BASEDIR}/formatter/ ${ANALYSISDIR}
 	cd ${ANALYSISDIR}/marclib/
 	patch ${ANALYSISDIR}/marclib/OneCut.py < ${BASEDIR}/patch/onecut.patch
 	patch ${ANALYSISDIR}/marclib/SimpleCutSequencer.py < ${BASEDIR}/patch/sequencer.patch

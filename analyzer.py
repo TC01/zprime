@@ -13,6 +13,8 @@ import ROOT
 from marclib import *
 from marclib.AnaStep import *
 
+from formatter import formatlib
+
 lumi = 19800
 
 #defaultCuts = { "topmass": "jet[X]tau32>0&&jet[X]tau32<0.5&&jet[X]mass<270&&jet[X]mass>130",
@@ -156,6 +158,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 						pass
 					shutil.move(file, path)
 	fixOutputFiles(os.path.join(path, "output"))
+	formatlib.doFormatting(jobname, path)
 
 	if not nowait:
 		raw_input()
