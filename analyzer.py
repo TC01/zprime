@@ -13,6 +13,7 @@ import ROOT
 from marclib import *
 from marclib.AnaStep import *
 
+from formatter import *
 from formatter import formatlib
 
 lumi = 19800

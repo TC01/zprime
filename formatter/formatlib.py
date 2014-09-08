@@ -1,7 +1,7 @@
 import os
 import shutil
 
-global_template = "post.tex"
+global_template = os.path.join("formatter", "post.tex")
 
 
 def getCutNames(name):
@@ -94,33 +94,16 @@ def getEventCounts(text):
 	return bkgcount, sigcounts
 
 def processText(text, name):
-	if "tprime" in name:
-		text = processPrimeText(text)
-		bkgcount, sigcounts = getEventCounts(text)
-		text = "Attempt to isolate the tprime peak, using {800, 1100} as the tprime mass window. \nWe require one jet to be a top jet and the other two to be in the tprime mass window.\n\n" + text
-		text += "Number of background events = " + str(bkgcount) + "\n"
-		text += "1500 GeV signal: num_sig = " + str(sigcounts['1500']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-		text += "2000 GeV signal: num_sig = " + str(sigcounts['2000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-		text += "3000 GeV signal: num_sig = " + str(sigcounts['3000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-	elif "bprime" in name:
-		text = processPrimeText(text)
-		bkgcount, sigcounts = getEventCounts(text)
-		text = "Attempt to isolate the bprime peak, using {800, 1100} as the tprime mass window. \nWe require one jet to be a bottom jet and the other two to be in the bprime mass window.\n\n" + text
-		text += "Number of background events = " + str(bkgcount) + "\n"
-		text += "1500 GeV signal: num_sig = " + str(sigcounts['1500']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-		text += "2000 GeV signal: num_sig = " + str(sigcounts['2000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-		text += "3000 GeV signal: num_sig = " + str(sigcounts['3000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-	else:
-		text = processPrimeText(text)
-		bkgcount, sigcounts = getEventCounts(text)
-		text = getCutNames(name) + text
-		text += "Number of background events (calculated from final cut result) = " + str(bkgcount) + "\n"
-		text += "1500 GeV signal: num_sig = " + str(sigcounts['1500']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-		text += "2000 GeV signal: num_sig = " + str(sigcounts['2000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-		text += "3000 GeV signal: num_sig = " + str(sigcounts['3000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
+	text = processPrimeText(text)
+	bkgcount, sigcounts = getEventCounts(text)
+	text = getCutNames(name) + text
+	text += "Number of background events = " + str(bkgcount) + "\n"
+	text += "1500 GeV signal: num_sig = " + str(sigcounts['1500']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
+	text += "2000 GeV signal: num_sig = " + str(sigcounts['2000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
+	text += "3000 GeV signal: num_sig = " + str(sigcounts['3000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
 
 	# Update the log a bit to explain what we're doing if there are sidebands.
-	if "sideband" in text:
+	if "sideband_" in text:
 		if "sideband_bw" in text:
 			text = "Inverting the bottom and W jet cuts; we are looking at t, NOT W, and NOT b events.\n\n" + text
 		elif "sideband_b" in text:
@@ -134,25 +117,25 @@ def doLogParsing(path, log="output.log"):
 	name, sep, ext = log.partition(".")
 	fullpath = os.path.join(path, log)
 	newfile = os.path.join(path, name + ".txt")
-	with open(log, 'rb') as object:
+	with open(fullpath, 'rb') as object:
 		text = object.read()
 		text = processText(text, newfile)
 		with open(newfile, 'wb') as object:
 			object.write(text)
 
 def doFormatting(name, path, template=global_template):
-	"""Creates a latex source called output.tex in the working directory path."""
+	"""Creates a latex source called post.tex in the working directory path."""
 	
 	if not os.path.exists(path):
 		print "Error in libformatter."
 		return
 
 	# Copy the template into the path.
-	shutil.copy(template, path)
+	shutil.copy(template, os.path.join(path, "post.tex"))
 
 	# Find the right plot and make a copy called "analysis.png".
 	imageFile = os.path.join(path, "plots", name) + ".png"
-	shutil.copy(imageFile, os.path.join(path, "analysis.png")
+	shutil.copy(imageFile, os.path.join(path, "analysis.png"))
 
 	# Do log parsing
 	doLogParsing(path)
