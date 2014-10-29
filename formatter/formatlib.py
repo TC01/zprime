@@ -3,7 +3,6 @@ import shutil
 
 global_template = os.path.join("formatter", "post.tex")
 
-
 def getCutNames(name):
 	t_name = name[name.find("t_") + 2:name.find("t_") + 7]
 	w_name = name[name.find("w_") + 2:name.find("w_") + 7]
@@ -18,7 +17,7 @@ def getCutNames(name):
 	message = "The cuts were applied in the following sequence:\n" + "Cut 1: top jet (" + t_name + ")\nCut 2: W jet (" + w_name + ")\nCut 3: bottom jet (" + b_name + ")\n\n\n"
 	return message
 
-def processPrimeText(text):
+def processPrimeText(text, name):
 	newlines = text.count('\n')
 	newtext = ""
 	lines = text.split('\n')
@@ -97,19 +96,12 @@ def processText(text, name):
 	text = processPrimeText(text)
 	bkgcount, sigcounts = getEventCounts(text)
 	text = getCutNames(name) + text
+
+	# Add summarized event counts for the last step of the analysis.
 	text += "Number of background events = " + str(bkgcount) + "\n"
 	text += "1500 GeV signal: num_sig = " + str(sigcounts['1500']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
 	text += "2000 GeV signal: num_sig = " + str(sigcounts['2000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
 	text += "3000 GeV signal: num_sig = " + str(sigcounts['3000']) + ", num_sig / sqrt(num_bkg) = " + str(float(sigcounts['1500'])/float(bkgcount)) + "\n"
-
-	# Update the log a bit to explain what we're doing if there are sidebands.
-	if "sideband_" in text:
-		if "sideband_bw" in text:
-			text = "Inverting the bottom and W jet cuts; we are looking at t, NOT W, and NOT b events.\n\n" + text
-		elif "sideband_b" in text:
-			text = "Inverting the bottom jet cut; we are looking at t, W, and NOT b events.\n\n" + text
-		elif "sideband_w" in text:
-			text = "Inverting the W jet cut; we are looking at t, b, and NOT W events.\n\n" + text
 
 	return text
 
@@ -117,6 +109,7 @@ def doLogParsing(path, log="output.log"):
 	name, sep, ext = log.partition(".")
 	fullpath = os.path.join(path, log)
 	newfile = os.path.join(path, name + ".txt")
+	# Open the old log file, feed it into the processor, write to new file.
 	with open(fullpath, 'rb') as object:
 		text = object.read()
 		text = processText(text, newfile)

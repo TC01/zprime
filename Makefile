@@ -4,6 +4,11 @@ TREES=/uscms_data/d3/bjr/zprime/hadronic/trees/
 
 all: clean prepare analyze
 
+tagger:
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/top_cut.conf -p ${ANALYSISDIR}/preselection/top_cut -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/top_cut.conf -p ${ANALYSISDIR}/top_cut -t ${TREES} --no-wait
+
 analyze:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/top_cut.conf -p ${ANALYSISDIR}/preselection/top_cut -t ${TREES} --no-wait
