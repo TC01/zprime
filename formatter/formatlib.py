@@ -93,7 +93,7 @@ def getEventCounts(text):
 	return bkgcount, sigcounts
 
 def processText(text, name):
-	text = processPrimeText(text)
+	text = processPrimeText(text, name)
 	bkgcount, sigcounts = getEventCounts(text)
 	text = getCutNames(name) + text
 
