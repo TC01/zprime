@@ -10,9 +10,7 @@ import optparse
 
 from libstacker import libstacker
 
-variable = "RECO23mass"
-
-def extractDirectory(directory, var):
+def extractDirectory(directory, variable):
 	current = os.getcwd()
 	os.chdir(directory)
 	outputFilename = variable + ".root"
@@ -59,7 +57,7 @@ def main():
 		pathName = os.path.abspath(pathName)
 		directory = os.path.join(pathName, "output")
 		extractDirectory(directory, variable)
-	except:
+	except AttributeError:
 		print "Error: unknown source directory, or directory lacks a output/ folder."
 		sys.exit(1)
 
