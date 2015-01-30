@@ -4,6 +4,9 @@ import os
 import sys
 
 import ROOT
+ROOT.PyConfig.IgnoreCommandLineOptions = True
+
+import optparse
 
 from libstacker import libstacker
 
@@ -43,17 +46,22 @@ def extractDirectory(directory, var):
 
 def main():
 	# I'll write an optparse line later, for -v.
-	if len(sys.argv) != 2:
-		print "Error: please provide a directory."
+
+	parser = optparse.OptionParser()
+	parser.add_option("-p", "--path", type="string", dest="path", default=os.getcwd(), help="Path where source can be found and output will be written.")
+	parser.add_option('-v', '--variable', type='string', dest="varname", default="RECO123mass", help="The variable to plot, defaults to total mass.")
+
+	(opts, args) = parser.parse_args()
+	variable = opts.varname
+	pathName = opts.path
+
+	try:
+		pathName = os.path.abspath(pathName)
+		directory = os.path.join(pathName, "output")
+		extractDirectory(directory, variable)
+	except:
+		print "Error: unknown source directory, or directory lacks a output/ folder."
 		sys.exit(1)
-	pathName = sys.argv[1]
-#	try:
-	pathName = os.path.abspath(pathName)
-	directory = os.path.join(pathName, "output")
-	extractDirectory(directory, variable)
-#	except:
-#		print "Error: unknown source directory, or directory lacks a output/ folder."
-#		sys.exit(1)
 
 if __name__ == '__main__':
 	main()
