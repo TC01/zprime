@@ -5,10 +5,13 @@ import sys
 
 import ROOT
 
+from libstacker import libstacker
+
 variable = "RECO23mass"
 
 def extractDirectory(directory, var):
-
+	current = os.getcwd()
+	os.chdir(directory)
 	outputFilename = variable + ".root"
 	outputFile = ROOT.TFile(os.path.join(directory, outputFilename), "RECREATE")
 
@@ -16,20 +19,27 @@ def extractDirectory(directory, var):
 		for rootFile in files:
 			if ".root" not in rootFile:
 				continue
-			tfile = ROOT.TFile(os.path.join(directory, rootFile))
-			tree = tfile.Get("tree")
-			argset = ROOT.RooArgSet(variable)
-			cut = ROOT.RooFormulaVar("all", "all", "1", ROOT.RooArgList())
-			dataset = ROOT.RooDataSet(rootFile, rootFile, tree, argset, cut)
+			if rootFile == outputFilename:
+				continue
 
-			# Hardcode nbins to 50 for now?
+			# Hardcoding bins because I'm lazy.
+			bins = [50, 0, 4000]
+			
+			hist = libstacker.makeSingleHistogram(rootFile, [variable], ["tree"], bins, [""])
+			hist.SetName(rootFile.partition(".")[0])
+
+			#tfile = ROOT.TFile(os.path.join(directory, rootFile))
+			#tree = tfile.Get("tree")
+			#argset = ROOT.RooArgSet(variable)
+			#cut = ROOT.RooFormulaVar("all", "all", "1", ROOT.RooArgList())
+			#dataset = ROOT.RooDataSet(rootFile, rootFile, tree, argset, cut)
+
 			outputFile.cd()
-			arglist = ROOT.RooArgList(variable)
-			histogram = dataset.createHistogram(arglist, 50)
-			histogram.Save()
+			hist.Write()
 
-			tfile.Close()
+#			tfile.Close()
 
+	os.chdir(current)
 
 def main():
 	# I'll write an optparse line later, for -v.

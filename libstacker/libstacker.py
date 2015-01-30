@@ -5,11 +5,11 @@ import ROOT
 from ROOT import *
 import sys
 
-from anadist import *
-from CLASS_FullEvent_colt import *
-from CLASS_QCD_FullEventStacker import *
+from marc.anadist import *
+from marc.CLASS_FullEvent_colt import *
+from marc.CLASS_QCD_FullEventStacker import *
 
-import SimpleCutSequencer
+from marc import SimpleCutSequencer
 
 def getSigFiles(energy = "1500GeV"): 
 	files = []
