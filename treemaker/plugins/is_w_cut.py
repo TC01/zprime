@@ -22,7 +22,7 @@ def analyze(event, variables, labels, isData):
 
 def makeCuts(event, variables, cutArray, labels, isData):
 	for i in range(numJets):
-		jetName = "jet" + str(i)
+		jetName = "jet" + str(i + 1)
 		if variables[jetName + "mass"] > wMassMin and variables[jetName + "mass"] < wMassMax:
 			cutArray[jetName + "_isw"].passed = 1
 	return cutArray

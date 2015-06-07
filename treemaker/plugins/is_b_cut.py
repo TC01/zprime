@@ -21,7 +21,7 @@ def analyze(event, variables, labels, isData):
 
 def makeCuts(event, variables, cutArray, labels, isData):
 	for i in range(numJets):
-		jetName = "jet" + str(i)
+		jetName = "jet" + str(i + 1)
 		if variables[jetName + "mass"] < bMassMax:
 			cutArray[jetName + "_isb"].passed = 1
 	return cutArray
