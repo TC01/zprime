@@ -23,6 +23,7 @@ class Jet:
 		variables[self.jetName + 'mass'] = array.array('f', [-1.0])
 		variables[self.jetName + 'eta'] = array.array('f', [100.0])
 		variables[self.jetName + 'phi'] = array.array('f', [100.0])
+		variables[self.jetName + 'csv'] = array.array('f', [0.0])
 		return variables
 
 	def analyze(self, variables, labels):
@@ -33,12 +34,15 @@ class Jet:
 		if not self.data:
 			jetCollection += "CORR"
 		jetHandle = labels['jhuCa8pp'][jetCollection]
+		jetCSVHandle = labels['jhuCa8pp']['PrunedCA8csv']
 		fourVector = jetHandle.product()
+		csvVector = jetHandle.product()
 		try:
 			self.mass = fourVector[self.number - 1].M()
 			self.eta = fourVector[self.number - 1].Eta()
 			self.phi = fourVector[self.number - 1].Phi()
 			self.pt = fourVector[self.number - 1].Pt()
+			self.csv = csvVector[self.number - 1]
 		except:
 			# If this fails, set all variables to defaults.
 			self.initVars()
@@ -59,6 +63,7 @@ class Jet:
 		variables[self.jetName + 'eta'][0] = self.eta
 		variables[self.jetName + 'phi'][0] = self.phi
 		variables[self.jetName + 'pt'][0] = self.pt
+		variables[self.jetName + 'csv'][0] = self.csv
 		return variables
 
 	def initVars(self):
