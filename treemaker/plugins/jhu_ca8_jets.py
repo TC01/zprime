@@ -20,14 +20,14 @@ class Jet:
 
 		self.initVars()
 
-	def __matchVectors(vectors, vector):
+	def __matchVectors(self, vectors, vector):
 		"""	A modified version of MatchCol from JetTools.py, written by Marc."""
 		value = -1
 		deltaR = 0.4
 		for i in range(len(vectors)):
 			matching = ROOT.TLorentzVector()
-			matching.SetPtEtaPhiM(matching[i].Pt(), matching[i].Eta(), matching[i].Phi(), matching[i].Mass())
-			deltaR = math.abs(vector.DeltaR(matching))
+			matching.SetPtEtaPhiM(vectors[i].Pt(), vectors[i].Eta(), vectors[i].Phi(), vectors[i].M())
+			deltaR = abs(vector.DeltaR(matching))
 			if deltaR < 0.4:
 				value = i
 		if deltaR > 0.4:
@@ -56,7 +56,7 @@ class Jet:
 		jetHandle = labels['jhuCa8pp'][jetCollection]
 		jetCSVHandle = labels['jhuCa8pp']['PrunedCA8csv']
 		fourVector = jetHandle.product()
-		csvVector = jetHandle.product()
+		csvVector = jetCSVHandle.product()
 		try:
 			self.mass = fourVector[self.number - 1].M()
 			self.eta = fourVector[self.number - 1].Eta()
@@ -132,14 +132,15 @@ def createCuts(cutArray):
 
 def analyze(event, variables, labels, isData):
 	# Perhaps we should write the number of jets too.
+	for jet in jets:
+		variables = jet.analyze(variables, labels)
+
 	jetCollection = 'PrunedCA8'
 	if not isData:
 		jetCollection += "CORR"
 	jetVectors = labels['jhuCa8pp'][jetCollection].product()
 	variables['numjets'][0] = len(jetVectors)
 
-	for jet in jets:
-		variables = jet.analyze(variables, labels)
 	return variables
 
 def makeCuts(event, variables, cutArray, labels, isData):

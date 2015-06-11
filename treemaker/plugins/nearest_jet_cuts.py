@@ -50,7 +50,6 @@ def analyze(event, variables, labels, isData):
 			jetNum = str(i + 1)
 			newJet = ROOT.TLorentzVector()
 			jetPt = variables['jet' + jetNum + 'pt'][0]
-			print jetPt
 			jetEta = variables['jet' + jetNum + 'eta'][0]
 			jetPhi = variables['jet' + jetNum + 'phi'][0]
 			jetMass = variables['jet' + jetNum + 'mass'][0]
