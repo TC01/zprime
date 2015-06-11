@@ -9,12 +9,14 @@ def setup(variables, isData):
 	variables['lepphi'] = array.array('f', [100.0])
 	variables['leppt'] = array.array('f', [-1.0])
 	variables['lepeta'] = array.array('f', [100.0])
+	variables['lepmass'] = array.array('f', [-1.0])
 	return variables
 
 def fillLeptons(variables, vector):
 	variables['leppt'][0] = vector[0].Pt()
 	variables['lepphi'][0] = vector[0].Phi()
 	variables['lepeta'][0] = vector[0].Eta()
+	variables['lepmass'][0] = vector[0].M()
 	return variables
 
 def analyze(event, variables, labels, isData):
@@ -42,6 +44,7 @@ def reset(variables):
 	variables['leppt'][0] = -1.0
 	variables['lepphi'][0] = 100.0
 	variables['lepeta'][0] = 100.0
+	variables['lepmass'][0] = -1.0
 	return variables
 
 def createCuts(cutArray):

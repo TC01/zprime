@@ -1,3 +1,6 @@
 jhu_ca8_jets
+met_vars
+lep_vars
+lep_nu_wcand
 is_w_cut
 is_b_cut

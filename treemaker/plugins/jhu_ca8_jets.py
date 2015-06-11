@@ -1,6 +1,8 @@
 import array
 import math
 
+import ROOT
+
 # Variant of the jets plugin shipped by Treemaker as an example.
 # Keeps the first three jhuca8 jets.
 # Any per-jet variable goes in here.
