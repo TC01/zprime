@@ -133,7 +133,7 @@ def createCuts(cutArray):
 def analyze(event, variables, labels, isData):
 	# Perhaps we should write the number of jets too.
 	jetCollection = 'PrunedCA8'
-	if not self.data:
+	if not isData:
 		jetCollection += "CORR"
 	jetVectors = labels['jhuCa8pp'][jetCollection].product()
 	variables['numjets'][0] = len(jetVectors)

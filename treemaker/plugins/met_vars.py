@@ -22,8 +22,8 @@ def reset(variables):
 	variables['metphi'][0] = 100.0
 	return variables
 
-def createCuts(cutDict):
-	return cuts
+def createCuts(cutArray):
+	return cutArray
 
-def makeCuts(event, variables, cutDict, labels, isData):
-	return cuts
+def makeCuts(event, variables, cutArray, labels, isData):
+	return cutArray
