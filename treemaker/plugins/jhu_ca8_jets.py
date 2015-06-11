@@ -124,20 +124,29 @@ def setup(variables, isData):
 	for i in xrange(numJets):
 		jets.append(Jet(i + 1, isData))
 		variables = jets[i].setup(variables)
+	variables['numjets'] = array.array('f', [0.0])
 	return variables
 
-def createCuts(cuts):
-	return cuts
+def createCuts(cutArray):
+	return cutArray
 
 def analyze(event, variables, labels, isData):
+	# Perhaps we should write the number of jets too.
+	jetCollection = 'PrunedCA8'
+	if not self.data:
+		jetCollection += "CORR"
+	jetVectors = labels['jhuCa8pp'][jetCollection].product()
+	variables['numjets'][0] = len(jetVectors)
+
 	for jet in jets:
 		variables = jet.analyze(variables, labels)
 	return variables
 
-def makeCuts(event, variables, cuts, labels, isData):
-	return cuts
+def makeCuts(event, variables, cutArray, labels, isData):
+	return cutArray
 
 def reset(variables):
 	for jet in jets:
 		variables = jet.reset(variables)
+	variables['numjets'][0] = 0.0
 	return variables
