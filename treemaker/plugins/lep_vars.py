@@ -29,9 +29,9 @@ def analyze(event, variables, labels, isData):
 	# Sort into three different categories: only the muons and electrons one
 	# is hard.
 	if len(electrons) == 0 and len(muons) > 0:
-		variables = fillLeptons(variables, electrons)
-	elif len(electrons) > 0 and len(muons) == 0:
 		variables = fillLeptons(variables, muons)
+	elif len(electrons) > 0 and len(muons) == 0:
+		variables = fillLeptons(variables, electrons)
 	else:
 		if electrons[0].Pt() > muons[0].Pt():
 			variables = fillLeptons(variables, electrons)

@@ -2,6 +2,7 @@
 # Depends on lep_vars, met_vars.
 
 import array
+import math
 
 import ROOT
 
@@ -72,8 +73,8 @@ def reset(variables):
 		variables['WcandPhi_' + modifier][0] = 100.0
 	return variables
 
-def createCuts(cutDict):
-	return cuts
+def createCuts(cutArray):
+	return cutArray
 
-def makeCuts(event, variables, cutDict, labels, isData):
-	return cuts
+def makeCuts(event, variables, cutArray, labels, isData):
+	return cutArray

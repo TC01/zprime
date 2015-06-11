@@ -5,6 +5,8 @@
 import array
 import math
 
+import ROOT
+
 from Treemaker.Treemaker import cuts
 
 maxJets = 3
@@ -44,32 +46,34 @@ def analyze(event, variables, labels, isData):
 	# Now, create a list of all the jets that exist. Simplest way to do that:
 	jets = []
 	if not isHadronic:
-		for i in xrange(max(numJets, variables['numjets'])):
+		for i in xrange(min(maxJets, int(variables['numjets'][0]))):
 			jetNum = str(i + 1)
 			newJet = ROOT.TLorentzVector()
 			jetPt = variables['jet' + jetNum + 'pt'][0]
+			print jetPt
 			jetEta = variables['jet' + jetNum + 'eta'][0]
 			jetPhi = variables['jet' + jetNum + 'phi'][0]
 			jetMass = variables['jet' + jetNum + 'mass'][0]
 			newJet.SetPtEtaPhiM(jetPt, jetEta, jetPhi, jetMass)
 			jets.append(newJet)
 	
-	# Now compute the relevant quantities that will get cut on later.
-	lepVector = ROOT.TLorentzVector()
-	lepVector.SetPtEtaPhiM(variables['leppt'][0], variables['lepeta'][0], variables['lepphi'][0], variables['lepmass'][0])
-	closest = ClosestJet(jets, lepVector)
-	variables['lep2Drel'][0] = lepVector.Perp(jets[closest].Vect())
-	variables['lep2Ddr'][0] = lepVector.DeltaR(jetlist[closest])
-	variables['tri_lep'][0] = math.abs(variables['lepphi'][0] - variables['metphi'][0])
-	variables['tri_jet'][0] = math.abs(jets[closest].Phi() - variables['metphi'][0])
+		# Now compute the relevant quantities that will get cut on later.
+		lepVector = ROOT.TLorentzVector()
+		lepVector.SetPtEtaPhiM(variables['leppt'][0], variables['lepeta'][0], variables['lepphi'][0], variables['lepmass'][0])
+		closest = ClosestJet(jets, lepVector)
+		if closest < maxJets and closest >= 0:
+			variables['lep2Drel'][0] = lepVector.Perp(jets[closest].Vect())
+			variables['lep2Ddr'][0] = lepVector.DeltaR(jetlist[closest])
+			variables['tri_lep'][0] = math.abs(variables['lepphi'][0] - variables['metphi'][0])
+			variables['tri_jet'][0] = math.abs(jets[closest].Phi() - variables['metphi'][0])
 		
 	return variables
 
 def reset(variables):
 	variables['lep2Drel'][0] = -1.0
-	variables['lep2Drel'][0] = 100.0
-	variables['tri_jet'][0] = 100.0
-	variables['tri_cut'][0] = -1.0
+	variables['lep2Drel'][0] = -1.0
+	variables['tri_jet'][0] = -1.0
+	variables['tri_lep'][0] = -1.0
 	return variables
 
 def createCuts(cutArray):
