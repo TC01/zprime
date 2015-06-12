@@ -29,6 +29,7 @@ def setup(variables, isData):
 	variables['lep2Ddr'] = array.array('f', [-1.0])
 	variables['tri_lep'] = array.array('f', [100.0])
 	variables['tri_jet'] = array.array('f', [-1.0])
+	variables['closest_jet'] = array.array('f', [-1.0])
 	return variables
 
 def analyze(event, variables, labels, isData):
@@ -65,6 +66,7 @@ def analyze(event, variables, labels, isData):
 			variables['lep2Ddr'][0] = lepVector.DeltaR(jetlist[closest])
 			variables['tri_lep'][0] = math.abs(variables['lepphi'][0] - variables['metphi'][0])
 			variables['tri_jet'][0] = math.abs(jets[closest].Phi() - variables['metphi'][0])
+			variables['closest_jet'][0] = closest
 		
 	return variables
 
@@ -73,6 +75,7 @@ def reset(variables):
 	variables['lep2Drel'][0] = -1.0
 	variables['tri_jet'][0] = -1.0
 	variables['tri_lep'][0] = -1.0
+	variables['closest_jet'][0] = -1.0
 	return variables
 
 def createCuts(cutArray):
