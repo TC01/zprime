@@ -53,7 +53,7 @@ def analyze(event, variables, labels, isData):
 	
 	# Also write out the "total event mass", using WcandPlus.
 	eventReco = None
-	for i in xrange(maxJets):
+	for i in xrange(min(maxJets, int(variables['numjets'][0]))):
 		jetName = "jet" + str(i + 1)
 		eventJet = ROOT.TLorentzVector()
 		eventJet.SetPtEtaPhiM(variables[jetName + 'pt'][0], variables[jetName + 'eta'][0], variables[jetName + 'phi'][0], variables[jetName + 'mass'][0])
@@ -73,13 +73,17 @@ def analyze(event, variables, labels, isData):
 			variables['meteta_' + modifiers[i]][0] = fittedMET[i].Eta()
 			W_cand = fittedMET[i] + lepVector
 			if i == 0:
-				eventReco + W_cand
+				if eventReco is None:
+					eventReco = W_cand
+				else:
+					eventReco += W_cand
 			variables['WcandPt_' + modifiers[i]][0] = W_cand.Pt()
 			variables['WcandEta_' + modifiers[i]][0] = W_cand.Eta()
 			variables['WcandPhi_' + modifiers[i]][0] = W_cand.Phi()
 	
 	# I think this is the right total event mass, for the leptonic events.
-	variables['EventMass'][0] = eventReco.M()
+	if eventReco is not None:
+		variables['EventMass'][0] = eventReco.M()
 		
 	return variables
 
