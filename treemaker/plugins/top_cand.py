@@ -43,15 +43,19 @@ def analyze(event, variables, labels, isData):
 			
 			topCandidate = wCandidate + closestJet
 			variables['topcandpt'][0] = topCandidate.Pt()
+			variables['topcandeta'][0] = topCandidate.Eta()
+			variables['topcandphi'][0] = topCandidate.Phi()
+			variables['topcandmass'][0] = topCandidate.M()
 		
 	return variables
 
 def reset(variables):
-	variables['lep2Drel'][0] = -1.0
-	variables['lep2Drel'][0] = -1.0
-	variables['tri_jet'][0] = -1.0
-	variables['tri_lep'][0] = -1.0
-	variables['closest_jet'][0] = -1.0
+	variables['topcandpt'][0] = -1.0
+	variables['topcandeta'][0] = 100.0
+	variables['topcandphi'][0] = 100.0
+	variables['topcandmass'][0] = -1.0
+	variables['topcandtau21'][0] = 1.0
+	variables['topcandtau32'][0] = 1.0
 	return variables
 
 def createCuts(cutArray):
