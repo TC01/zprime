@@ -55,7 +55,8 @@ def analyze(event, variables, labels, isData):
 	eventReco = None
 	for i in xrange(maxJets):
 		jetName = "jet" + str(i + 1)
-		eventJet = 
+		eventJet = ROOT.TLorentzVector()
+		eventJet.SetPtEtaPhiM(variables[jetName + 'pt'][0], variables[jetName + 'eta'][0], variables[jetName + 'phi'][0], variables[jetName + 'mass'][0])
 		if eventReco is None:
 			eventReco = eventJet
 		else:

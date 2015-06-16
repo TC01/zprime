@@ -46,6 +46,8 @@ def analyze(event, variables, labels, isData):
 		if valid:
 			wJet = ROOT.TLorentzVector()
 			bJet = ROOT.TLorentzVector()
+			print variables[firstJet + 'pt'][0]
+			print variables[secondJet + 'pt'][0]
 			wJet.SetPtEtaPhiM(variables[firstJet + 'pt'][0], variables[firstJet + 'eta'][0], variables[firstJet + 'phi'][0], variables[firstJet + 'mass'][0])
 			bJet.SetPtEtaPhiM(variables[secondJet + 'pt'][0], variables[secondJet + 'eta'][0], variables[secondJet + 'phi'][0], variables[secondJet + 'mass'][0])
 			

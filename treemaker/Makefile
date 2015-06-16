@@ -6,4 +6,6 @@ plugins:
 	cp -rv plugins/* ${CMSSW_BASE}/src/Treemaker/Treemaker/python/plugins/
 
 config:
-	treemaker-config
+	# This is the template command to 'make' a config file (note that the exact directory should change once I fix treemaker).
+	# Add -d for the data ntuples.
+	treemaker-config -t tree -p zprime.list -o configs/TT_Mtt-1000toInf_CT10.cfg -f /eos/uscms/store/user/eminizer/TT_Mtt-1000toInf_CT10_TuneZ2star_8TeV-powheg-tauola/TTBar_Powheg10_v1/150209_155416/0000/

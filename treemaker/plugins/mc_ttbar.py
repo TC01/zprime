@@ -7,8 +7,8 @@ import array
 from Treemaker.Treemaker import cuts
 
 # No magic numbers!
-PGD_TOP = 6
-PGD_ANTITOP = -6
+PDG_TOP = 6
+PDG_ANTITOP = -6
 
 def setup(variables, isData):
 	variables['MCtoppt'] = array.array('f', [-1.0])
@@ -17,11 +17,11 @@ def setup(variables, isData):
 
 def analyze(event, variables, labels, isData):
 	if not isData:
-		GenParticles = labels['PrunedGenParticles'][''].product()
+		GenParticles = labels['prunedGenParticles'][''].product()
 		for particle in GenParticles:
-			if particle.pgdId() == PGD_TOP:
+			if particle.pdgId() == PDG_TOP:
 				variables['MCtoppt'][0] = particle.pt()
-			if particle.pgdId() == PGD_ANTITOP:
+			if particle.pdgId() == PDG_ANTITOP:
 				variables['MCantitoppt'][0] = particle.pt()
 	
 	return variables
