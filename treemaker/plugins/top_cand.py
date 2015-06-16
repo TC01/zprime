@@ -27,9 +27,9 @@ def analyze(event, variables, labels, isData):
 	
 	# We only care if there is a valid "closest jet" to the event.
 	# We also care if that jet meets our b-tagging criteria.
-	closest = variables['closest'][0]
+	closest = variables['closest_jet'][0]
 	if closest >= 0 and closest < maxJets:
-		jetName = 'jet' + str(closest)
+		jetName = 'jet' + str(int(closest) + 1)
 		if variables[jetName + 'mass'][0] < 50:
 			# TODO: how are topcandtaus computed?
 			variables['topcandtau21'][0] = variables[jetName + 'tau21'][0]

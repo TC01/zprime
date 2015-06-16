@@ -5,3 +5,5 @@ lep_nu_wcand
 nearest_jet_cuts
 is_w_cut
 is_b_cut
+top_cand
+is_loose_lepton

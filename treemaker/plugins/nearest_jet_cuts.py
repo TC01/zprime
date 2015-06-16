@@ -63,9 +63,9 @@ def analyze(event, variables, labels, isData):
 		closest = ClosestJet(jets, lepVector)
 		if closest < maxJets and closest >= 0:
 			variables['lep2Drel'][0] = lepVector.Perp(jets[closest].Vect())
-			variables['lep2Ddr'][0] = lepVector.DeltaR(jetlist[closest])
-			variables['tri_lep'][0] = math.abs(variables['lepphi'][0] - variables['metphi'][0])
-			variables['tri_jet'][0] = math.abs(jets[closest].Phi() - variables['metphi'][0])
+			variables['lep2Ddr'][0] = lepVector.DeltaR(jets[closest])
+			variables['tri_lep'][0] = abs(variables['lepphi'][0] - variables['metphi'][0])
+			variables['tri_jet'][0] = abs(jets[closest].Phi() - variables['metphi'][0])
 			variables['closest_jet'][0] = closest
 		
 	return variables

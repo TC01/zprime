@@ -17,8 +17,8 @@ def analyze(event, variables, labels, isData):
 	return variables
 
 def makeCuts(event, variables, cutArray, labels, isData):
-	muonLoose = event['jhuMuonPFlow']['muonisloose'].product()
-	electronLoose = event['jhuElePFlow']['electronisloose'].product()
+	muonLoose = labels['jhuMuonPFlow']['muonisloose'].product()
+	electronLoose = labels['jhuElePFlow']['electronisloose'].product()
 	isLoose = False
 	# Check if we are a loose event.
 	if len(muonLoose) > 0:
