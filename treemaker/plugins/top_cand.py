@@ -39,7 +39,7 @@ def analyze(event, variables, labels, isData):
 			closestJet = ROOT.TLorentzVector()
 			wCandidate = ROOT.TLorentzVector()
 			wCandidate.SetPtEtaPhiM(variables['WcandPt_plus'][0], variables['WcandEta_plus'][0], variables['WcandPhi_plus'][0], variables['lepmass'][0])
-			closestJet.SetPtEtaPhiM(variables[jetName + 'pt'][0], variables[jetName + 'phi'][0], variables[jetName + 'eta'][0], variables[jetName + 'mass'][0])
+			closestJet.SetPtEtaPhiM(variables[jetName + 'pt'][0], variables[jetName + 'eta'][0], variables[jetName + 'phi'][0], variables[jetName + 'mass'][0])
 			
 			topCandidate = wCandidate + closestJet
 			variables['topcandpt'][0] = topCandidate.Pt()

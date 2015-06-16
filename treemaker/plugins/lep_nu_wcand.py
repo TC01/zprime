@@ -9,6 +9,7 @@ import ROOT
 from Treemaker.Treemaker import cuts
 
 modifiers = ["plus", "minus"]
+maxJets = 3
 
 # Code from Marc used in Ye Olde G* Analysis Treemaker
 def make_lepW(met, lep):
@@ -38,6 +39,7 @@ def make_lepW(met, lep):
 		return [newmet_p, newmet_m]	
 
 def setup(variables, isData):
+	variables['EventMass'] = array.array('f', [-1.0])
 	for modifier in modifiers:
 		variables["meteta_" + modifier] = array.array('f', [100.0])
 		variables['WcandPt_' + modifier] = array.array('f', [-1.0])
@@ -49,6 +51,16 @@ def analyze(event, variables, labels, isData):
 	unfittedMET = ROOT.TLorentzVector()
 	lepVector = ROOT.TLorentzVector()
 	
+	# Also write out the "total event mass", using WcandPlus.
+	eventReco = None
+	for i in xrange(maxJets):
+		jetName = "jet" + str(i + 1)
+		eventJet = 
+		if eventReco is None:
+			eventReco = eventJet
+		else:
+			eventReco += eventJet
+	
 	# Create the four vectors, then use make_lepW to do fitted MET.
 	electrons = labels['jhuElePFlow']['electron'].product()
 	muons = labels['jhuMuonPFlow']['muon'].product()
@@ -59,13 +71,19 @@ def analyze(event, variables, labels, isData):
 		for i in xrange(2):
 			variables['meteta_' + modifiers[i]][0] = fittedMET[i].Eta()
 			W_cand = fittedMET[i] + lepVector
+			if i == 0:
+				eventReco + W_cand
 			variables['WcandPt_' + modifiers[i]][0] = W_cand.Pt()
 			variables['WcandEta_' + modifiers[i]][0] = W_cand.Eta()
 			variables['WcandPhi_' + modifiers[i]][0] = W_cand.Phi()
+	
+	# I think this is the right total event mass, for the leptonic events.
+	variables['EventMass'][0] = eventReco.M()
 		
 	return variables
 
 def reset(variables):
+	variables['EventMass'][0] = -1.0
 	for modifier in modifiers:
 		variables["meteta_" + modifier][0] = 100.0
 		variables['WcandPt_' + modifier][0] = -1.0
