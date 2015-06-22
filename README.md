@@ -13,7 +13,7 @@ along with a Makefile that can build everything. This is intended to be ran on C
 ## cutmaker
 
 This directory contains a modified version of the *old* zprime analysis code
-(still available unchanged in a branch, 1d6449cebff59920db0f32b44d274f8535155031)
+(still available unchanged in a branch, [old_gstar](https://github.com/TC01/zprime/tree/old_gstar))
 that is slightly more modular.
 
 ## theta
