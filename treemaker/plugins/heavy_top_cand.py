@@ -44,11 +44,7 @@ def analyze(event, variables, labels, isData):
 			valid = True
 
 		# Also require that there *are* at least three jets.
-		collection = "PrunedCA8"
-		if isData:
-			collection += "CORR"
-		jetsVector = labels['jhuCa8pp'][collection].product()
-		if len(jetsVector) < 3:
+		if int(variables['numjets'][0]) < 3:
 			valid = False
 		
 		if valid:
