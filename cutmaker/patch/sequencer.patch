@@ -1,0 +1,20 @@
+--- SimpleCutSequencer.py	2014-07-21 16:29:57.297874254 -0500
++++ /uscms/home/bjr/bluearc/zprime/hadronic/analysis/SimpleCutSequencer.py	2014-07-27 17:24:41.697714000 -0500
+@@ -13,6 +13,8 @@
+ 		self.num_cuts = len(cuts)
+ 		self.tree = tree
+ 		self.plots = []
++		with open('output.log', 'ab') as logfile:
++			logfile.write('Applying cuts to: ' + name + '\n')
+ 		for i in range(self.num_cuts):
+ 			step = OneCut(self.tree, cuts[i])
+ 			step.printVals()
+@@ -21,6 +23,8 @@
+ 				self.plots.append(step.getPlot(self.var, name+"@step_"+str(i+1), bins[0], bins[1], bins[2], scale))
+ 			elif weights == "yes":
+ 				self.plots.append(step.getPlotByEvent(self.var, name+"@step_"+str(i+1), bins[0], bins[1], bins[2], scale))
++		with open('output.log', 'ab') as logfile:
++			logfile.write('\n')
+ 	def getTree(self):
+ 		return self.tree
+ 	def getPlots(self, o):
