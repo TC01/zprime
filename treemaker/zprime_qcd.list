@@ -10,3 +10,4 @@ is_w_cut
 is_b_cut
 is_loose_lepton
 MC_Pruner
+event_weight
