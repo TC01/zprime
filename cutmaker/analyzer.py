@@ -104,30 +104,42 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	cuts = createCutTemplates(cutfile)
 	cuts = generateCuts(cuts)
 
-	signal15file = os.path.join(treepath, "Gstar_Hadronic_1500GeV.root")
-	signal20file = os.path.join(treepath, "Gstar_Hadronic_2000GeV.root")
-	signal30file = os.path.join(treepath, "Gstar_Hadronic_3000GeV.root")
+	signal15file = os.path.join(treepath, "Gstar_Semilep_1500GeV.root")
+	signal20file = os.path.join(treepath, "Gstar_Semilep_2000GeV.root")
+	signal30file = os.path.join(treepath, "Gstar_Semilep_3000GeV.root")
 
+	# Legacy!
 	ttbar_hadronic_file = os.path.join(treepath, "TTJets_HadronicMGDecays_8TeV-madgraph.root")
-	qcd_file = os.path.join(treepath, "QCD_TuneZ2star_8TeV-pythia6.root")
+	qcd_file = os.path.join(treepath, "QCD.root")
+	singletop_file = os.path.join(treepath, "Singletop.root")
 	wjet_hadronic_file = os.path.join(treepath, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root")
 
-	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*0.2/160000, "no")
-	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.054*0.68*0.2/160000, "no")
-	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.0015*0.68*0.2/160000, "no")
+	ttbar_semilep_file = os.path.join(treepath, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root")
+	ttbar_leptonic_file = os.path.join(treepath, "TTJets_FullLeptMGDecays_8TeV-madgraph.root")
 
-	ttbar_hadronic = dist(ttbar_hadronic_file, "ttbar_hadronic", ROOT.TColor.kRed, 53.4/10537444, "no")
+	# Things that are potentially rubbish, partial list: these scale factors.
+	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*2*0.2/160000, "no")
+	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.054*0.68*2*0.2/160000, "no")
+	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.0015*0.68*2*0.2/160000, "no")
+
+	ttbar_semilep = dist(ttbar_semilep_file, "ttbar_semilep", ROOT.TColor.kRed, 107.7/25424818, "no")
+	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_leptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
+	
+	# Singletop and QCD distributions.
+	singletop = dist(singletop_file, "singletop", ROOT.TColor.kRed - 2, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
-	# Uh. xs?
-	wjet_hadronic = dist(wjet_hadronic_file, "wjet_hadronic", ROOT.TColor.kGreen, 1/4951861, "no")
+	
+	#wjet_hadronic = dist(wjet_hadronic_file, "wjet_hadronic", ROOT.TColor.kGreen, 1/4951861, "no")
 
 	step = pile("tree")
 	step.addSig(signal15)
 	step.addSig(signal20)
 	step.addSig(signal30)
-	step.addBkg(ttbar_hadronic)
+	step.addBkg(ttbar_semilep)
+	step.addBkg(ttbar_leptonic)
+	step.addBkg(singletop)
 	step.addBkg(qcd)
-	step.addBkg(wjet_hadronic)
+#	step.addBkg(wjet_hadronic)
 
 	if cutArray is None:
 		for name, realcut in cuts.iteritems():
@@ -171,7 +183,7 @@ def main():
 	parser.add_option("-p", "--path", type="string", default='', help="Path where source can be found and output will be written.")
 	parser.add_option("-c", "--cut", action="append", dest="cuts", help="Name of a cut to use that is stored in cuts.conf.")
 	parser.add_option('-n', '--name', type='string', default="", help="Identifying part of output name.")
-	parser.add_option('-v', '--variable', type='string', dest="varname", default="RECO123mass", help="The variable to plot, defaults to total mass.")
+	parser.add_option('-v', '--variable', type='string', dest="varname", default="EventMass", help="The variable to plot, defaults to total mass.")
 
 	# These options are ignored if not specified, and path/source/ and path/cuts.conf are used instead.
 	parser.add_option('-t', '--trees', type='string', default=None, dest='trees', help="Location of trees, separate from working path.")

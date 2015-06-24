@@ -1,8 +1,15 @@
 BASEDIR=${CURDIR}
 ANALYSISDIR=${CURDIR}/working/
-TREES=/uscms_data/d3/bjr/zprime/hadronic/trees/
+TREES=/srv/data
 
-all: clean prepare analyze
+all: clean prepare semilep
+
+semilep:
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/electron.conf -p ${ANALYSISDIR}/preselection/electrons --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/muon.conf -p ${ANALYSISDIR}/preselection/muons --no-wait
+
+# LEGACY
 
 tagger:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/new_sequence/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
@@ -283,6 +290,8 @@ prepare:
 	cd ${ANALYSISDIR}/marclib/
 	patch ${ANALYSISDIR}/marclib/OneCut.py < ${BASEDIR}/patch/onecut.patch
 	patch ${ANALYSISDIR}/marclib/SimpleCutSequencer.py < ${BASEDIR}/patch/sequencer.patch
+	patch ${ANALYSISDIR}/marclib/anadist.py < ${BASEDIR}/patch/anadist.patch
+	patch ${ANALYSISDIR}/marclib/AnaStep.py < ${BASEDIR}/patch/anastep.patch
 
 clean:
 	rm -rf ${ANALYSISDIR}
