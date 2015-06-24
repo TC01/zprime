@@ -84,17 +84,23 @@ def fixOutputFiles(location):
 	for path, dir, files in os.walk(location):
 		for file in files:
 			if "signal_1500" in file:
-				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Hadronic_1500GeV.root"))
+				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Semilep_1500GeV.root"))
 			if "signal_2000" in file:
-				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Hadronic_2000GeV.root"))
+				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Semilep_2000GeV.root"))
 			if "signal_3000" in file:
-				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Hadronic_3000GeV.root"))
+				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Semilep_3000GeV.root"))
 			if "wjet_hadronic" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root"))
 			if "ttbar_hadronic" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_HadronicMGDecays_8TeV-madgraph.root"))
+			if "ttbar_semilep" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root"))
+			if "ttbar_leptonic" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_FullLeptMGDecays_8TeV-madgraph.root"))
 			if "qcd" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "QCD_TuneZ2star_8TeV-pythia6.root"))
+			if "singletop" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "Singletop.root"))
 
 def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None):
 	global lumi
@@ -110,7 +116,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 
 	# Legacy!
 	ttbar_hadronic_file = os.path.join(treepath, "TTJets_HadronicMGDecays_8TeV-madgraph.root")
-	qcd_file = os.path.join(treepath, "QCD.root")
+	qcd_file = os.path.join(treepath, "QCD_TuneZ2star_8TeV-pythia6.root")
 	singletop_file = os.path.join(treepath, "Singletop.root")
 	wjet_hadronic_file = os.path.join(treepath, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root")
 
