@@ -8,16 +8,23 @@ import ROOT
 
 treeName = 'tree'
 
-def do2DPlot(filename, outputName, xvar, yvar, xbins=[30, 0, 3000], ybins=[50, 0, 2000]):
+def do2DPlot(filename, outputName, xvar, yvar, xbins=[30, 0, 3000], ybins=[50, 0, 2000], wait=True):
 	chain = ROOT.TChain(treeName)
 	chain.Add(filename)
 	plot = ROOT.TH2F('plot', 'plot', xbins[0], xbins[1], xbins[2], ybins[0], ybins[1], ybins[2])
 	chain.Draw(yvar + ":" + xvar + ">>plot", '', "goff")
 	plot.SetStats(0)
 	plot.SetTitle("")
-	canvas = TCanvas("canvas", "canvas", 1000, 800)
+	name = filename.split('/')[-1]
+	name = 'canvas_' + name.split('.')[0]
+	canvas = ROOT.TCanvas(name, name, 1000, 800)
 	canvas.cd()
 	plot.Draw('COLZ')
+	plot.GetYaxis().SetTitle(yvar)
+	plot.GetXaxis().SetTitle(xvar)
+	canvas.SaveAs(outputName)
+	if wait:
+		raw_input()
 
 def directoryPlot(dir, xvar, yvar):
 	try:
@@ -28,15 +35,16 @@ def directoryPlot(dir, xvar, yvar):
 
 	for path, directory, files in os.walk(dir):
 		for file in files:
-			filename = os.path.join(path, file)
-			plotname = file.split('.')[0] + '.pdf'
-			plotname = os.path.join(dir, 'plots', plotname)
-			do2DPlot(filename, plotname, xvar, yvar)
+			if '.root' in file:
+				filename = os.path.join(path, file)
+				plotname = file.split('.')[0] + '.pdf'
+				plotname = os.path.join(dir, 'plots', plotname)
+				do2DPlot(filename, plotname, xvar, yvar)
 
 def main():
 	parser = optparse.OptionParser()
-	parser.add_option('-x', '--xvar', dest='xvar', help="The x-axis variable.", default='heavytopcandmass')
-	parser.add_option('-y', '--yvar', dest='yvar', help="The y-axis variable.", default='EventMass')
+	parser.add_option('-x', '--xvar', dest='xvar', help="The x-axis variable.", default='EventMass')
+	parser.add_option('-y', '--yvar', dest='yvar', help="The y-axis variable.", default='heavytopcandmass')
 	(opts, args) = parser.parse_args()
 	for arg in args:
 		if os.path.exists(os.path.abspath(arg)):

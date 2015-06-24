@@ -6,8 +6,8 @@ all: clean prepare semilep
 
 semilep:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/preselection -t ${TREES} --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/electron.conf -p ${ANALYSISDIR}/preselection/electrons --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/muon.conf -p ${ANALYSISDIR}/preselection/muons --no-wait
+#	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/electron.conf -p ${ANALYSISDIR}/preselection/electrons --no-wait
+#	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/muon.conf -p ${ANALYSISDIR}/preselection/muons --no-wait
 
 # LEGACY
 
