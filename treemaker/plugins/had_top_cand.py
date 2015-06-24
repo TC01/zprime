@@ -13,14 +13,14 @@ from Treemaker.Treemaker import cuts
 maxJets = 3
 
 bMassMax = 50
-wMassMin = 30
-wMassMax = 140
+wMassMin = 50
+wMassMax = 100
 
 def setup(variables, isData):
-	variables['heavytopcandpt'] = array.array('f', [-1.0])
-	variables['heavytopcandmass'] = array.array('f', [-1.0])
-	variables['heavytopcandeta'] = array.array('f', [100.0])
-	variables['heavytopcandphi'] = array.array('f', [100.0])
+	variables['hadtopcandpt'] = array.array('f', [-1.0])
+	variables['hadtopcandmass'] = array.array('f', [-1.0])
+	variables['hadtopcandeta'] = array.array('f', [100.0])
+	variables['hadtopcandphi'] = array.array('f', [100.0])
 	return variables
 
 def analyze(event, variables, labels, isData):
@@ -54,18 +54,18 @@ def analyze(event, variables, labels, isData):
 			bJet.SetPtEtaPhiM(variables[secondJet + 'pt'][0], variables[secondJet + 'eta'][0], variables[secondJet + 'phi'][0], variables[secondJet + 'mass'][0])
 			
 			TopCandidate = wJet + bJet
-			variables['heavytopcandpt'][0] = TopCandidate.Pt()
-			variables['heavytopcandeta'][0] = TopCandidate.Eta()
-			variables['heavytopcandphi'][0] = TopCandidate.Phi()
-			variables['heavytopcandmass'][0] = TopCandidate.M()
+			variables['hadtopcandpt'][0] = TopCandidate.Pt()
+			variables['hadtopcandeta'][0] = TopCandidate.Eta()
+			variables['hadtopcandphi'][0] = TopCandidate.Phi()
+			variables['hadtopcandmass'][0] = TopCandidate.M()
 		
 	return variables
 
 def reset(variables):
-	variables['heavytopcandpt'][0] = -1.0
-	variables['heavytopcandeta'][0] = 100.0
-	variables['heavytopcandphi'][0] = 100.0
-	variables['heavytopcandmass'][0] = -1.0
+	variables['hadtopcandpt'][0] = -1.0
+	variables['hadtopcandeta'][0] = 100.0
+	variables['hadtopcandphi'][0] = 100.0
+	variables['hadtopcandmass'][0] = -1.0
 	return variables
 
 def createCuts(cutArray):
