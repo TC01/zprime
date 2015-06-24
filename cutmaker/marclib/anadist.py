@@ -61,7 +61,7 @@ class multidist:
 	def GET(self):
 			stacks =  [self.bstack, self.sstack]
 			return stacks
-	def PLOTSTACKS(self, pn, bn, sn, dn, C, xname): # background/signal names (for legend). C are coordinates for the l. Save name for pdf is "pn".
+	def PLOTSTACKS(self, pn, bn, sn, dn, C, xname, logscale): # background/signal names (for legend). C are coordinates for the l. Save name for pdf is "pn".
 			leg = ROOT.TLegend(C[0], C[1], C[2], C[3])
 			leg.SetLineColor(0)
 			leg.SetFillColor(0)
@@ -82,6 +82,8 @@ class multidist:
 			self.bstack.SetMaximum(hh*1.2)
 			c = ROOT.TCanvas("itt"+pn)
 			c.cd()
+			if logscale:
+				c.SetLogy()
 			self.bstack.Draw()
 			self.bstack.GetYaxis().SetTitle("")
 			self.bstack.GetXaxis().SetTitle(xname)

@@ -115,7 +115,8 @@ class AnaStep:
 		# now make the final plot:
 		data = data = ROOT.TH1F("data", "data", bins[0], bins[1], bins[2])
 		thestack = multidist("stack", self.bkg_plots, self.sig_plots, data, bkgcol, sigcol, [bins[1], bins[2]])
-		thestack.PLOTSTACKS(name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var)
+		thestack.PLOTSTACKS(name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, False)
+		thestack.PLOTSTACKS('log_' + name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, True)
 	
 	def getBkgPlots(self):
 		return self.bkg_plots

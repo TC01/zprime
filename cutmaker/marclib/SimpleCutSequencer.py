@@ -13,6 +13,8 @@ class SimpleCutSequencer:
 		self.num_cuts = len(cuts)
 		self.tree = tree
 		self.plots = []
+		with open('output.log', 'ab') as logfile:
+			logfile.write('Applying cuts to: ' + name + '\n')
 		for i in range(self.num_cuts):
 			step = OneCut(self.tree, cuts[i])
 			step.printVals()
@@ -21,6 +23,8 @@ class SimpleCutSequencer:
 				self.plots.append(step.getPlot(self.var, name+"@step_"+str(i+1), bins[0], bins[1], bins[2], scale))
 			elif weights == "yes":
 				self.plots.append(step.getPlotByEvent(self.var, name+"@step_"+str(i+1), bins[0], bins[1], bins[2], scale))
+		with open('output.log', 'ab') as logfile:
+			logfile.write('\n')
 	def getTree(self):
 		return self.tree
 	def getPlots(self, o):
