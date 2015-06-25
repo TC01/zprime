@@ -43,17 +43,20 @@ def createCutTemplates(filename=None):
 	if filename is None:
 		return defaultCuts
 	
+	title = None
 	cutDict = {}
 	with open(filename) as cutfile:
 		for line in cutfile:
 			if '#' == line[0]:
+				if '#title' == line[:len('#title')]:
+					title = line[len('#title '):]
 				continue
 			if line.lstrip().rstrip() == "":
 				continue
 			cutname, sep, cut = line.partition(': ')
 			cut = cut.rstrip('\n')
 			cutDict[cutname] = cut
-	return cutDict
+	return cutDict, title
 
 def generateCuts(cutTemplates, numjets=3):
 	cuts = {}
@@ -95,7 +98,7 @@ def fixOutputFiles(location):
 				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_HadronicMGDecays_8TeV-madgraph.root"))
 			if "ttbar_semilep" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root"))
-			if "ttbar_leptonic" in file:
+			if "ttbar_dileptonic" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "TTJets_FullLeptMGDecays_8TeV-madgraph.root"))
 			if "qcd" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "QCD_TuneZ2star_8TeV-pythia6.root"))
@@ -107,7 +110,9 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
 
-	cuts = createCutTemplates(cutfile)
+	cuts, title = createCutTemplates(cutfile)
+	if title is None:
+		jobname = title
 	cuts = generateCuts(cuts)
 
 	signal15file = os.path.join(treepath, "Gstar_Semilep_1500GeV.root")
@@ -122,6 +127,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 
 	ttbar_semilep_file = os.path.join(treepath, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root")
 	ttbar_leptonic_file = os.path.join(treepath, "TTJets_FullLeptMGDecays_8TeV-madgraph.root")
+	wjets_semilep_file = os.path.join(treepath, "WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball.root")
 
 	# Things that are potentially rubbish, partial list: these scale factors.
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*2*0.2/160000, "no")
@@ -129,13 +135,13 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.0015*0.68*2*0.2/160000, "no")
 
 	ttbar_semilep = dist(ttbar_semilep_file, "ttbar_semilep", ROOT.TColor.kRed, 107.7/25424818, "no")
-	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_leptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
+	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_dileptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
 	
 	# Singletop and QCD distributions.
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kRed - 2, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
-	#wjet_hadronic = dist(wjet_hadronic_file, "wjet_hadronic", ROOT.TColor.kGreen, 1/4951861, "no")
+	wjet_semilep = dist(wjet_semilep_file, "wjet_hadronic", ROOT.TColor.kGreen, 33836.9/57709905, "no")
 
 	step = pile("tree")
 	step.addSig(signal15)
@@ -145,7 +151,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	step.addBkg(ttbar_leptonic)
 	step.addBkg(singletop)
 	step.addBkg(qcd)
-#	step.addBkg(wjet_hadronic)
+	step.addBkg(wjet_semilep)
 
 	if cutArray is None:
 		for name, realcut in cuts.iteritems():
@@ -159,7 +165,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 			except:
 				print "Cut not understood: " + name			
 
-	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "yes", jobname)
+	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "yes", title)
 
 	# Process output files.
 	os.remove(os.path.join(os.getcwd(), "DELETEMEIFYOUWANT.root"))
