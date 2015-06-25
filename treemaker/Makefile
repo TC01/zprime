@@ -1,7 +1,9 @@
 .PHONY: all plugins
 
+TREEMAKER_CONDOR=cd working && treemaker-condor -fr
+
 all:	plugins config run
-run:	singletop ttbar data
+run:	singletop ttbar data qcd gstar wjets
 
 plugins:
 	cp -rv plugins/* ${CMSSW_BASE}/src/Treemaker/Treemaker/python/plugins/
@@ -80,44 +82,50 @@ config:
 	mv *.cfg configs/
 
 singletop:
-	treemaker-condor -fr configs/T_s-channel_TuneZ2star_8TeV-powheg-tauola.cfg
-	treemaker-condor -fr configs/T_t-channel_TuneZ2star_8TeV-powheg-tauola.cfg
-	treemaker-condor -fr configs/T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.cfg
-	treemaker-condor -fr configs/Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola.cfg
-	treemaker-condor -fr configs/Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola.cfg
-	treemaker-condor -fr configs/Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.cfg
+	mkdir -p working
+	$(TREEMAKER_CONDOR) ../configs/T_s-channel_TuneZ2star_8TeV-powheg-tauola.cfg
+	$(TREEMAKER_CONDOR) ../configs/T_t-channel_TuneZ2star_8TeV-powheg-tauola.cfg
+	$(TREEMAKER_CONDOR) ../configs/T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.cfg
+	$(TREEMAKER_CONDOR) ../configs/Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola.cfg
+	$(TREEMAKER_CONDOR) ../configs/Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola.cfg
+	$(TREEMAKER_CONDOR) ../configs/Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.cfg
 
 ttbar:
-	treemaker-condor -fr configs/TTJets_FullLeptMGDecays_8TeV-madgraph.cfg
-	treemaker-condor -fr configs/TTJets_SemiLeptMGDecays_8TeV-madgraph.cfg
+	mkdir -p working
+	$(TREEMAKER_CONDOR) ../configs/TTJets_FullLeptMGDecays_8TeV-madgraph.cfg
+	$(TREEMAKER_CONDOR) ../configs/TTJets_SemiLeptMGDecays_8TeV-madgraph.cfg
 
 data:
-	treemaker-condor -fr configs/SingleMu.cfg
-	treemaker-condor -fr configs/SingleElectron.cfg
+	mkdir -p working
+	$(TREEMAKER_CONDOR) ../configs/SingleMu.cfg
+	$(TREEMAKER_CONDOR) ../configs/SingleElectron.cfg
 
 gstar:
-	treemaker-condor -fr configs/Gstar_Semilep_1500GeV_WMLM.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_1500GeV_WMLP.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_1500GeV_WPLM.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_1500GeV_WPLP.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_2000GeV_WMLM.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_2000GeV_WMLP.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_2000GeV_WPLM.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_2000GeV_WPLP.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_3000GeV_WMLM.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_3000GeV_WMLP.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_3000GeV_WPLM.cfg
-	treemaker-condor -fr configs/Gstar_Semilep_3000GeV_WPLP.cfg
+	mkdir -p working
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_1500GeV_WMLM.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_1500GeV_WMLP.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_1500GeV_WPLM.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_1500GeV_WPLP.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_2000GeV_WMLM.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_2000GeV_WMLP.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_2000GeV_WPLM.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_2000GeV_WPLP.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_3000GeV_WMLM.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_3000GeV_WMLP.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_3000GeV_WPLM.cfg
+	$(TREEMAKER_CONDOR) ../configs/Gstar_Semilep_3000GeV_WPLP.cfg
 
 wjets:
-	treemaker-condor -fr configs/WJetsToLNu_13TeV-madgraph-pythia8-tauola.cfg
+	mkdir -p working
+	$(TREEMAKER_CONDOR) ../configs/WJetsToLNu_13TeV-madgraph-pythia8-tauola.cfg
 
 qcd:
-	treemaker-condor -fr configs/QCD_170-300_v1.cfg
-	treemaker-condor -fr configs/QCD_300-470_v1.cfg
-	treemaker-condor -fr configs/QCD_470-600_v1.cfg
-	treemaker-condor -fr configs/QCD_600-800_v1.cfg
-	treemaker-condor -fr configs/QCD_800-1000_v1.cfg
-	treemaker-condor -fr configs/QCD_1000-1400_v1.cfg
-	treemaker-condor -fr configs/QCD_1400-1800_v1.cfg
-	treemaker-condor -fr configs/QCD_1800_v1.cfg
+	mkdir -p working
+	$(TREEMAKER_CONDOR) ../configs/QCD_170-300_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_300-470_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_470-600_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_600-800_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_800-1000_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_1000-1400_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_1400-1800_v1.cfg
+	$(TREEMAKER_CONDOR) ../configs/QCD_1800_v1.cfg
