@@ -21,9 +21,10 @@ that is slightly more modular.
 This directory contains modified [scripts from Marc](https://github.com/osherson/Zprime_to_Tt)
 that use theta to do ttbar background estimation.
 
-## TODO: write more code and stuff!
-
 Requires theta installed.
+
+
+## TODO: write more code and stuff!
 
 # Credits
 
