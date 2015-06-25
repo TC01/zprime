@@ -63,7 +63,7 @@ class pile:
 	
 # That was just setup. Now the real function:
 class AnaStep:
-	def __init__(self, name, PILE, lumi, var, bins, save):
+	def __init__(self, name, PILE, lumi, var, bins, save, title):
 		out_tmp = ROOT.TFile("DELETEMEIFYOUWANT.root", "recreate") # not a real file! Acts as (slow) ram for moving Trees.
 		# # # # # # #
 		numB = PILE.numBkg()
@@ -115,8 +115,8 @@ class AnaStep:
 		# now make the final plot:
 		data = data = ROOT.TH1F("data", "data", bins[0], bins[1], bins[2])
 		thestack = multidist("stack", self.bkg_plots, self.sig_plots, data, bkgcol, sigcol, [bins[1], bins[2]])
-		thestack.PLOTSTACKS(name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, False)
-		thestack.PLOTSTACKS('log_' + name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, True)
+		thestack.PLOTSTACKS(name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, title)
+		thestack.PLOTSTACKS('log_' + name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, title + "(Logarithmic)", True)
 	
 	def getBkgPlots(self):
 		return self.bkg_plots

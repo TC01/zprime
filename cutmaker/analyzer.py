@@ -159,7 +159,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 			except:
 				print "Cut not understood: " + name			
 
-	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "yes")
+	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "yes", jobname)
 
 	# Process output files.
 	os.remove(os.path.join(os.getcwd(), "DELETEMEIFYOUWANT.root"))

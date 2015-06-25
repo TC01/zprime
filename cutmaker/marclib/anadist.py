@@ -61,7 +61,7 @@ class multidist:
 	def GET(self):
 			stacks =  [self.bstack, self.sstack]
 			return stacks
-	def PLOTSTACKS(self, pn, bn, sn, dn, C, xname, logscale): # background/signal names (for legend). C are coordinates for the l. Save name for pdf is "pn".
+	def PLOTSTACKS(self, pn, bn, sn, dn, C, xname, title="", logscale=False): # background/signal names (for legend). C are coordinates for the l. Save name for pdf is "pn".
 			leg = ROOT.TLegend(C[0], C[1], C[2], C[3])
 			leg.SetLineColor(0)
 			leg.SetFillColor(0)
@@ -85,16 +85,17 @@ class multidist:
 			if logscale:
 				c.SetLogy()
 			self.bstack.Draw()
-			self.bstack.GetYaxis().SetTitle("")
+			self.bstack.GetYaxis().SetTitle("events")
 			self.bstack.GetXaxis().SetTitle(xname)
+			self.bstack.SetTitle(title)
 			for i in self.sstack.GetStack():
 				i.Draw("same")
 			self.data.Draw("same,E")
 			leg.Draw()
 			c.SaveAs(pn+".pdf")
 			c.SaveAs(pn+".png")
-			
-			
+
+
 def getInt(h, mw):
 	l = h.FindBin(mw[0])
 	u = h.FindBin(mw[1])
