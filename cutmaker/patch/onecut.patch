@@ -1,0 +1,35 @@
+--- OneCut.py	2014-07-27 17:54:31.283290000 -0500
++++ OneCut_patch.py	2014-07-31 13:32:45.449499000 -0500
+@@ -19,13 +19,29 @@
+ 		Vals = []
+ 		Vals.append(self.NumFather)
+ 		Vals.append(self.NumSon)
+-		Vals.append(self.NumSon/self.NumFather)
+-		Vals.append(100*self.NumSon/self.NumFather)
++		try:
++			Vals.append(self.NumSon/self.NumFather)
++			Vals.append(100*self.NumSon/self.NumFather)
++		except:
++			Vals.append(-1)
++			Vals.append(-1)
+ 		print '-- Original Tree had '+str(self.NumFather)+' events.'
+ 		print '-- New Tree has '+str(self.NumSon)+' events.'
+ 		if self.NumFather > 0:
+-			print '--        Efficiency: {0:4.3}%'.format(100*float(self.NumSon)/float(self.NumFather))
++			try:
++				print '--        Efficiency: {0:4.3}%'.format(100*float(self.NumSon)/float(self.NumFather))
++			except:
++					print '--        Efficiency: Unknown'
++		with open('output.log', 'ab') as logfile:
++			logfile.write('-- Original Tree had '+str(self.NumFather)+' events.\n')
++			logfile.write('-- New Tree has '+str(self.NumSon)+' events.\n')
++			if self.NumFather > 0:
++				try:
++					logfile.write('--        Efficiency: {0:4.3}% \n'.format(100*float(self.NumSon)/float(self.NumFather)))
++				except:
++					print '--        Efficiency: Unknown'
+ 		return Vals
++
+ 	def getPlot(self, var, name, bins, minbin, maxbin, scale): #Returns a formatted binned histogram for quick plotting
+ 		plot = ROOT.TH1F(name, name, bins, minbin, maxbin)
+ 		self.Son.Draw(var+">>"+name,"", "goff")

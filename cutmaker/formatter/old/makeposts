@@ -1,0 +1,25 @@
+#!/usr/bin/env python
+
+import os
+import shutil 
+
+def main():
+	source = os.path.join(os.getcwd(), "post.tex")
+	try:
+		shutil.rmtree("upload")
+	except:
+		pass
+	os.mkdir("upload")
+	for path, dirs, files in os.walk("plots"):
+		for dir in dirs:
+			directory = os.path.join(path, dir)
+			shutil.copy(source, directory)
+			current = os.getcwd()
+			os.chdir(directory)
+			os.system("pdflatex post.tex")
+			os.chdir(current)
+			shutil.copy(directory + "/post.pdf", "upload/" + dir + ".pdf")
+
+
+if __name__ == '__main__':
+	main()

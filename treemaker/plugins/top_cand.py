@@ -1,4 +1,4 @@
-# The top candidate plugin.
+# The top candidate plugin. (Actually, leptonic top candidate).
 # Depends on lep_nu_wcand and on nearest_jet_cuts (to determine closest jet).
 
 import array
@@ -15,12 +15,12 @@ maxJets = 3
 bMassMax = 50
 
 def setup(variables, isData):
-	variables['topcandpt'] = array.array('f', [-1.0])
-	variables['topcandmass'] = array.array('f', [-1.0])
-	variables['topcandeta'] = array.array('f', [100.0])
-	variables['topcandphi'] = array.array('f', [100.0])
-	variables['topcandtau21'] = array.array('f', [1.0])
-	variables['topcandtau32'] = array.array('f', [1.0])
+	variables['leptopcandpt'] = array.array('f', [-1.0])
+	variables['leptopcandmass'] = array.array('f', [-1.0])
+	variables['leptopcandeta'] = array.array('f', [100.0])
+	variables['leptopcandphi'] = array.array('f', [100.0])
+	variables['leptopcandtau21'] = array.array('f', [1.0])
+	variables['leptopcandtau32'] = array.array('f', [1.0])
 	return variables
 
 def analyze(event, variables, labels, isData):
@@ -32,8 +32,8 @@ def analyze(event, variables, labels, isData):
 		jetName = 'jet' + str(int(closest) + 1)
 		if variables[jetName + 'mass'][0] < 50:
 			# TODO: how are topcandtaus computed?
-			variables['topcandtau21'][0] = variables[jetName + 'tau21'][0]
-			variables['topcandtau32'][0] = variables[jetName + 'tau32'][0]
+			variables['leptopcandtau21'][0] = variables[jetName + 'tau21'][0]
+			variables['leptopcandtau32'][0] = variables[jetName + 'tau32'][0]
 			
 			# Create the 4-vectors, then add them.
 			closestJet = ROOT.TLorentzVector()
@@ -42,20 +42,20 @@ def analyze(event, variables, labels, isData):
 			closestJet.SetPtEtaPhiM(variables[jetName + 'pt'][0], variables[jetName + 'eta'][0], variables[jetName + 'phi'][0], variables[jetName + 'mass'][0])
 			
 			topCandidate = wCandidate + closestJet
-			variables['topcandpt'][0] = topCandidate.Pt()
-			variables['topcandeta'][0] = topCandidate.Eta()
-			variables['topcandphi'][0] = topCandidate.Phi()
-			variables['topcandmass'][0] = topCandidate.M()
+			variables['leptopcandpt'][0] = topCandidate.Pt()
+			variables['leptopcandeta'][0] = topCandidate.Eta()
+			variables['leptopcandphi'][0] = topCandidate.Phi()
+			variables['leptopcandmass'][0] = topCandidate.M()
 		
 	return variables
 
 def reset(variables):
-	variables['topcandpt'][0] = -1.0
-	variables['topcandeta'][0] = 100.0
-	variables['topcandphi'][0] = 100.0
-	variables['topcandmass'][0] = -1.0
-	variables['topcandtau21'][0] = 1.0
-	variables['topcandtau32'][0] = 1.0
+	variables['leptopcandpt'][0] = -1.0
+	variables['leptopcandeta'][0] = 100.0
+	variables['leptopcandphi'][0] = 100.0
+	variables['leptopcandmass'][0] = -1.0
+	variables['leptopcandtau21'][0] = 1.0
+	variables['leptopcandtau32'][0] = 1.0
 	return variables
 
 def createCuts(cutArray):
