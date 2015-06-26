@@ -133,14 +133,14 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 
 	# Things that are potentially rubbish, partial list: these scale factors.
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*2*0.2/160000, "no")
-	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.054*0.68*2*0.2/160000, "no")
+	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+2, 0.054*0.68*2*0.2/160000, "no")
 	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.0015*0.68*2*0.2/160000, "no")
 
 	ttbar_semilep = dist(ttbar_semilep_file, "ttbar_semilep", ROOT.TColor.kRed, 107.7/25424818, "no")
 	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_dileptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
 	
 	# Singletop and QCD distributions.
-	singletop = dist(singletop_file, "singletop", ROOT.TColor.kRed - 2, 1, "yes")
+	singletop = dist(singletop_file, "singletop", ROOT.TColor.kBrown, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
 	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
