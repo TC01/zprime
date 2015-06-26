@@ -51,7 +51,7 @@ class multidist:
 			s[i].SetLineColor(sc[i])
 			s[i].SetLineWidth(3)
 			self.sn = self.sn + getInt(s[i], mw)
-			self.sstack.Add(s[i])
+			self.sstack.Add(s[i], "same")
 		self.data = d.Clone('data')
 		self.data.SetFillColor(0)
 		self.data.SetLineColor(1)
@@ -88,8 +88,14 @@ class multidist:
 			self.bstack.GetYaxis().SetTitle("events")
 			self.bstack.GetXaxis().SetTitle(xname)
 			self.bstack.SetTitle(title)
+			plots = []
 			for i in self.sstack.GetStack():
-				i.Draw("same")
+				new = i
+				for plot in plots:
+					new.Add(plot, -1)
+				plots.append(i)
+				new.Draw("same")
+				c.Update()
 			self.data.Draw("same,E")
 			leg.Draw()
 			c.SaveAs(pn+".pdf")
