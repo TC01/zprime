@@ -2,7 +2,7 @@ BASEDIR=${CURDIR}
 ANALYSISDIR=${CURDIR}/working/
 TREES=/srv/data
 
-all: clean prepare tprime bprime
+all: clean prepare tprime
 
 tprime:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/tprime/ -t ${TREES} --no-wait
@@ -11,6 +11,12 @@ tprime:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_2btag.conf -p ${ANALYSISDIR}/tprime/two_loose_btag --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/one_loose_btag/one_loose_wtag --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/one_loose_wtag --no-wait
+
+invariant:
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/one_loose_wtag/had_tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime.conf -p ${ANALYSISDIR}/tprime/one_loose_btag/one_loose_wtag/had_tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_top.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/one_loose_wtag/had_top --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_top.conf -p ${ANALYSISDIR}/tprime/one_loose_btag/one_loose_wtag/had_top --no-wait
 
 bprime:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/bprime/ -t ${TREES}/bprime --no-wait
