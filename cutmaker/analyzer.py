@@ -68,11 +68,11 @@ def generateCuts(cutTemplates, numjets=3):
 			template = template[4:]
 		if "[X]" in template or "[Y]" in template:
 			for i in range(numjets):
+				next = i + 2
+				if next > numjets:
+					next = 1
 				jetCut = template.replace("[X]", str(i+1))
-				jetCut = jetCut.replace("[Y]", getOtherNum(i+1, 3))
-				otherNums = getOtherNum(i+1, 3)
-				jetCut = jetCut.replace("[Y1]", otherNums[0])
-				jetCut = jetCut.replace("[Y2]", otherNums[1])
+				jetCut = jetCut.replace("[Y]", str(next))
 				fullCut += "(" + jetCut + ")"
 				if i < numjets - 1:
 					fullCut += "||"

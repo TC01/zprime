@@ -49,7 +49,7 @@ def doAnalysis(jobname, path, treepath, varname, nowait, title, signalScale=1):
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kRed - 2, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
-	wjet_semilep = dist(wjet_semilep_file, "wjet_hadronic", ROOT.TColor.kGreen, 33836.9/57709905, "no")
+	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
 
 	step = pile("tree")
 	step.addSig(signal15)
@@ -64,6 +64,8 @@ def doAnalysis(jobname, path, treepath, varname, nowait, title, signalScale=1):
 	step.addCut(cut('1', 'identity'))
 
 	jobname = jobname + '_' + varname
+	if signalScale != 1:
+		jobname += "_" + str(signalScale)
 	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "no", title)
 
 	# Process output files.
@@ -74,6 +76,10 @@ def doAnalysis(jobname, path, treepath, varname, nowait, title, signalScale=1):
 				if ".root" in file:
 					os.remove(os.path.join(location, file))
 				if ".png" in file or ".pdf" in file:
+					try:
+						os.remove(os.path.join(path, "plots", file))
+					except:
+						pass
 					shutil.move(file, os.path.join(path, "plots"))
 				if "output.log" in file:
 					os.remove(os.path.join(location, file))
@@ -95,11 +101,11 @@ def main():
 	parser.add_option('-t', '--trees', type='string', default=None, dest='trees', help="Location of trees, separate from working path.")
 	parser.add_option('-f', '--cut-file', type='string', default=None, dest='cutfile', help="Location of cuts config file, separate from working path.")
 
+	parser.add_option('-s', '--scale-signal', dest='scaleSignal', default=1, type=int, help="Scale factor on the signals. Defaults to 1 (no extra scaling).")
+	parser.add_option('-l', '--title', dest='title', default=None, help="The title of the plot.")
+
 	parser.add_option('--no-cwd', action='store_true', dest='nocwd', default=False, help="Make paths absolute instead of relative to cwd.")
 	parser.add_option('--no-wait', action='store_true', dest='nowait', default=False, help="Do not wait to allow the user to look at plots.")
-	
-	parser.add_option('-s', '--scale-signal', dest='scaleSignal', default, help="Scale factor on the signals. Defaults to 1 (no extra scaling).")
-	parser.add_option('-l', '--title', dest='title', default=None, type="int", help="The title of the plot.")
 	
 	options, args = parser.parse_args()
 

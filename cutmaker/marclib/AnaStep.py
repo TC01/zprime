@@ -87,7 +87,8 @@ class AnaStep:
 			tmp_tree = tmp_bfile.Get(PILE.nameTree())
 			out_tmp.cd()
 			tmp = SimpleCutSequencer(tmp_tree, cuts, var, name+"_"+PILE.getBkg(b).getName(), bins, lumi*PILE.getBkg(b).getScale(), PILE.getBkg(b).getWeight())
-			tmp.DrawSequence(name+"_"+PILE.getBkg(b).getName(), cutnames, PILE.getBkg(b).getName(), PILE.getBkg(b).getColor())
+			if save == 'yes':
+				tmp.DrawSequence(name+"_"+PILE.getBkg(b).getName(), cutnames, PILE.getBkg(b).getName(), PILE.getBkg(b).getColor())
 			self.bkg_plots.append(tmp.getPlots("last"))
 			if save == 'yes':
 				tmp_savefileb = ROOT.TFile(PILE.getBkg(b).getName()+'_'+name+".root", 'recreate')
@@ -103,7 +104,8 @@ class AnaStep:
 			tmp_tree = tmp_sfile.Get(PILE.nameTree())
 			out_tmp.cd()
 			tmp = SimpleCutSequencer(tmp_tree, cuts, var, name+"_"+PILE.getSig(s).getName(), bins, lumi*PILE.getSig(s).getScale(), PILE.getSig(s).getWeight())
-			tmp.DrawSequence(name+"_"+PILE.getSig(s).getName(), cutnames, PILE.getSig(s).getName(), PILE.getSig(s).getColor())
+			if save == 'yes':
+				tmp.DrawSequence(name+"_"+PILE.getSig(s).getName(), cutnames, PILE.getSig(s).getName(), PILE.getSig(s).getColor())
 			self.sig_plots.append(tmp.getPlots("last"))
 			if save == 'yes':
 				tmp_savefiles = ROOT.TFile(PILE.getSig(s).getName()+'_'+name+".root", 'recreate')
