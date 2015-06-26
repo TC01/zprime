@@ -92,6 +92,8 @@ def fixOutputFiles(location):
 				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Semilep_2000GeV.root"))
 			if "signal_3000" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Semilep_3000GeV.root"))
+			if "wjets_semilep" in file:
+				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball.root"))
 			if "wjet_hadronic" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root"))
 			if "ttbar_hadronic" in file:
@@ -141,7 +143,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kRed - 2, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
-	wjet_semilep = dist(wjet_semilep_file, "wjet_hadronic", ROOT.TColor.kGreen, 33836.9/57709905, "no")
+	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
 
 	step = pile("tree")
 	step.addSig(signal15)
