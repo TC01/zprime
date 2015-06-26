@@ -18,7 +18,7 @@ from formatter import formatlib
 
 lumi = 19800
 
-def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None):
+def doAnalysis(jobname, path, treepath, varname, nowait, title, signalScale=1):
 	global lumi
 	global signal15file, signal20file, signal30file
 	global ttbar_hadronic_file, qcd_file
@@ -35,20 +35,21 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 
 	ttbar_semilep_file = os.path.join(treepath, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root")
 	ttbar_leptonic_file = os.path.join(treepath, "TTJets_FullLeptMGDecays_8TeV-madgraph.root")
+	wjets_semilep_file = os.path.join(treepath, "WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball.root")
 
 	# Things that are potentially rubbish, partial list: these scale factors.
-	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*2*0.2/160000, "no")
-	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, 0.054*0.68*2*0.2/160000, "no")
-	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, 0.0015*0.68*2*0.2/160000, "no")
+	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, signalScale * 0.37*0.68*2*0.2/160000, "no")
+	signal20 = dist(signal20file, "signal_2000", ROOT.TColor.kBlue+3, signalScale * 0.054*0.68*2*0.2/160000, "no")
+	signal30 = dist(signal30file, "signal_3000", ROOT.TColor.kBlue+4, signalScale * 0.0015*0.68*2*0.2/160000, "no")
 
 	ttbar_semilep = dist(ttbar_semilep_file, "ttbar_semilep", ROOT.TColor.kRed, 107.7/25424818, "no")
-	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_leptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
-
+	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_dileptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
+	
 	# Singletop and QCD distributions.
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kRed - 2, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
-
-	#wjet_hadronic = dist(wjet_hadronic_file, "wjet_hadronic", ROOT.TColor.kGreen, 1/4951861, "no")
+	
+	wjet_semilep = dist(wjet_semilep_file, "wjet_hadronic", ROOT.TColor.kGreen, 33836.9/57709905, "no")
 
 	step = pile("tree")
 	step.addSig(signal15)
@@ -58,12 +59,12 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	step.addBkg(ttbar_leptonic)
 	step.addBkg(singletop)
 	step.addBkg(qcd)
-#	step.addBkg(wjet_hadronic)
+	step.addBkg(wjet_semilep)
 
 	step.addCut(cut('1', 'identity'))
 
 	jobname = jobname + '_' + varname
-	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "no")
+	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "no", title)
 
 	# Process output files.
 	os.remove(os.path.join(os.getcwd(), "DELETEMEIFYOUWANT.root"))
@@ -96,6 +97,10 @@ def main():
 
 	parser.add_option('--no-cwd', action='store_true', dest='nocwd', default=False, help="Make paths absolute instead of relative to cwd.")
 	parser.add_option('--no-wait', action='store_true', dest='nowait', default=False, help="Do not wait to allow the user to look at plots.")
+	
+	parser.add_option('-s', '--scale-signal', dest='scaleSignal', default, help="Scale factor on the signals. Defaults to 1 (no extra scaling).")
+	parser.add_option('-l', '--title', dest='title', default=None, type="int", help="The title of the plot.")
+	
 	options, args = parser.parse_args()
 
 	if options.nocwd:
@@ -127,8 +132,14 @@ def main():
 		os.remove(os.path.join(os.getcwd(), 'output.log'))
 	except:
 		pass
-	cutfile = ""
-	doAnalysis(name, path, treepath, cutfile, options.varname, options.nowait)
+	
+	title = options.title
+	if title is None:
+		title = name
+	if options.scaleSignal != 1:
+		title += " (Signal " + str(options.scaleSignal) + "x)"
+	
+	doAnalysis(name, path, treepath, options.varname, options.nowait, title, options.scaleSignal)
 
 if __name__ == '__main__':
 	main()
