@@ -14,7 +14,7 @@ class Efficiency:
 		self.start = start
 		self.end = end
 		try:
-			self.percentage = (float(end) / float(start)) * 10
+			self.percentage = (float(end) / float(start)) * 100
 		except:
 			self.percentage = 0.0
 

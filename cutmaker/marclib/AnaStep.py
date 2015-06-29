@@ -119,7 +119,7 @@ class AnaStep:
 		thestack = multidist("stack", self.bkg_plots, self.sig_plots, data, bkgcol, sigcol, [bins[1], bins[2]])
 		thestack.PLOTSTACKS(name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, title)
 		newstack = multidist("stack", self.bkg_plots, self.sig_plots, data, bkgcol, sigcol, [bins[1], bins[2]])
-		newstack.PLOTSTACKS('log_' + name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, title + "(Logarithmic)", True)
+		newstack.PLOTSTACKS('log_' + name, bkgnames, signames, "Data", [0.7,0.7,0.89,0.89], var, title + " (Logarithmic)", True)
 	
 	def getBkgPlots(self):
 		return self.bkg_plots
