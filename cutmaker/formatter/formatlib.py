@@ -95,7 +95,7 @@ def getEventCounts(text):
 def processText(text, name):
 	text = processPrimeText(text, name)
 	bkgcount, sigcounts = getEventCounts(text)
-	text = getCutNames(name) + text
+	#text = getCutNames(name) + text
 
 	# Add summarized event counts for the last step of the analysis.
 	text += "Number of background events = " + str(bkgcount) + "\n"

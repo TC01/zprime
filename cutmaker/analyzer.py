@@ -140,7 +140,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_dileptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
 	
 	# Singletop and QCD distributions.
-	singletop = dist(singletop_file, "singletop", ROOT.TColor.kBrown, 1, "yes")
+	singletop = dist(singletop_file, "singletop", ROOT.TColor.kOrange, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
 	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
@@ -158,7 +158,10 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	if cutArray is None:
 		for name, realcut in cuts.iteritems():
 			step.addCut(cut(realcut, name))
-			print "Added cut " + name + ": " + cuts[name]
+			message = name = ':' = cuts[name]
+			with open('cuts.order', 'ab') as orderingFile:
+				orderingFile.write(message)
+			print "Added cut " + message
 	else:
 		for name in cutArray:
 			try:
@@ -181,6 +184,12 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 				if "output.log" in file:
 					try:
 						os.remove(os.path.join(path, "output.log"))
+					except:
+						pass
+					shutil.move(file, path)
+				if "cuts.order" in file:
+					try:
+						os.remove(os.path.join(path, "cuts.order"))
 					except:
 						pass
 					shutil.move(file, path)

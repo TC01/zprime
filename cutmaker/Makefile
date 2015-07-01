@@ -6,15 +6,17 @@ all: clean prepare tprime
 
 tprime:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/tprime/ -t ${TREES} --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/one_loose_wtag --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_btag.conf -p ${ANALYSISDIR}/tprime/one_loose_btag --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_2btag.conf -p ${ANALYSISDIR}/tprime/two_loose_btag --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/one_loose_btag/one_loose_wtag --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/one_loose_wtag --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_lepton.conf -p ${ANALYSISDIR}/tprime/lep_loose/ --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_lepton_test.conf -p ${ANALYSISDIR}/tprime/lep_loose_test/ --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/lep_loose/one_loose_wtag --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_btag.conf -p ${ANALYSISDIR}/tprime/lep_loose/one_loose_btag --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_2btag.conf -p ${ANALYSISDIR}/tprime/lep_loose/two_loose_btag --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/lep_loose/one_loose_btag/one_loose_wtag --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/lep_loose/two_loose_btag/one_loose_wtag --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime.conf -p ${ANALYSISDIR}/tprime/lep_loose/two_loose_btag/one_loose_wtag/had_tprime --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime.conf -p ${ANALYSISDIR}/tprime/lep_loose/one_loose_btag/one_loose_wtag/had_tprime --no-wait
 
-invariant:
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/one_loose_wtag/had_tprime --no-wait
-	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime.conf -p ${ANALYSISDIR}/tprime/one_loose_btag/one_loose_wtag/had_tprime --no-wait
+sideband:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_top.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/one_loose_wtag/had_top --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_top.conf -p ${ANALYSISDIR}/tprime/one_loose_btag/one_loose_wtag/had_top --no-wait
 
