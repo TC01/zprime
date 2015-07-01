@@ -140,7 +140,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_dileptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
 	
 	# Singletop and QCD distributions.
-	singletop = dist(singletop_file, "singletop", ROOT.TColor.kOrange, 1, "yes")
+	singletop = dist(singletop_file, "singletop", ROOT.TColor.kViolet, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
 	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
