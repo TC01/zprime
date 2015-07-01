@@ -14,7 +14,7 @@ maxJets = 3
 
 bMassMax = 50
 wMassMin = 50
-wMassMax = 100
+wMassMax = 120
 
 def setup(variables, isData):
 	variables['hadtopcandpt'] = array.array('f', [-1.0])
