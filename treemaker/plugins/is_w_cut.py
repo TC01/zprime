@@ -5,7 +5,7 @@ from Treemaker.Treemaker import cuts
 
 numJets = 3
 wMassMin = 50
-wMassMax = 100
+wMassMax = 120
 
 def setup(variables, isData):
 	return variables

@@ -1,8 +1,10 @@
 import array
 import math
+import os
 import sys
 from math import *
 import ROOT
+
 def setup(variables, isData):
 	variables['trigW'] = array.array('f', [1.0])
 	variables['trigWEu'] = array.array('f', [0.0])
@@ -18,8 +20,9 @@ def analyze(event, variables, labels, isData):
 def makeCuts(event, variables, cuts, labels, isData): # Not used
 	pt = variables['leppt'][0]
 	eta = math.fabs(variables['lepeta'][0])
+	path = os.path.join(os.environ['CMSSW_BASE'], 'src', 'Treemaker', 'Treemaker', 'python', 'plugins')
 	if cuts['isMuon'].passed > 0.5:
-		File = ROOT.TFile("/eos/uscms/store/user/bjr/files/SingleMuonTriggerEfficiencies_eta2p1_Run2012ABCD_v5trees.root")
+		File = ROOT.TFile(os.path.join(path, "SingleMuonTriggerEfficiencies_eta2p1_Run2012ABCD_v5trees.root"))
 		if eta < 0.9:
 			graph = File.Get("IsoMu24_eta2p1_DATA_over_MC_TightID_IsodB_PT_ABSETA_Barrel_0to0p9_pt25-500_2012ABCD")
 		elif eta > 0.9 and eta < 1.2:
@@ -33,7 +36,7 @@ def makeCuts(event, variables, cuts, labels, isData): # Not used
 		variables['trigWEd'][0] = point[1]
 		variables['trigW'][0] = point[2]
 	elif cuts['isElectron'].passed > 0.5:
-		File = ROOT.TFile("/eos/uscms/store/user/bjr/files/electrons_scale_factors.root")
+		File = ROOT.TFile(os.path.join(path, "electrons_scale_factors.root"))
 		graph = File.Get("electronsDATAMCratio_FO_ID")
 		bin = graph.FindBin(eta,pt)
 		bin1 = ROOT.Long(0.)
@@ -42,7 +45,6 @@ def makeCuts(event, variables, cuts, labels, isData): # Not used
 		graph.GetBinXYZ(bin, bin1, bin2, bin3)
 		b1 = int(bin1)
 		b2 = int(bin2)
-		print graph
 		variables['trigW'][0] = graph.GetBinContent(bin)
 		variables['trigWEu'][0] = graph.GetBinErrorUp(b1,b2)
 		variables['trigWEd'][0] = graph.GetBinErrorLow(b1,b2)
