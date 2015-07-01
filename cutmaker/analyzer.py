@@ -138,11 +138,11 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 
 	ttbar_semilep = dist(ttbar_semilep_file, "ttbar_semilep", ROOT.TColor.kRed, 107.7/25424818, "no")
 	ttbar_leptonic = dist(ttbar_leptonic_file, "ttbar_dileptonic", ROOT.TColor.kRed + 2, 25.17/12119013, "no")
-	
+
 	# Singletop and QCD distributions.
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kViolet, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
-	
+
 	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
 
 	step = pile("tree")
@@ -158,7 +158,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	if cutArray is None:
 		for name, realcut in cuts.iteritems():
 			step.addCut(cut(realcut, name))
-			message = name = ':' = cuts[name]
+			message = name + ': ' + cuts[name]
 			with open('cuts.order', 'ab') as orderingFile:
 				orderingFile.write(message)
 			print "Added cut " + message
