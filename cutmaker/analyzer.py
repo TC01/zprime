@@ -2,6 +2,7 @@
 
 # We need to capture stdout.
 
+import collections
 import glob
 import math
 import optparse
@@ -16,7 +17,7 @@ from marclib.AnaStep import *
 from formatter import *
 from formatter import formatlib
 
-lumi = 19800
+lumi = 19748
 
 #defaultCuts = { "topmass": "jet[X]tau32>0&&jet[X]tau32<0.5&&jet[X]mass<270&&jet[X]mass>130",
 #				"wmass": "(jet[X]tau32<0||jet[X]tau32>0.5)&&jet[X]mass<100&&jet[X]mass>70",
@@ -44,7 +45,7 @@ def createCutTemplates(filename=None):
 		return defaultCuts
 	
 	title = None
-	cutDict = {}
+	cutDict = collections.OrderedDict()
 	with open(filename) as cutfile:
 		for line in cutfile:
 			if '#' == line[0]:
@@ -59,7 +60,7 @@ def createCutTemplates(filename=None):
 	return cutDict, title
 
 def generateCuts(cutTemplates, numjets=3):
-	cuts = {}
+	cuts = collections.OrderedDict()
 	for name, template in cutTemplates.iteritems():
 		fullCut = ""
 		invert = False
@@ -93,7 +94,7 @@ def fixOutputFiles(location):
 			if "signal_3000" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "Gstar_Semilep_3000GeV.root"))
 			if "wjets_semilep" in file:
-				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball.root"))
+				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsToLNu_TuneZ2Star_8TeV-madgraph.root"))
 			if "wjet_hadronic" in file:
 				shutil.move(os.path.join(location, file), os.path.join(location, "WJetsFullyHadronic_Ht100_Pt50_Pt30_deta22_Mqq200_8TeV-madgraph.root"))
 			if "ttbar_hadronic" in file:
@@ -129,7 +130,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 
 	ttbar_semilep_file = os.path.join(treepath, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root")
 	ttbar_leptonic_file = os.path.join(treepath, "TTJets_FullLeptMGDecays_8TeV-madgraph.root")
-	wjets_semilep_file = os.path.join(treepath, "WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball.root")
+	wjets_semilep_file = os.path.join(treepath, "WJetsToLNu_TuneZ2Star_8TeV-madgraph.root")
 
 	# Things that are potentially rubbish, partial list: these scale factors.
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, 0.37*0.68*2*0.2/160000, "no")
@@ -168,7 +169,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 				step.addCut(cut(cuts[name], name))
 				print "Added cut " + name + ": " + cuts[name]
 			except:
-				print "Cut not understood: " + name			
+				print "Cut not understood: " + name
 
 	none = AnaStep(jobname, step, lumi, varname, [50, 0, 4000], "yes", title)
 

@@ -1,0 +1,1 @@
+is_loose_lepton: cuts[2]>0&&cuts[1]<1trigger_cut: trigW>0three_jet_event: numjets>2lep2Dcut: lep2Drel>25.||lep2Ddr>0.5three_jet_event: numjets>2trigger_cut: trigW>0is_loose_lepton: cuts[2]>0&&cuts[1]<1lep2Dcut: lep2Drel>25.||lep2Ddr>0.5
