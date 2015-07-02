@@ -89,28 +89,35 @@ class multidist:
 			self.bstack.GetXaxis().SetTitle(xname)
 			self.bstack.SetTitle(title)
 			plots = []
+			count = 0
+
+			lastBackground = self.bstack.GetStack()[self.bstack.GetNhists() - 1]
 			for i in self.sstack.GetStack():
 				new = i
 				for plot in plots:
 					new.Add(plot, -1)
 				plots.append(i)
-				new.Draw("same")
-				c.Update()
 
 				# Change by Ben Rosser: STATISTICS!
 				factor = 1
-				
+
 				shiftDown = new.GetMean() - factor * new.GetRMS()
 				shiftUp = new.GetMean() + factor * new.GetRMS()
-				lastBackground = self.bstack.GetHists(self.bstack.GetNhists())
 				startBin = lastBackground.FindBin(shiftDown)
 				endBin = lastBackground.FindBin(shiftUp)
-				
+
 				bkgEvents = lastBackground.Integral(startBin, endBin)
+				effSignal = new.GetEffectiveEntries()
 				with open('output.log', 'ab') as outputLog:
-					outputLog.write(sn + ": S = " + new.GetEffectiveEntries() + ", B = " + str(bkgEvents) + "\n")
-					answer = new.GetEffectiveEntries() / (1.5 + math.sqrt(bkgEvents))
-					outputLog.write("        Eff(Sig) / (1.5 + sqrt(B)) = ", answer)
+					outputLog.write(sn[count] + ":\n")
+					outputLog.write("    (Lumi = 19748) S = " + str(effSignal) + ", B = " + str(bkgEvents) + "\n")
+					outputLog.write("    (Lumi = 10000) S = " + str(effSignal * (10000 / 19748.)) + ", B = " + str(bkgEvents * (10000 / 19748.)) + "\n")
+					answer = effSignal / (1.5 + math.sqrt(bkgEvents))
+					outputLog.write("    Eff(Sig) / (1.5 + sqrt(B)) = " + str(answer) + "\n\n")
+
+				count += 1
+				new.Draw("same")
+				c.Update()
 
 			self.data.Draw("same,E")
 			leg.Draw()
