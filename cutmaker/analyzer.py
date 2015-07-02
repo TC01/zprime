@@ -144,7 +144,7 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kViolet, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 
-	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
+	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 1, "yes")
 
 	step = pile("tree")
 	step.addSig(signal15)
