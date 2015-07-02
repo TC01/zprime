@@ -96,6 +96,22 @@ class multidist:
 				plots.append(i)
 				new.Draw("same")
 				c.Update()
+
+				# Change by Ben Rosser: STATISTICS!
+				factor = 1
+				
+				shiftDown = new.GetMean() - factor * new.GetRMS()
+				shiftUp = new.GetMean() + factor * new.GetRMS()
+				lastBackground = self.bstack.GetHists(self.bstack.GetNhists())
+				startBin = lastBackground.FindBin(shiftDown)
+				endBin = lastBackground.FindBin(shiftUp)
+				
+				bkgEvents = lastBackground.Integral(startBin, endBin)
+				with open('output.log', 'ab') as outputLog:
+					outputLog.write(sn + ": S = " + new.GetEffectiveEntries() + ", B = " + str(bkgEvents) + "\n")
+					answer = new.GetEffectiveEntries() / (1.5 + math.sqrt(bkgEvents))
+					outputLog.write("        Eff(Sig) / (1.5 + sqrt(B)) = ", answer)
+
 			self.data.Draw("same,E")
 			leg.Draw()
 			c.SaveAs(pn+".pdf")
