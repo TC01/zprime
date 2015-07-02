@@ -92,6 +92,11 @@ class multidist:
 			count = 0
 
 			lastBackground = self.bstack.GetStack()[self.bstack.GetNhists() - 1]
+			totalBkg = lastBackground.GetEffectiveEntries()
+			with open('output.log', 'ab') as outputLog:
+				outputLog.write("    Total Background (19748) = " + str(totalBkg))
+				outputLog.write("    Total Background (10000) = " + str(totalBkg * (10000 / 19748.))
+
 			for i in self.sstack.GetStack():
 				new = i
 				for plot in plots:

@@ -35,7 +35,7 @@ def doAnalysis(jobname, path, treepath, varname, nowait, title, signalScale=1):
 
 	ttbar_semilep_file = os.path.join(treepath, "TTJets_SemiLeptMGDecays_8TeV-madgraph.root")
 	ttbar_leptonic_file = os.path.join(treepath, "TTJets_FullLeptMGDecays_8TeV-madgraph.root")
-	wjets_semilep_file = os.path.join(treepath, "WJetsToLNu_TuneZ2Star_8TeV-madgraph-tarball.root")
+	wjets_semilep_file = os.path.join(treepath, "WJetsToLNu_TuneZ2Star_8TeV-madgraph.root")
 
 	# Things that are potentially rubbish, partial list: these scale factors.
 	signal15 = dist(signal15file, "signal_1500", ROOT.TColor.kBlue, signalScale * 0.37*0.68*2*0.2/160000, "no")
@@ -49,7 +49,7 @@ def doAnalysis(jobname, path, treepath, varname, nowait, title, signalScale=1):
 	singletop = dist(singletop_file, "singletop", ROOT.TColor.kViolet, 1, "yes")
 	qcd = dist(qcd_file, "qcd", ROOT.TColor.kYellow, 1, "yes")
 	
-	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 33836.9/57709905, "no")
+	wjet_semilep = dist(wjets_semilep_file, "wjets_semilep", ROOT.TColor.kGreen, 1, "yes")
 
 	step = pile("tree")
 	step.addSig(signal15)
