@@ -55,7 +55,7 @@ def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[10, 0,
 	plot.Add(plot3)
 
 	plot.SetStats(0)
-	plot.SetTitle("QCD Monte Carlo: Merged W mass, tau21, lep2Ddr > 0.5, pt > 100")
+	plot.SetTitle("W+Jets Monte Carlo: Merged W mass, tau21, lep2Ddr > 0.5, pt > 100")
 	name = filename.split('/')[-1]
 	name = 'canvas_' + name.split('.')[0]
 	canvas = ROOT.TCanvas(name, name, 1000, 800)
