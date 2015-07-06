@@ -12,7 +12,7 @@ treeName = 'tree'
 def makePlot(xvar, yvar, chain, jet, xbins, ybins, useWeights=False):
 	newX = jet + xvar
 	newY = jet + yvar
-	selection = newX + '> 50 &&' + newX + " < 120 && lep2Ddr >= 0.5 && " + jet + "pt > 100"
+	selection = newX + '> 50 &&' + newX + " < 120 && (lep2Drel>25.||lep2Ddr>0.5) && " + jet + "pt > 100 && cuts[1]<1&&cuts[2]>0 && leppt > 25 && cuts[3]>0"
 	print selection
 	
 	plot = ROOT.TH2F(jet + 'plot', 'plot', xbins[0], xbins[1], xbins[2], ybins[0], ybins[1], ybins[2])
@@ -79,7 +79,7 @@ def directoryPlot(dir, xvar, yvar, useWeights=False):
 
 	for path, directory, files in os.walk(dir):
 		for file in files:
-			if '.root' in file and ('WJets' in file):
+			if '.root' in file and ('SingleMu' in file):
 				filename = os.path.join(path, file)
 				plotname = file.split('.')[0] + '.pdf'
 				plotname = os.path.join(dir, 'plots', plotname)
