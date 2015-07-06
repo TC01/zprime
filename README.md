@@ -16,12 +16,12 @@ This directory contains a modified version of the *old* zprime analysis code
 (still available unchanged in a branch, [old_gstar](https://github.com/TC01/zprime/tree/old_gstar))
 that is slightly more modular.
 
-## theta
+## fitter
 
 This directory contains modified [scripts from Marc](https://github.com/osherson/Zprime_to_Tt)
 that use theta to do ttbar background estimation.
 
-Requires theta installed.
+Requires theta installed to run the TT_*.py scripts.
 
 
 ## TODO: write more code and stuff!

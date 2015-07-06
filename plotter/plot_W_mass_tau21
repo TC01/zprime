@@ -41,6 +41,11 @@ def makePlot(xvar, yvar, chain, jet, xbins, ybins, useWeights=False):
 		chain.ResetBranchAddresses()
 
 
+	canvas = ROOT.TCanvas()
+	canvas.cd()
+	plot.Draw()
+	raw_input()
+
 	return plot
 
 def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[10, 0, 1], wait=False, useWeights=False):
