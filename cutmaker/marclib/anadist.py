@@ -95,7 +95,6 @@ class multidist:
 			totalBkg = lastBackground.GetEffectiveEntries()
 			with open('output.log', 'ab') as outputLog:
 				outputLog.write("    Total Background (19748) = " + str(totalBkg))
-				outputLog.write("    Total Background (10000) = " + str(totalBkg * (10000 / 19748.))
 
 			for i in self.sstack.GetStack():
 				new = i
@@ -116,7 +115,6 @@ class multidist:
 				with open('output.log', 'ab') as outputLog:
 					outputLog.write(sn[count] + ":\n")
 					outputLog.write("    (Lumi = 19748) S = " + str(effSignal) + ", B = " + str(bkgEvents) + "\n")
-					outputLog.write("    (Lumi = 10000) S = " + str(effSignal * (10000 / 19748.)) + ", B = " + str(bkgEvents * (10000 / 19748.)) + "\n")
 					answer = effSignal / (1.5 + math.sqrt(bkgEvents))
 					outputLog.write("    Eff(Sig) / (1.5 + sqrt(B)) = " + str(answer) + "\n\n")
 

@@ -171,8 +171,8 @@ def main():
 		outputDict = analysisObjects[steps[0]]
 		for step in steps[1:]:
 			outputDict = addSamples(copy.deepcopy(outputDict), analysisObjects[step])
-		with open(os.path.join(analysis, 'efficiencies.txt'), 'wb') as results:
-			results.write("Efficiencies for " + analysis + "\n")
+		with open(os.path.join(analysis, 'efficiencies_' + analysis.split('/')[-1] + '.txt'), 'wb') as results:
+			results.write("Efficiencies for " + analysis + "\n\n")
 			for sample, efficiencies in outputDict.iteritems():
 				results.write(str(efficiencies) + '\n\n')
 
