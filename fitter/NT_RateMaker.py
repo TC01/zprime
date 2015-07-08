@@ -43,9 +43,7 @@ massMax = 120.
 tauCutoff = 0.5
 
 # Preselection Cuts:
-PreSel = "(lep2Drel>25.||lep2Ddr>0.5) && cuts[2]>0&&cuts[1]<1 && leppt > 25 && numjets>2"
-# && ((jet1mass > 50 && jet1mass < 120 && jet1pt > 200) || (jet2mass > 50 && jet2mass < 120 && jet2pt > 200) || (jet3mass > 50 && jet3mass < 120 && > 0 && jet3pt > 200))"
-#PreSel = "topcandtau2/topcandtau1>0.1&isLoose>0.&(lepcut2Drel>25.||lepcut2Ddr>0.5)&heavytopcandmass>250."
+PreSel = "(lep2Drel>25.||lep2Ddr>0.5) && cuts[2]>0&&cuts[1]<1 && leppt > 25"
 
 # plots:
 mtPlot = TH2F("mtPlotM", "", varb[0],varb[1],varb[2],varb2[0],varb2[1],varb2[2])
@@ -58,29 +56,29 @@ edPlot = TH2F("edPlotM", "", varb[0],varb[1],varb[2],varb2[0],varb2[1],varb2[2])
 esPlot = TH2F("esPlotM", "", varb[0],varb[1],varb[2],varb2[0],varb2[1],varb2[2])
 
 # Fill Plots:
-write2dplot(eFileName, 1.0, edPlot, var, var2, PreSel+"&&cuts[0]>0", "1.0")
+edPlot = write2dplot(eFileName, 1.0, edPlot, var, var2, PreSel+"&&cuts[0]>0", "1.0")
 
-canvas = ROOT.TCanvas()
-canvas.cd()
-edPlot.Draw('COLZ')
-raw_input()
+#canvas = ROOT.TCanvas()
+#canvas.cd()
+#edPlot.Draw('COLZ')
+#raw_input()
 
 for i in range(len(sFileName)):
-	write2dplot(sFilePrefix+sFileName[i], sxs[i]*19748/sn[i], esPlot, var, var2, PreSel+"&&cuts[0]>0", "1.0")
+	esPlot = write2dplot(sFilePrefix+sFileName[i], sxs[i]*19748/sn[i], esPlot, var, var2, PreSel+"&&cuts[0]>0", "1.0")
 for i in range(len(tFileName)):
-	write2dplot(tFilePrefix+tFileName[i], txs[i]*19748/tn[i], etPlot, var, var2, PreSel+"&&cuts[0]>0", TW)
+	etPlot = write2dplot(tFilePrefix+tFileName[i], txs[i]*19748/tn[i], etPlot, var, var2, PreSel+"&&cuts[0]>0", TW)
 
-write2dplot(mFileName, 1.0, mdPlot, var, var2, PreSel+"&&cuts[3]>0", "1.0")
+mdPlot = write2dplot(mFileName, 1.0, mdPlot, var, var2, PreSel+"&&cuts[3]>0", "1.0")
 for i in range(len(sFileName)):
-	write2dplot(sFilePrefix+sFileName[i], sxs[i]*19748/sn[i], msPlot, var, var2, PreSel+"&&cuts[3]>0", "1.0")
+	msPlot = write2dplot(sFilePrefix+sFileName[i], sxs[i]*19748/sn[i], msPlot, var, var2, PreSel+"&&cuts[3]>0", "1.0")
 for i in range(len(tFileName)):
-	write2dplot(tFilePrefix+tFileName[i], txs[i]*19748/tn[i], mtPlot, var, var2, PreSel+"&&cuts[3]>0", TW)
+	mtPlot = write2dplot(tFilePrefix+tFileName[i], txs[i]*19748/tn[i], mtPlot, var, var2, PreSel+"&&cuts[3]>0", TW)
 
 # Now that the plots are filled, we can fit on them.
 # First we subtract the non-non-top from the field: ttbar and single top are removed:
 
-edPlot.Add(mtPlot,-1.0)
-edPlot.Add(msPlot,-1.0)
+edPlot.Add(etPlot,-1.0)
+edPlot.Add(esPlot,-1.0)
 
 mdPlot.Add(mtPlot,-1.0)
 mdPlot.Add(msPlot,-1.0)
@@ -99,7 +97,7 @@ mhy = []
 mehx = []
 mehy = []
 
-mbins = [[50, 55], [55, 60], [60, 70], [70, 80], [80, 90], [90, 100], [100, 110], [110, 120]]
+mbins = [[50, 55], [55, 60], [100, 110], [110, 120]]
 for b in mbins:
 	passed = 0
 	failed = 0
@@ -108,8 +106,10 @@ for b in mbins:
 			if mdPlot.GetXaxis().GetBinCenter(i) < b[1] and mdPlot.GetXaxis().GetBinCenter(i) > b[0]:
 				if mdPlot.GetYaxis().GetBinCenter(j) > tauCutoff:
 					failed = failed + mdPlot.GetBinContent(i,j)
+					print failed
 				else:
 					passed = passed + mdPlot.GetBinContent(i,j)
+					print passed
 	# If we have low statistics subtracting the ttbar and single top can leave us with "gaps" or just negative events in the least populated bins. This is of course bad, so we just set them to zero. If you want to change the binning it should be such that this is minimized,but this his here ot protect you if need be.
 	if passed < 0:
 		passed = 0
@@ -144,7 +144,7 @@ ehy = []
 eehx = []
 eehy = []
 
-ebins = [[50, 55], [55, 60], [60, 70], [70, 80], [80, 90], [90, 100], [100, 110], [110, 120]]
+ebins = [[50, 55], [55, 60], [100, 110], [110, 120]]
 for b in ebins: # Same as above
 	passed = 0
 	failed = 0
@@ -187,7 +187,7 @@ bhy = []
 behx = []
 behy = []
 
-bbins = [[50, 55], [55, 60], [60, 70], [70, 80], [80, 90], [90, 100], [100, 110], [110, 120]]
+bbins = [[50, 55], [55, 60], [100, 110], [110, 120]]
 for b in bbins:  # same as above but with two passes, one for muons and one for electrons (filling the same TGraph)
 	passed = 0
 	failed = 0
