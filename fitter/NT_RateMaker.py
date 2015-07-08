@@ -59,6 +59,12 @@ esPlot = TH2F("esPlotM", "", varb[0],varb[1],varb[2],varb2[0],varb2[1],varb2[2])
 
 # Fill Plots:
 write2dplot(eFileName, 1.0, edPlot, var, var2, PreSel+"&&cuts[0]>0", "1.0")
+
+canvas = ROOT.TCanvas()
+canvas.cd()
+edPlot.Draw('COLZ')
+raw_input()
+
 for i in range(len(sFileName)):
 	write2dplot(sFilePrefix+sFileName[i], sxs[i]*19748/sn[i], esPlot, var, var2, PreSel+"&&cuts[0]>0", "1.0")
 for i in range(len(tFileName)):

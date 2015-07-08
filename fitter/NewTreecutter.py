@@ -61,10 +61,10 @@ def write2dplot(File, scale, plot, var, var2, Cut, Weight):
 	plot.Add(temp2)
 	plot.Add(temp3)
 
-#	canvas = ROOT.TCanvas()
-#	canvas.cd()
-#	plot.Draw('COLZ')
-#	raw_input()
+	canvas = ROOT.TCanvas()
+	canvas.cd()
+	plot.Draw('COLZ')
+	raw_input()
 
 
 	return plot
