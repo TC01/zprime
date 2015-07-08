@@ -9,10 +9,19 @@ import ROOT
 
 treeName = 'tree'
 
+shouldPlot = ['QCD', 'WJets']
+
+def shouldPlotFile(filename):
+	valid = False
+	for possible in shouldPlot:
+		if possible in filename:
+			valid = True
+	return valid
+
 def makePlot(xvar, yvar, chain, jet, xbins, ybins, useWeights=False):
 	newX = jet + xvar
 	newY = jet + yvar
-	selection = newX + '> 50 &&' + newX + " < 120 && (lep2Drel>25.||lep2Ddr>0.5) && " + jet + "pt > 100 && cuts[1]<1&&cuts[2]>0 && leppt > 25 && cuts[3]>0"
+	selection = newX + '> 50 &&' + newX + " < 120 && (lep2Drel>25.||lep2Ddr>0.5) && " + jet + "pt > 200 && cuts[1]<1&&cuts[2]>0 && leppt > 25 && numjets > 2"
 	print selection
 	
 	plot = ROOT.TH2F(jet + 'plot', 'plot', xbins[0], xbins[1], xbins[2], ybins[0], ybins[1], ybins[2])
@@ -37,18 +46,12 @@ def makePlot(xvar, yvar, chain, jet, xbins, ybins, useWeights=False):
 		for i in xrange(chain.GetEntries()):
 			chain.GetEntry(i)
 			if lep2Ddr[0] >= 0.5 and pt[0] > 100 and mass[0] > 50 and mass[0] < 120:
-				plot.Fill(mass[0], tau21[0], weight[0])
+				plot.Fill(mass[0], tau21[0], weight[0] * 19748.)
 		chain.ResetBranchAddresses()
-
-
-	canvas = ROOT.TCanvas()
-	canvas.cd()
-	plot.Draw()
-	raw_input()
 
 	return plot
 
-def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[10, 0, 1], wait=False, useWeights=False):
+def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[20, 0, 1.0], wait=False, useWeights=False):
 	chain = ROOT.TChain(treeName)
 	chain.Add(filename)
 
@@ -60,7 +63,8 @@ def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[10, 0,
 	plot.Add(plot3)
 
 	plot.SetStats(0)
-	plot.SetTitle("W+Jets Monte Carlo: Merged W mass, tau21, lep2Ddr > 0.5, pt > 100")
+#	plot.SetTitle("W+Jets Monte Carlo: Merged W mass, tau21, lep2Ddr > 0.5, pt > 100")
+	plot.SetTitle(outputName)
 	name = filename.split('/')[-1]
 	name = 'canvas_' + name.split('.')[0]
 	canvas = ROOT.TCanvas(name, name, 1000, 800)
@@ -70,7 +74,7 @@ def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[10, 0,
 	plot.GetXaxis().SetTitle(xvar)
 	profile = plot.ProfileX('plot_profile')
 	profile.Draw('same')
-	canvas.SaveAs(outputName)
+	canvas.SaveAs(outputName + '.pdf')
 	canvas.SaveAs(outputName + '.png')
 	if wait:
 		raw_input()
@@ -84,9 +88,10 @@ def directoryPlot(dir, xvar, yvar, useWeights=False):
 
 	for path, directory, files in os.walk(dir):
 		for file in files:
-			if '.root' in file and ('SingleMu' in file):
+			if '.root' in file and shouldPlotFile(file):
+				print "Making plots for file: " + file
 				filename = os.path.join(path, file)
-				plotname = file.split('.')[0] + '.pdf'
+				plotname = file.split('.')[0]
 				plotname = os.path.join(dir, 'plots', plotname)
 				do2DPlot(filename, plotname, xvar, yvar, useWeights=useWeights)
 
