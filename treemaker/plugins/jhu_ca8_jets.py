@@ -30,8 +30,9 @@ class Jet:
 			deltaR = abs(vector.DeltaR(matching))
 			if deltaR < 0.4:
 				value = i
-		if deltaR > 0.4:
-			value = -1
+				break
+#		if deltaR > 0.4:
+#			value = -1
 		return value
 
 	def setup(self, variables):
