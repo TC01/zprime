@@ -150,11 +150,11 @@ def doAnalysis(jobname, path, treepath, cutfile, varname, nowait, cutArray=None)
 	step.addSig(signal15)
 	step.addSig(signal20)
 	step.addSig(signal30)
-#	step.addBkg(ttbar_semilep)
+	step.addBkg(ttbar_semilep)
 	step.addBkg(ttbar_leptonic)
-#	step.addBkg(singletop)
-#	step.addBkg(qcd)
-#	step.addBkg(wjet_semilep)
+	step.addBkg(singletop)
+	step.addBkg(qcd)
+	step.addBkg(wjet_semilep)
 
 	if cutArray is None:
 		for name, realcut in cuts.iteritems():

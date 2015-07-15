@@ -32,14 +32,21 @@ txs = [107.7,25.17]
 tn = [25424818,12043695]
 tFilePrefix = rootDir
 
-N = 1 + 0.2*1.6360463748350496
-a = 0.0013 - (0.2*0.4773194160462202*0.0013)
+# TT fitting parameters, from theta.
 
-Nu = N + 0.2*0.4305091441738136
-au = a - 0.2*0.9397537176912021 * 0.0013
+theta_n_1 = 1.6360463748350496
+theta_n_2 = 0.4305091441738136
+theta_a_1 = 0.4773194160462202
+theta_a_2 = 0.9397537176912021
 
-Nd = N - 0.2*0.4305091441738136
-ad = a + 0.2*0.9397537176912021 * 0.0013
+N = 1 + 0.2*theta_n_1
+a = 0.0013 - (0.2*theta_a_1*0.0013)
+
+Nu = N + 0.2*theta_n_2
+au = a - 0.2*theta_a_2 * 0.0013
+
+Nd = N - 0.2*theta_n_2
+ad = a + 0.2*theta_a_2 * 0.0013
 
 TW = "("+str(N)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_aup = "("+str(N)+"*2.71828^(-"+str(au)+"*0.5*(MCantitoppt+MCtoppt)))"
@@ -59,6 +66,13 @@ p1 = "0.0096715"
 p2 = "0.16024"
 p3 = "0.00593041"
 p4 = "0.000622613"
+
+
+p0 = "0.402504"
+p1 = "0.000641416"
+p2 = "0.124863"
+p3 = "0.00452712"
+p4 = "0.00024813"
 
 ntW = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.))"
 
@@ -144,6 +158,9 @@ eZPn_Ndn = TH1F("EL__NT__N__down", "", 30, 500, 3500)
 # ???
 Fulltag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 Antitag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21>0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
+
+Fulltag = "(hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
+Antitag = "(hadWcandtau21>0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 
 # Subtractions:
 # ttbar:

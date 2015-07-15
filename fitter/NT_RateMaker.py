@@ -11,23 +11,29 @@ from CutOnTree import *
 
 
 # TT fitting parameters, from theta.
-#N = 1 + 0.2*1.6360463748350496
-#a = 0.0013 - (0.2*0.4773194160462202*0.0013)
 
-#Nu = N + 0.2*0.4305091441738136
-#au = a - 0.2*0.9397537176912021 * 0.0013
+theta_n_1 = 1.6360463748350496
+theta_n_2 = 0.4305091441738136
+theta_a_1 = 0.4773194160462202
+theta_a_2 = 0.9397537176912021
 
-#Nd = N - 0.2*0.4305091441738136
-#ad = a + 0.2*0.9397537176912021 * 0.0013
+N = 1 + 0.2*theta_n_1
+a = 0.0013 - (0.2*theta_a_1*0.0013)
 
-N = 0.96
-a = 0.0012
+Nu = N + 0.2*theta_n_2
+au = a - 0.2*theta_a_2 * 0.0013
 
-Nu = N + 0.1
-au = a - 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+Nd = N - 0.2*theta_n_2
+ad = a + 0.2*theta_a_2 * 0.0013
 
-Nd = N - 0.1
-ad = a + 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+#N = 0.96
+#a = 0.0012
+
+#Nu = N + 0.1
+#au = a - 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+
+#Nd = N - 0.1
+#ad = a + 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
 
 
 TW = "("+str(N)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"

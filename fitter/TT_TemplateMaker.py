@@ -60,7 +60,7 @@ El = "cuts[0]>0.&cuts[2]>0."
 Mu = "cuts[3]>0.&cuts[2]>0."
 
 
-PreSel = "((lep2Drel>25.||lep2Ddr>0.5) && leppt > 25 && numjets > 2 && hadWcandpt > 200)"
+PreSel = "((lep2Drel>25.||lep2Ddr>0.5) && leppt > 25 && numjets > 2 && hadWcandpt > 200 && leptopcandmass > 140 && leptopcandmass < 250)"
 
 # Poorly named these days, but whoops.
 TopTag = "(hadWcandmass > 50 && hadWcandmass < 120 && hadWcandtau21 < 0.5)"

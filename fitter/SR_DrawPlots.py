@@ -9,7 +9,7 @@ from ROOT import *
 
 F = TFile("Zprime_Theta_Feed.root")
 
-height = 50
+height = 80
 
 # Make the Data Pretty:
 eData = F.Get("EL__DATA")

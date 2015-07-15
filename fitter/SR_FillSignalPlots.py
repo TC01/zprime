@@ -17,6 +17,7 @@ z3xs = .1
 z3n = 160000/3
 
 #cuts
+Fulltag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 Fulltag = "(hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 
 fout = TFile("Zprime_Theta_Feed.root", "UPDATE") #
