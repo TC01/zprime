@@ -11,7 +11,7 @@ from Treemaker.Treemaker import cuts
 modifiers = ["plus", "minus"]
 maxJets = 3
 
-# Code from Marc used in Ye Olde G* Analysis Treemaker
+# Code from Marc used in the old G* Analysis Treemaker
 def make_lepW(met, lep):
 	newmet = ROOT.TLorentzVector()
 	newmet_m = ROOT.TLorentzVector()
