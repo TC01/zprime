@@ -11,7 +11,7 @@ from Treemaker.Treemaker import cuts
 
 maxJets = 3
 
-# Code from Marc used in Ye Olde G* Analysis Treemaker
+# Code from Marc used in the old G* Analysis Treemaker
 # (returns the index of the jet (from a collection "jets") closest to the given four-vector)
 def ClosestJet(jets, fourvec):
 	DR = 9999.
