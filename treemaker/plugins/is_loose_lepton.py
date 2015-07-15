@@ -22,10 +22,10 @@ def makeCuts(event, variables, cutArray, labels, isData):
 	isLoose = False
 	# Check if we are a loose event.
 	if len(muonLoose) > 0:
-		if muonLoose[0] == 1:
+		if muonLoose[0] > 0:
 			isLoose = True
 	if not isLoose and len(electronLoose) > 0:
-		if electronLoose[0] == 1:
+		if electronLoose[0] > 0:
 			isLoose = True
 	if isLoose:
 		cutArray["isLoose"].passed = 1

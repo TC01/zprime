@@ -1,0 +1,99 @@
+ bfitting_function_linear : [0]+[1]*x Ndim= 1, Npar= 2, Noper= 5
+ fExpr[0] = [0]  action = 140 action param = 0 
+ fExpr[1] = [1]  action = 140 action param = 1 
+ fExpr[2] = x  action = 144 action param = 0 
+ fExpr[3] = *  action = 3 action param = 0 
+ fExpr[4] = +  action = 1 action param = 0 
+Optimized expression
+ fExpr[0] = [0],[1],x,*,+                 action = 149 action param = 0 
+ Par  0                    p0 = 0.406236
+ Par  1                    p1 = 0.000734342
+ bfitting_function_linear_up : [0]+[1]*x+sqrt((x*x*[3]*[3])+(x*2*[4])+([2]*[2])) Ndim= 1, Npar= 5, Noper= 24
+ fExpr[0] = [0]  action = 140 action param = 0 
+ fExpr[1] = [1]  action = 140 action param = 1 
+ fExpr[2] = x  action = 144 action param = 0 
+ fExpr[3] = *  action = 3 action param = 0 
+ fExpr[4] = +  action = 1 action param = 0 
+ fExpr[5] = x  action = 144 action param = 0 
+ fExpr[6] = x  action = 144 action param = 0 
+ fExpr[7] = [3]  action = 140 action param = 3 
+ fExpr[8] = [3]  action = 140 action param = 3 
+ fExpr[9] = *  action = 3 action param = 0 
+ fExpr[10] = *  action = 3 action param = 0 
+ fExpr[11] = *  action = 3 action param = 0 
+ fExpr[12] = x  action = 144 action param = 0 
+ fExpr[13] = 2  action = 141 action param = 0 
+ fExpr[14] = [4]  action = 140 action param = 4 
+ fExpr[15] = *  action = 3 action param = 0 
+ fExpr[16] = *  action = 3 action param = 0 
+ fExpr[17] = +  action = 1 action param = 0 
+ fExpr[18] = [2]  action = 140 action param = 2 
+ fExpr[19] = [2]  action = 140 action param = 2 
+ fExpr[20] = *  action = 3 action param = 0 
+ fExpr[21] = +  action = 1 action param = 0 
+ fExpr[22] = sqrt  action = 22 action param = 0 
+ fExpr[23] = +  action = 1 action param = 0 
+Optimized expression
+ fExpr[0] = [0],[1],x,*,+                 action = 149 action param = 0 
+ fExpr[1] = x             action = 146 action param = 0 
+ fExpr[2] = x,[3],[3],*,*                 action = 149 action param = 0 
+ fExpr[3] = *             action = 3 action param = 0 
+ fExpr[4] = x,2,[4],*,*           action = 149 action param = 0 
+ fExpr[5] = +             action = 1 action param = 0 
+ fExpr[6] = [2],[2],*             action = 147 action param = 0 
+ fExpr[7] = +             action = 1 action param = 0 
+ fExpr[8] = sqrt                  action = 161 action param = 0 
+ fExpr[9] = +             action = 1 action param = 0 
+ Par  0                    p0 = 0.406236
+ Par  1                    p1 = 0.000734342
+ Par  2                    p2 = 0.125623
+ Par  3                    p3 = 0.0045563
+ Par  4                    p4 = 0.000252716
+ bfitting_function_linear_dn : [0]+[1]*x-sqrt((x*x*[3]*[3])+(x*2*[4])+([2]*[2])) Ndim= 1, Npar= 5, Noper= 24
+ fExpr[0] = [0]  action = 140 action param = 0 
+ fExpr[1] = [1]  action = 140 action param = 1 
+ fExpr[2] = x  action = 144 action param = 0 
+ fExpr[3] = *  action = 3 action param = 0 
+ fExpr[4] = x  action = 144 action param = 0 
+ fExpr[5] = x  action = 144 action param = 0 
+ fExpr[6] = [3]  action = 140 action param = 3 
+ fExpr[7] = [3]  action = 140 action param = 3 
+ fExpr[8] = *  action = 3 action param = 0 
+ fExpr[9] = *  action = 3 action param = 0 
+ fExpr[10] = *  action = 3 action param = 0 
+ fExpr[11] = x  action = 144 action param = 0 
+ fExpr[12] = 2  action = 141 action param = 0 
+ fExpr[13] = [4]  action = 140 action param = 4 
+ fExpr[14] = *  action = 3 action param = 0 
+ fExpr[15] = *  action = 3 action param = 0 
+ fExpr[16] = +  action = 1 action param = 0 
+ fExpr[17] = [2]  action = 140 action param = 2 
+ fExpr[18] = [2]  action = 140 action param = 2 
+ fExpr[19] = *  action = 3 action param = 0 
+ fExpr[20] = +  action = 1 action param = 0 
+ fExpr[21] = sqrt  action = 22 action param = 0 
+ fExpr[22] = -  action = 2 action param = 0 
+ fExpr[23] = +  action = 1 action param = 0 
+Optimized expression
+ fExpr[0] = [0]           action = 146 action param = 0 
+ fExpr[1] = [1],x,*               action = 148 action param = 0 
+ fExpr[2] = x             action = 146 action param = 0 
+ fExpr[3] = x,[3],[3],*,*                 action = 149 action param = 0 
+ fExpr[4] = *             action = 3 action param = 0 
+ fExpr[5] = x,2,[4],*,*           action = 149 action param = 0 
+ fExpr[6] = +             action = 1 action param = 0 
+ fExpr[7] = [2],[2],*             action = 147 action param = 0 
+ fExpr[8] = +             action = 1 action param = 0 
+ fExpr[9] = sqrt                  action = 161 action param = 0 
+ fExpr[10] = -            action = 2 action param = 0 
+ fExpr[11] = +            action = 1 action param = 0 
+ Par  0                    p0 = 0.406236
+ Par  1                    p1 = 0.000734342
+ Par  2                    p2 = 0.125623
+ Par  3                    p3 = 0.0045563
+ Par  4                    p4 = 0.000252716
+Info in <TCanvas::Print>: pdf file el_mu_nt_bkg_estimate.pdf has been created
+Info in <TCanvas::Print>: png file el_mu_nt_bkg_estimate.png has been created
+Info in <TCanvas::Print>: pdf file combined_bkg_estimate.pdf has been created
+Info in <TCanvas::Print>: png file combined_nt_bkg_estimate.png has been created
+

@@ -1,6 +1,3 @@
-[bjr@irune fitter]$ python NT_RateMaker.py 
-libGL error: No matching fbConfigs or visuals found
-libGL error: failed to load driver: swrast
  bfitting_function_linear : [0]+[1]*x Ndim= 1, Npar= 2, Noper= 5
  fExpr[0] = [0]  action = 140 action param = 0 
  fExpr[1] = [1]  action = 140 action param = 1 
@@ -9,8 +6,8 @@ libGL error: failed to load driver: swrast
  fExpr[4] = +  action = 1 action param = 0 
 Optimized expression
  fExpr[0] = [0],[1],x,*,+                 action = 149 action param = 0 
- Par  0                    p0 = 0.645056
- Par  1                    p1 = 0.00294784
+ Par  0                    p0 = 0.429455
+ Par  1                    p1 = 0.00414812
  bfitting_function_linear_up : [0]+[1]*x+sqrt((x*x*[3]*[3])+(x*2*[4])+([2]*[2])) Ndim= 1, Npar= 5, Noper= 24
  fExpr[0] = [0]  action = 140 action param = 0 
  fExpr[1] = [1]  action = 140 action param = 1 
@@ -47,11 +44,11 @@ Optimized expression
  fExpr[7] = +             action = 1 action param = 0 
  fExpr[8] = sqrt                  action = 161 action param = 0 
  fExpr[9] = +             action = 1 action param = 0 
- Par  0                    p0 = 0.645056
- Par  1                    p1 = 0.00294784
- Par  2                    p2 = 0.379287
- Par  3                    p3 = 0.0140052
- Par  4                    p4 = 0.00310793
+ Par  0                    p0 = 0.429455
+ Par  1                    p1 = 0.00414812
+ Par  2                    p2 = 0.118292
+ Par  3                    p3 = 0.00436637
+ Par  4                    p4 = 0.000324319
  bfitting_function_linear_dn : [0]+[1]*x-sqrt((x*x*[3]*[3])+(x*2*[4])+([2]*[2])) Ndim= 1, Npar= 5, Noper= 24
  fExpr[0] = [0]  action = 140 action param = 0 
  fExpr[1] = [1]  action = 140 action param = 1 
@@ -90,13 +87,14 @@ Optimized expression
  fExpr[9] = sqrt                  action = 161 action param = 0 
  fExpr[10] = -            action = 2 action param = 0 
  fExpr[11] = +            action = 1 action param = 0 
- Par  0                    p0 = 0.645056
- Par  1                    p1 = 0.00294784
- Par  2                    p2 = 0.379287
- Par  3                    p3 = 0.0140052
- Par  4                    p4 = 0.00310793
+ Par  0                    p0 = 0.429455
+ Par  1                    p1 = 0.00414812
+ Par  2                    p2 = 0.118292
+ Par  3                    p3 = 0.00436637
+ Par  4                    p4 = 0.000324319
 Info in <TCanvas::Print>: pdf file el_mu_nt_bkg_estimate.pdf has been created
-Info in <TCanvas::Print>: file el_mu_nt_bkg_estimate.png has been created
+Info in <TCanvas::Print>: png file el_mu_nt_bkg_estimate.png has been created
 Info in <TCanvas::Print>: pdf file combined_bkg_estimate.pdf has been created
-Info in <TCanvas::Print>: file combined_nt_bkg_estimate.png has been created
+Info in <TCanvas::Print>: png file combined_nt_bkg_estimate.png has been created
+
 

@@ -1,6 +1,6 @@
 BASEDIR=${CURDIR}
 ANALYSISDIR=${CURDIR}/working/
-TREES=/srv/data
+TREES=/eos/uscms/store/user/bjr/trees/
 
 all: clean prepare tprime
 
@@ -34,6 +34,9 @@ tprime:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/inverted_btag.conf -p ${ANALYSISDIR}/tprime/inverted_btag --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/loose_wtag.conf -p ${ANALYSISDIR}/tprime/inverted_btag/one_loose_wtag --no-wait
 
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/leptop.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/had_tprime_400/leptop/ --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/leptop.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/had_tprime_600/leptop/ --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/leptop.conf -p ${ANALYSISDIR}/tprime/two_loose_btag/had_tprime_800/leptop/ --no-wait
 tprime_anyjets:
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection_any.conf -p ${ANALYSISDIR}/tprime_any/ -t ${TREES} --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime_400.conf -p ${ANALYSISDIR}/tprime_any/had_tprime_400 --no-wait

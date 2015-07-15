@@ -17,39 +17,55 @@ TW_nu = "(1.0*1.20*2.71828^(-0.0013*0.5*(MCantitoppt+MCtoppt)))" # N up
 TW_nd = "(1.0*0.80*2.71828^(-0.0013*0.5*(MCantitoppt+MCtoppt)))" # N down
 TW_au = "(1.0*2.71828^(-0.0013*0.80*0.5*(MCantitoppt+MCtoppt)))" # a up
 TW_ad = "(1.0*2.71828^(-0.0013*1.20*0.5*(MCantitoppt+MCtoppt)))" # a down
+# NT-est vars (and errors)
 
-# For the (small) NonTop background we apply the same estimate as we will use in the signal region (we've made this estimate before as a firsr pass using standard top-pt RW and then again a second time with the values for ttbar we found on the last iteration of this analysis... so using the corrected ttbar. This third pass should be the most correect)
+p0 = "0.402504"
+p1 = "0.000641416"
+p2 = "0.124863"
+p3 = "0.00452712"
+p4 = "0.00024813"
 
-ntW_el = "(0.0618663 + 0.000528015*(topcandmass-170.))"
-ntW_mu = "(0.0678199 + 0.000707998*(topcandmass-170.))"
+ntW = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.))"
+ntW_el = ntW
+ntW_mu = ntW
 
-# Define files:
-# single top
+ntWu = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.) + sqrt((hadWcandmass - 80.) * (hadWcandmass - 80.) * " + p3 + " * " + p3 + " + (hadWcandmass - 80.) * 2 * " + p4 + " + " + p2 + " * " + p2 + "))"
+ntWd = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.) - sqrt((hadWcandmass - 80.) * (hadWcandmass - 80.) * " + p3 + " * " + p3 + " + (hadWcandmass - 80.) * 2 * " + p4 + " + " + p2 + " * " + p2 + "))"
+
+
+rootDir = "/eos/uscms/store/user/bjr/trees/pruned/"
+
+# singletop
 sFileName = ['T_t-channel_TuneZ2star_8TeV-powheg-tauola.root',
-			 'T_t-channel_TuneZ2star_8TeV-powheg-tauola.root',
-			 'T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.root',
-			 'Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola.root',
-			 'Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola.root',
-			 'Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.root']
+             'T_s-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.root',
+             'Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.root']
 sxs = [56.4,3.79,11.117,30.7,1.768,11.117]
 sn = [3758227, 259961, 497658, 1935072, 139974, 493460]
-sFilePrefix = '/srv/data/'
+sFilePrefix = rootDir
 # data
-dFileNameE = "/srv/data/SingleElectron.root"
-dFileNameM = "/srv/data/SingleMu.root"
+dFileNameE = rootDir + "SingleElectron.root"
+dFileNameM = rootDir + "SingleMu.root"
 # ttbar
 tFileName = ["TTJets_SemiLeptMGDecays_8TeV-madgraph.root", "TTJets_FullLeptMGDecays_8TeV-madgraph.root"]
 txs = [107.7,25.17]
 tn = [25424818,12043695]
-tFilePrefix = "/srv/data/"
+tFilePrefix = rootDir
 
 # Define cuts we'll use:
 # Cuts:
-El = "cuts[0]>0.&cuts[9]>0."
-Mu = "cuts[2]>0.&cuts[9]>0."
-PreSel = "(topcandtau21>0.1&(lep2Drel>25.||lep2Ddr>0.5)&heavytopcandmass<250.&heavytopcandmass>140.)" # has a leptoinc top mass and 2D cut on the leptonic side
-TopTag = "(topcandtau32<0.55&topcandmass<250&topcandmass>140)"
-AntiTag = "(topcandmass<250&topcandmass>140&topcandtau32>0.55)" # inverted tau32 cut
+El = "cuts[0]>0.&cuts[2]>0."
+Mu = "cuts[3]>0.&cuts[2]>0."
+
+
+PreSel = "((lep2Drel>25.||lep2Ddr>0.5) && leppt > 25 && numjets > 2 && hadWcandpt > 200)"
+
+# Poorly named these days, but whoops.
+TopTag = "(hadWcandmass > 50 && hadWcandmass < 120 && hadWcandtau21 < 0.5)"
+AntiTag = "(hadWcandmass > 50 && hadWcandmass < 120 && hadWcandtau21 > 0.5)"
+
 
 # Subtractions: removed from estimate of NonTop
 mtZPs = TH1F("mtZPs", "", 25, 0, 2500)

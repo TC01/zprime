@@ -9,7 +9,9 @@ import ROOT
 
 treeName = 'tree'
 
-shouldPlot = ['QCD', 'WJets']
+shouldPlot = ['QCD_TuneZ2star', 'WJets']
+
+lumi = 19748.
 
 def shouldPlotFile(filename):
 	valid = False
@@ -46,7 +48,8 @@ def makePlot(xvar, yvar, chain, jet, xbins, ybins, useWeights=False):
 		for i in xrange(chain.GetEntries()):
 			chain.GetEntry(i)
 			if lep2Ddr[0] >= 0.5 and pt[0] > 100 and mass[0] > 50 and mass[0] < 120:
-				plot.Fill(mass[0], tau21[0], weight[0] * 19748.)
+				plot.Fill(mass[0], tau21[0], weight[0])
+#		plot.Scale(lumi)
 		chain.ResetBranchAddresses()
 
 	return plot
@@ -81,10 +84,10 @@ def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[20, 0,
 
 def directoryPlot(dir, xvar, yvar, useWeights=False):
 	try:
-		shutil.rmtree(os.path.join(dir, 'plots'))
+#		shutil.rmtree(os.path.join(dir, 'plots'))
+		os.mkdir(os.path.join(dir, 'plots'))
 	except:
 		pass
-	os.mkdir(os.path.join(dir, 'plots'))
 
 	for path, directory, files in os.walk(dir):
 		for file in files:

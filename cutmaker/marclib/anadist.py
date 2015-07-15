@@ -91,10 +91,10 @@ class multidist:
 			plots = []
 			count = 0
 
-			lastBackground = self.bstack.GetStack()[self.bstack.GetNhists() - 1]
-			totalBkg = lastBackground.GetEffectiveEntries()
-			with open('output.log', 'ab') as outputLog:
-				outputLog.write("    Total Background (19748) = " + str(totalBkg))
+#			lastBackground = self.bstack.GetStack()[self.bstack.GetNhists() - 1]
+#			totalBkg = lastBackground.GetEffectiveEntries()
+#			with open('output.log', 'ab') as outputLog:
+#				outputLog.write("    Total Background (19748) = " + str(totalBkg))
 
 			for i in self.sstack.GetStack():
 				new = i
@@ -103,20 +103,20 @@ class multidist:
 				plots.append(i)
 
 				# Change by Ben Rosser: STATISTICS!
-				factor = 1
+#				factor = 1
 
-				shiftDown = new.GetMean() - factor * new.GetRMS()
-				shiftUp = new.GetMean() + factor * new.GetRMS()
-				startBin = lastBackground.FindBin(shiftDown)
-				endBin = lastBackground.FindBin(shiftUp)
+#				shiftDown = new.GetMean() - factor * new.GetRMS()
+#				shiftUp = new.GetMean() + factor * new.GetRMS()
+#				startBin = lastBackground.FindBin(shiftDown)
+#				endBin = lastBackground.FindBin(shiftUp)
 
-				bkgEvents = lastBackground.Integral(startBin, endBin)
-				effSignal = new.GetEffectiveEntries()
-				with open('output.log', 'ab') as outputLog:
-					outputLog.write(sn[count] + ":\n")
-					outputLog.write("    (Lumi = 19748) S = " + str(effSignal) + ", B = " + str(bkgEvents) + "\n")
-					answer = effSignal / (1.5 + math.sqrt(bkgEvents))
-					outputLog.write("    Eff(Sig) / (1.5 + sqrt(B)) = " + str(answer) + "\n\n")
+#				bkgEvents = lastBackground.Integral(startBin, endBin)
+#				effSignal = new.GetEffectiveEntries()
+#				with open('output.log', 'ab') as outputLog:
+##					outputLog.write(sn[count] + ":\n")
+#					outputLog.write("    (Lumi = 19748) S = " + str(effSignal) + ", B = " + str(bkgEvents) + "\n")
+#					answer = effSignal / (1.5 + math.sqrt(bkgEvents))
+#					outputLog.write("    Eff(Sig) / (1.5 + sqrt(B)) = " + str(answer) + "\n\n")
 
 				count += 1
 				new.Draw("same")

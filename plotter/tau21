@@ -1,0 +1,82 @@
+#!/usr/bin/env python
+
+import optparse		# For cmslpc/cmssw compatibility...
+import os
+import shutil
+
+import ROOT
+
+treeName = 'tree'
+
+directory = "/eos/uscms/store/user/bjr/trees/"
+
+var = 'hadWcandtau21'
+
+cut = "(leppt > 25 && numjets > 2 && (lep2Drel > 25 || lep2Ddr > 0.5) && cuts[2] > 0 && hadWcandpt > 200 && hadWcandmass > 50 && hadWcandmass < 120)"
+
+lumi = 19748.
+
+def makePlot(plot, plotName, filename, color, weight):
+	print filename
+	chain = ROOT.TChain('tree')
+	chain.Add(filename)
+	plot.SetLineColor(color)
+	chain.Draw(var+">>" + plotName, str(weight)+"*"+cut, "goff")
+	plot.Scale(lumi)
+	plot.SetStats(0)
+	plot.SetLineWidth(3)
+	return plot
+
+def main():
+
+	w1Plot = ROOT.TH1F('wjets_plot', 'wjets_plot', 20, 0, 1)
+	w2Plot = ROOT.TH1F('wjets2_plot', 'wjets2_plot', 20, 0, 1)
+	w3Plot = ROOT.TH1F('wjets3_plot', 'wjets3_plot', 20, 0, 1)
+	w4Plot = ROOT.TH1F('wjets4_plot', 'wjets4_plot', 20, 0, 1)
+	ttbarFullPlot = ROOT.TH1F('ttbar_dileptonic', 'ttbar_dileptonic', 20, 0, 1)
+	ttbarSemiPlot = ROOT.TH1F('ttbar_semileptonic', 'ttbar_semileptonic', 20, 0, 1)
+
+	print "Making plots."
+	for path, dir, files in os.walk(directory):
+		if path == directory:
+			for filename in files:
+				if 'W1JetsToLNu' in filename:
+					w1Plot = makePlot(w1Plot, 'wjets_plot', os.path.join(path, filename), ROOT.TColor.kGreen, 6662.8 / 23141598.)
+				elif 'W2JetsToLNu' in filename:
+					w2Plot = makePlot(w2Plot, 'wjets2_plot', os.path.join(path, filename), ROOT.TColor.kGreen, 2159.2 / 34044921.)
+				elif 'W3JetsToLNu' in filename:
+					w3Plot = makePlot(w3Plot, 'wjets3_plot', os.path.join(path, filename), ROOT.TColor.kGreen, 640.4 / 15539503.)
+				elif 'W4JetsToLNu' in filename:
+					w4Plot = makePlot(w4Plot, 'wjets4_plot', os.path.join(path, filename), ROOT.TColor.kGreen, 264.0 / 13382803.)
+#				elif 'TTJets_FullLept' in filename:
+#					ttbarFullPlot = makePlot(ttbarFullPlot, 'ttbar_dileptonic', os.path.join(path, filename), ROOT.TColor.kRed + 2, 25.17/12119013.)
+				elif 'TTJets_SemiLept' in filename:
+					ttbarSemiPlot = makePlot(ttbarSemiPlot, 'ttbar_semileptonic', os.path.join(path, filename), ROOT.TColor.kRed, 107.7/25424818.)
+
+	w1Plot.Add(w2Plot)
+	w1Plot.Add(w3Plot)
+	w1Plot.Add(w4Plot)
+
+	canvas = ROOT.TCanvas('canvas', 'canvas', 1200, 800)
+	canvas.cd()
+
+	plot = w1Plot
+	plot.Draw()
+	ttbarSemiPlot.Draw("same")
+
+	legend = ROOT.TLegend()
+	legend.AddEntry(plot, 'W+Jets Semileptonic MC')
+	legend.AddEntry(ttbarSemiPlot, 'TTbar Semileptonic MC')
+	legend.Draw()
+
+#	ttbarFullPlot.Draw("same")
+
+	plot.SetTitle("Pre-Tagged tau21")
+	plot.GetXaxis().SetTitle("Merged W candidate, tau21")
+	plot.GetYaxis().SetTitle("Events")
+
+	canvas.SaveAs("tau21_MC_plots.png")
+	canvas.SaveAs("tau21_MC_plots.pdf")
+
+if __name__ == '__main__':
+	main()		

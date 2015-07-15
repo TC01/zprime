@@ -6,7 +6,7 @@ def writeplot(File, scale, plot, var, Cut, Weight):
 	temp = plot.Clone("temp") # Allows to add multiple distributions to the plot
 	chain = ROOT.TChain("tree")
 	chain.Add(File)
-	chain.Draw(var+">>"+"temp", Weight+"*"+Cut, "goff")
+	chain.Draw(var+">>"+"temp", Weight+"*("+Cut + ")", "goff")
 	temp.Scale(scale)
 	plot.Add(temp)
 
@@ -14,6 +14,6 @@ def write2dplot(File, scale, plot, var, var2, Cut, Weight):
 	temp = plot.Clone("temp")
 	chain = ROOT.TChain("tree")
 	chain.Add(File)
-	chain.Draw(var2+":"+var+">>"+"temp", Weight+"*"+Cut, "goff")
+	chain.Draw(var2+":"+var+">>"+"temp", Weight+"*("+Cut + ")", "goff")
 	temp.Scale(scale)
 	plot.Add(temp)

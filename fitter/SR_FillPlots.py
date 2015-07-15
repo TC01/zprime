@@ -10,31 +10,36 @@ from CutOnTree import writeplot
 # Defs:
 lumi = 19748.
 
-# Define files:
-# single top
-sFileName = ['t','s','tW','_t','_s','_tW']
+#rootDir = "/srv/data"
+rootDir = "/eos/uscms/store/user/bjr/trees/pruned/"
+
+# singletop
+sFileName = ['T_t-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'T_s-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'T_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.root',
+             'Tbar_t-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'Tbar_s-channel_TuneZ2star_8TeV-powheg-tauola.root',
+             'Tbar_tW-channel-DR_TuneZ2star_8TeV-powheg-tauola.root']
 sxs = [56.4,3.79,11.117,30.7,1.768,11.117]
 sn = [3758227, 259961, 497658, 1935072, 139974, 493460]
-sFilePrefix = '/home/osherson/Work/Trees/Gstar/T'
+sFilePrefix = rootDir
 # data
-dFileNameE = "/home/osherson/Work/Trees/Gstar/SingleElectron.root"
-dFileNameM = "/home/osherson/Work/Trees/Gstar/SingleMu.root"
+dFileNameE = rootDir + "SingleElectron.root"
+dFileNameM = rootDir + "SingleMu.root"
 # ttbar
-tFileName = ["tt", "ttl_uncut"]
+tFileName = ["TTJets_SemiLeptMGDecays_8TeV-madgraph.root", "TTJets_FullLeptMGDecays_8TeV-madgraph.root"]
 txs = [107.7,25.17]
 tn = [25424818,12043695]
-tFilePrefix = "/home/osherson/Work/Trees/Gstar/"
+tFilePrefix = rootDir
 
+N = 1 + 0.2*1.6360463748350496
+a = 0.0013 - (0.2*0.4773194160462202*0.0013)
 
-# TT-rw vars (and errors)
-N = 0.96
-a = 0.0012
+Nu = N + 0.2*0.4305091441738136
+au = a - 0.2*0.9397537176912021 * 0.0013
 
-Nu = N + 0.1
-au = a - 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
-
-Nd = N - 0.1
-ad = a + 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+Nd = N - 0.2*0.4305091441738136
+ad = a + 0.2*0.9397537176912021 * 0.0013
 
 TW = "("+str(N)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_aup = "("+str(N)+"*2.71828^(-"+str(au)+"*0.5*(MCantitoppt+MCtoppt)))"
@@ -42,9 +47,24 @@ TW_adn = "("+str(N)+"*2.71828^(-"+str(ad)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_Nup = "("+str(Nu)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_Ndn = "("+str(Nd)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 # NT-est vars (and errors)
-ntW = "(0.072885 + 0.000660127*(topcandmass-170.))"
-ntWu = "(((0.072885 + 0.000660127*(topcandmass-170.)) + ((topcandmass-170.)*(topcandmass-170.)*(0.000633024*0.000633024)+((topcandmass-170.)*2*0.0000193051+(0.0348167*0.0348167)))^0.5))"
-ntWd = "(((0.072885 + 0.000660127*(topcandmass-170.)) - ((topcandmass-170.)*(topcandmass-170.)*(0.000633024*0.000633024)+((topcandmass-170.)*2*0.0000193051+(0.0348167*0.0348167)))^0.5))"
+
+p0 = "0.402504"
+p1 = "0.000641416"
+p2 = "0.124863"
+p3 = "0.00452712"
+p4 = "0.00024813"
+
+p0 = "0.691861"
+p1 = "0.0096715"
+p2 = "0.16024"
+p3 = "0.00593041"
+p4 = "0.000622613"
+
+ntW = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.))"
+
+ntWu = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.) + sqrt((hadWcandmass - 80.) * (hadWcandmass - 80.) * " + p3 + " * " + p3 + " + (hadWcandmass - 80.) * 2 * " + p4 + " + " + p2 + " * " + p2 + "))"
+ntWd = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.) - sqrt((hadWcandmass - 80.) * (hadWcandmass - 80.) * " + p3 + " * " + p3 + " + (hadWcandmass - 80.) * 2 * " + p4 + " + " + p2 + " * " + p2 + "))"
+
 
 # Theser are all the data driven uncrt, we'll have to load in separate Ntuples for most of the MC systematics.
 
@@ -120,67 +140,70 @@ eZPn_Ndn = TH1F("EL__NT__N__down", "", 30, 500, 3500)
 # Now we fill them:
 
 #cuts
-Fulltag = "(topcandtau2/topcandtau1>0.1&(lepcut2Drel>25.||lepcut2Ddr>0.5)&heavytopcandmass>800.)&(topcandtau3/topcandtau2<0.55&topcandmass<250&topcandmass>140)&isLoose>0."
-Antitag = "(topcandtau2/topcandtau1>0.1&(lepcut2Drel>25.||lepcut2Ddr>0.5)&heavytopcandmass>800.)&(topcandtau3/topcandtau2>0.55&topcandmass<250&topcandmass>140)&isLoose>0."
+
+# ???
+Fulltag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
+Antitag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21>0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
+
 # Subtractions:
 # ttbar:
 for i in range(len(tFileName)):
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPs, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+"*"+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPs_aup, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+"*"+TW_aup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPs_adn, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+"*"+TW_adn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPs_Nup, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+"*"+TW_Nup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPs_Ndn, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+"*"+TW_Ndn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPsU, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntWu+"*"+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mtZPsD, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntWd+"*"+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPs, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+"*"+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPs_aup, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+"*"+TW_aup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPs_adn, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+"*"+TW_adn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPs_Nup, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+"*"+TW_Nup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPs_Ndn, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+"*"+TW_Ndn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPsU, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntWu+"*"+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], etZPsD, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntWd+"*"+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPs, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+"*"+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPs_aup, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+"*"+TW_aup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPs_adn, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+"*"+TW_adn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPs_Nup, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+"*"+TW_Nup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPs_Ndn, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+"*"+TW_Ndn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPsU, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntWu+"*"+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mtZPsD, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntWd+"*"+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPs, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+"*"+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPs_aup, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+"*"+TW_aup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPs_adn, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+"*"+TW_adn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPs_Nup, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+"*"+TW_Nup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPs_Ndn, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+"*"+TW_Ndn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPsU, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntWu+"*"+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], etZPsD, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntWd+"*"+TW+")")
 # single top
 for i in range(len(sFileName)):
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], msZPs, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+")")
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], msZPsU, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntWu+")")
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], msZPsD, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntWd+")")
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], esZPs, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+")")
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], esZPsU, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntWu+")")
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], esZPsD, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntWd+")")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], msZPs, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+")")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], msZPsU, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntWu+")")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], msZPsD, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntWd+")")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], esZPs, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+")")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], esZPsU, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntWu+")")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], esZPsD, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntWd+")")
 # DATA:
-writeplot(dFileNameM, 1.0, mZPd, "EventMass", "("+Fulltag+"&isMuon>0.)", "(1.0)")
-writeplot(dFileNameE, 1.0, eZPd, "EventMass", "("+Fulltag+"&isElec>0.)", "(1.0)")
+writeplot(dFileNameM, 1.0, mZPd, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "(1.0)")
+writeplot(dFileNameE, 1.0, eZPd, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "(1.0)")
 # NONTOP EST:
-writeplot(dFileNameM, 1.0, mZPn, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+")")
-writeplot(dFileNameE, 1.0, eZPn, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+")")
-writeplot(dFileNameM, 1.0, mZPn_aup, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+")")
-writeplot(dFileNameE, 1.0, eZPn_aup, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+")")
-writeplot(dFileNameM, 1.0, mZPn_adn, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+")")
-writeplot(dFileNameE, 1.0, eZPn_adn, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+")")
-writeplot(dFileNameM, 1.0, mZPn_Nup, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+")")
-writeplot(dFileNameE, 1.0, eZPn_Nup, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+")")
-writeplot(dFileNameM, 1.0, mZPn_Ndn, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntW+")")
-writeplot(dFileNameE, 1.0, eZPn_Ndn, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntW+")")
-writeplot(dFileNameM, 1.0, mZPnU, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntWu+")")
-writeplot(dFileNameE, 1.0, eZPnU, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntWu+")")
-writeplot(dFileNameM, 1.0, mZPnD, "EventMass", "("+Antitag+"&isMuon>0.)", "("+ntWd+")")
-writeplot(dFileNameE, 1.0, eZPnD, "EventMass", "("+Antitag+"&isElec>0.)", "("+ntWd+")")
+writeplot(dFileNameM, 1.0, mZPn, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+")")
+writeplot(dFileNameE, 1.0, eZPn, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+")")
+writeplot(dFileNameM, 1.0, mZPn_aup, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+")")
+writeplot(dFileNameE, 1.0, eZPn_aup, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+")")
+writeplot(dFileNameM, 1.0, mZPn_adn, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+")")
+writeplot(dFileNameE, 1.0, eZPn_adn, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+")")
+writeplot(dFileNameM, 1.0, mZPn_Nup, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+")")
+writeplot(dFileNameE, 1.0, eZPn_Nup, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+")")
+writeplot(dFileNameM, 1.0, mZPn_Ndn, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntW+")")
+writeplot(dFileNameE, 1.0, eZPn_Ndn, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntW+")")
+writeplot(dFileNameM, 1.0, mZPnU, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntWu+")")
+writeplot(dFileNameE, 1.0, eZPnU, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntWu+")")
+writeplot(dFileNameM, 1.0, mZPnD, "EventMass", "("+Antitag+"&cuts[3]>0.)", "("+ntWd+")")
+writeplot(dFileNameE, 1.0, eZPnD, "EventMass", "("+Antitag+"&cuts[0]>0.)", "("+ntWd+")")
 # TTBAR:
 for i in range(len(tFileName)):
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mZPt, "EventMass", "("+Fulltag+"&isMuon>0.)", "("+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mZPt_aup, "EventMass", "("+Fulltag+"&isMuon>0.)", "("+TW_aup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mZPt_adn, "EventMass", "("+Fulltag+"&isMuon>0.)", "("+TW_adn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mZPt_Nup, "EventMass", "("+Fulltag+"&isMuon>0.)", "("+TW_Nup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], mZPt_Ndn, "EventMass", "("+Fulltag+"&isMuon>0.)", "("+TW_Ndn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], eZPt, "EventMass", "("+Fulltag+"&isElec>0.)", "("+TW+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], eZPt_aup, "EventMass", "("+Fulltag+"&isElec>0.)", "("+TW_aup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], eZPt_adn, "EventMass", "("+Fulltag+"&isElec>0.)", "("+TW_adn+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], eZPt_Nup, "EventMass", "("+Fulltag+"&isElec>0.)", "("+TW_Nup+")")
-	writeplot(tFilePrefix+tFileName[i]+'.root', lumi*txs[i]/tn[i], eZPt_Ndn, "EventMass", "("+Fulltag+"&isElec>0.)", "("+TW_Ndn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mZPt, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "("+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mZPt_aup, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "("+TW_aup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mZPt_adn, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "("+TW_adn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mZPt_Nup, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "("+TW_Nup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], mZPt_Ndn, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "("+TW_Ndn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], eZPt, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "("+TW+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], eZPt_aup, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "("+TW_aup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], eZPt_adn, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "("+TW_adn+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], eZPt_Nup, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "("+TW_Nup+")")
+	writeplot(tFilePrefix+tFileName[i], lumi*txs[i]/tn[i], eZPt_Ndn, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "("+TW_Ndn+")")
 # SINGLE TOP:
 for i in range(len(sFileName)):
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], mZPs, "EventMass", "("+Fulltag+"&isMuon>0.)", "(1.0)")
-	writeplot(sFilePrefix+sFileName[i]+'.root', lumi*sxs[i]/sn[i], eZPs, "EventMass", "("+Fulltag+"&isElec>0.)", "(1.0)")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], mZPs, "EventMass", "("+Fulltag+"&cuts[3]>0.)", "(1.0)")
+	writeplot(sFilePrefix+sFileName[i], lumi*sxs[i]/sn[i], eZPs, "EventMass", "("+Fulltag+"&cuts[0]>0.)", "(1.0)")
 	# error files:
 # Do the substractions as needed:
 mZPn.Add(msZPs,-1)

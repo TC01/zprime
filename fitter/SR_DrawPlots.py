@@ -9,6 +9,8 @@ from ROOT import *
 
 F = TFile("Zprime_Theta_Feed.root")
 
+height = 50
+
 # Make the Data Pretty:
 eData = F.Get("EL__DATA")
 mData = F.Get("MU__DATA")
@@ -48,9 +50,9 @@ eStack.Add(eST)
 eStack.Add(eTT)
 eStack.Add(eNT)
 mStack = THStack("mstack", "")
-mStack.Add(eST)
-mStack.Add(eTT)
-mStack.Add(eNT)
+mStack.Add(mST)
+mStack.Add(mTT)
+mStack.Add(mNT)
 # make BKGHeight, we'll need this later:
 ebkgH = eST.Clone("eB")
 ebkgH.Add(eTT,1)
@@ -132,12 +134,12 @@ for i in range(mPull.GetNbinsX()+1):
 	else:
 		f = e
 	mPull.SetBinContent(i, f)
-	x1 = ePull.GetBinCenter(i) - (0.5*ePull.GetBinWidth(i))
-	y1 = ebkgH.GetBinContent(i) - de
+	x1 = mPull.GetBinCenter(i) - (0.5*mPull.GetBinWidth(i))
+	y1 = mbkgH.GetBinContent(i) - de
 	if y1 < 0.:
 		y1 = 0
-	x2 = ePull.GetBinCenter(i) + (0.5*ePull.GetBinWidth(i))
-	y2 = ebkgH.GetBinContent(i) + ue
+	x2 = mPull.GetBinCenter(i) + (0.5*mPull.GetBinWidth(i))
+	y2 = mbkgH.GetBinContent(i) + ue
 	tempbox = TBox(x1,y1,x2,y2)
 	mBoxes.append(tempbox)
 
@@ -190,7 +192,7 @@ eplot.Draw()
 epull.Draw()
 eplot.cd()
 eData.Draw()
-eData.GetYaxis().SetRangeUser(0.,70.)
+eData.GetYaxis().SetRangeUser(0.,height)
 eStack.Draw("same")
 #eZ15.Draw("same")
 eData.Draw("same")
@@ -201,6 +203,9 @@ epull.cd()
 ePull.Draw("hist")
 eC.Update()
 
+eC.SaveAs("electrons_sr_fit.pdf")
+eC.SaveAs("electrons_sr_fit.png")
+
 mC = TCanvas("mC","",700,550)
 mplot = TPad("mpad1", "The pad 80% of the height",0,0.15,1,1)
 mpull = TPad("mpad2", "The pad 20% of the height",0,0,1.0,0.15)
@@ -208,7 +213,7 @@ mplot.Draw()
 mpull.Draw()
 mplot.cd()
 mData.Draw()
-mData.GetYaxis().SetRangeUser(0.,70.)
+mData.GetYaxis().SetRangeUser(0., height)
 mStack.Draw("same")
 #mZ15.Draw("same")
 mData.Draw("same")
@@ -218,3 +223,8 @@ bm.Draw("same")
 mpull.cd()
 mPull.Draw("hist")
 mC.Update()
+
+mC.SaveAs("muons_sr_fit.pdf")
+mC.SaveAs("muons_sr_fit.png")
+
+raw_input()

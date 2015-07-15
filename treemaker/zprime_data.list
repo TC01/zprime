@@ -4,6 +4,7 @@ lep_vars
 lep_nu_wcand
 nearest_jet_cuts
 top_cand
+had_W_cand
 had_top_cand
 is_w_cut
 is_b_cut
