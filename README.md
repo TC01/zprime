@@ -23,6 +23,9 @@ that use theta to do ttbar background estimation.
 
 Requires theta installed to run the TT_*.py scripts.
 
+## plotter
+
+Some random scripts that make plots.
 
 ## TODO: write more code and stuff!
 
