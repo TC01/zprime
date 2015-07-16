@@ -14,7 +14,7 @@ maxJets = 3
 # Code from Marc used in the old G* Analysis Treemaker
 # (returns the index of the jet (from a collection "jets") closest to the given four-vector)
 def ClosestJet(jets, fourvec):
-	DR = 9999.
+	DR = 999.
 	index = -1
 	for j in range(0,len(jets)):
 		if jets[j].Pt() > 0 :
@@ -38,11 +38,9 @@ def analyze(event, variables, labels, isData):
 	
 	# This seems to be a design flaw; analyze() should be able to access the
 	# state of cuts. Since it can't, we have to do this. TODO: fix.
-	electrons = labels['jhuElePFlow']['electron'].product()
-	muons = labels['jhuMuonPFlow']['muon'].product()
-	isHadronic = False
-	if len(electrons) == 0 and len(muons) == 0:
-		isHadronic = True
+	isHadronic = True
+	if variables['isElectron'][0] > 0 or variables['isMuon'][0] > 0:
+		isHadronic = False
 	
 	# Now, create a list of all the jets that exist. Simplest way to do that:
 	jets = []

@@ -5,23 +5,42 @@ import array
 
 from Treemaker.Treemaker import cuts
 
+etaCutoff = 2.4
+ptCutoff = 10
+
 def setup(variables, isData):
 	variables['lepphi'] = array.array('f', [100.0])
 	variables['leppt'] = array.array('f', [-1.0])
 	variables['lepeta'] = array.array('f', [100.0])
 	variables['lepmass'] = array.array('f', [-1.0])
+
+	variables['lepcharge'] = array.array('f', [0.0])
+	variables['lepiso'] = array.array('f', [-1.0])
+
+	variables['isMuon'] = array.array('f', [0.0])
+	variables['isElectron'] = array.array('f', [0.0])
+
 	return variables
 
-def fillLeptons(variables, vector):
+def fillLeptons(variables, vector, iso, charge):
 	variables['leppt'][0] = vector[0].Pt()
 	variables['lepphi'][0] = vector[0].Phi()
 	variables['lepeta'][0] = vector[0].Eta()
 	variables['lepmass'][0] = vector[0].M()
+	variables['lepcharge'][0] = charge[0]
+	variables['lepiso'][0] = iso[0]
 	return variables
 
 def analyze(event, variables, labels, isData):
 	electrons = labels['jhuElePFlow']['electron'].product()
 	muons = labels['jhuMuonPFlow']['muon'].product()
+	
+	electronCharge = labels['jhuElePFlow']['electroncharge'].product()
+	muonCharge = labels['jhuMuonPFlow']['muoncharge'].product()
+
+	electronISO = labels['jhuElePFlow']['electroniso'].product()
+	muonISO = labels['jhuMuonPFlow']['muoniso'].product()
+
 	# Do nothing if there are no electrons *or* muons.
 	if len(electrons) == 0 and len(muons) == 0:
 		return variables
@@ -29,14 +48,20 @@ def analyze(event, variables, labels, isData):
 	# Sort into three different categories: only the muons and electrons one
 	# is hard.
 	if len(electrons) == 0 and len(muons) > 0:
-		variables = fillLeptons(variables, muons)
+		if muons[0].Eta() < etaCutoff and muons[0].Pt() > ptCutoff:
+			variables = fillLeptons(variables, muons, muonISO, muonCharge)
+			variables['isMuon'][0] = 1.0
 	elif len(electrons) > 0 and len(muons) == 0:
-		variables = fillLeptons(variables, electrons)
+		if electrons[0].Eta() < etaCutoff and electrons[0].Pt() > ptCutoff:
+			variables = fillLeptons(variables, electrons, electronISO, electronCharge)
+			variables['isElectron'][0] = 1.0
 	else:
-		if electrons[0].Pt() > muons[0].Pt():
-			variables = fillLeptons(variables, electrons)
-		else:
-			variables = fillLeptons(variables, muons)
+		if electrons[0].Eta() < etaCutoff and electrons[0].Pt() > muons[0].Pt() and electrons[0].Pt() > ptCutoff:
+			variables = fillLeptons(variables, electrons, electronISO, electronCharge)
+			variables['isElectron'][0] = 1.0
+		if muons[0].Eta() < etaCutoff and muons[0].Pt() > electrons[0].Pt() and muons[0].Pt() > ptCutoff:
+			variables = fillLeptons(variables, muons, muonISO, muonCharge)
+			variables['isMuon'][0] = 1.0
 		
 	return variables
 
@@ -45,6 +70,13 @@ def reset(variables):
 	variables['lepphi'][0] = 100.0
 	variables['lepeta'][0] = 100.0
 	variables['lepmass'][0] = -1.0
+
+	variables['lepcharge'][0] = 0.0
+	variables['lepiso'][0] = -1.0
+
+	variables['isMuon'][0] = 0.0
+	variables['isElectron'][0] = 0.0
+
 	return variables
 
 def createCuts(cutArray):
@@ -54,20 +86,12 @@ def createCuts(cutArray):
 	return cutArray
 
 def makeCuts(event, variables, cutArray, labels, isData):
-	# It may *seem* expensive to do this again... I'm not sure if it is or isn't.
-	# Certainly it's not very expensive at all compared to Handle, which is OOM worse.
-	# Maybe we should put .product() in labels.
-	electrons = labels['jhuElePFlow']['electron'].product()
-	muons = labels['jhuMuonPFlow']['muon'].product()
-	if len(electrons) == 0 and len(muons) == 0:
-		cutArray['isHadronic'].passed = 1
-	elif len(electrons) == 0 and len(muons) > 0:
-		cutArray['isMuon'].passed = 1
-	elif len(muons) == 0 and len(electrons) > 0:
+
+	# For legacy purposes.
+
+	if variables['isElectron'][0] > 0:
 		cutArray['isElectron'].passed = 1
-	else:
-		if electrons[0].Pt() > muons[0].Pt():
-			cutArray['isElectron'].passed = 1
-		else:
-			cutArray['isMuon'].passed = 1
+	if variables['isMuon'][0] > 0:
+		cutArray['isMuon'].passed = 1
+
 	return cutArray

@@ -63,9 +63,7 @@ def analyze(event, variables, labels, isData):
 			eventReco += eventJet
 	
 	# Create the four vectors, then use make_lepW to do fitted MET.
-	electrons = labels['jhuElePFlow']['electron'].product()
-	muons = labels['jhuMuonPFlow']['muon'].product()
-	if not (len(electrons) == 0 and len(muons) == 0):
+	if variables['isMuon'][0] > 0 or variables['isElectron'][0] > 0:
 		unfittedMET.SetPtEtaPhiM(variables['metpt'][0], 0.0, variables['metphi'][0], 0.0)
 		lepVector.SetPtEtaPhiM(variables['leppt'][0], variables['lepeta'][0], variables['lepphi'][0], variables['lepmass'][0])
 		fittedMET = make_lepW(unfittedMET, lepVector)
