@@ -9,13 +9,24 @@ import scipy
 #from CutOnTree import *
 from CutOnTree import *
 
-
+# {'': {'a': [(0.17193499873689522, 0.8768928552409063)], '__nll': [-76463.17679979667], 'N': [(0.3602306677121394, 0.3187759198940521)]}}
+#{'': {'a': [(-0.07146079778011227, 0.875671714897118)], '__nll': [-76462.8955340177], 'N': [(0.30238335906371994, 0.31059729678043846)]}}
 # TT fitting parameters, from theta.
 
-theta_n_1 = 1.6360463748350496
-theta_n_2 = 0.4305091441738136
-theta_a_1 = 0.4773194160462202
-theta_a_2 = 0.9397537176912021
+#theta_n_1 = 1.0078619000542872
+#theta_n_2 = 0.5214853764240832
+#theta_a_1 = 0.33096947566795176
+#theta_a_2 = 0.9537042884193712
+
+theta_n_1 = 0.30238335906371994
+theta_n_2 = 0.31059729678043846
+theta_a_1 = -0.07146079778011227
+theta_a_2 = 0.875671714897118
+
+theta_n_1 = 0.3602306677121394
+theta_n_2 = 0.3187759198940521
+theta_a_1 = 0.17193499873689522
+theta_a_2 = 0.8768928552409063
 
 N = 1 + 0.2*theta_n_1
 a = 0.0013 - (0.2*theta_a_1*0.0013)
@@ -77,8 +88,8 @@ fitMax = 120 - 80
 tauCutoff = 0.5
 
 # Preselection Cuts:
-#PreSel = "leptopcandmass > 140 && leptopcandmass < 250 && (lep2Drel>25.||lep2Ddr>0.5) && cuts[2]>0&&cuts[1]<1 && leppt > 25 && numjets > 2 && hadWcandpt > 200 && hadWcandmass > 50 && hadWcandmass < 120 && hadtopcandmass > 250"
-PreSel = "(lep2Drel>25.||lep2Ddr>0.5) && cuts[2]>0&&cuts[1]<1 && leppt > 25 && numjets > 2 && hadWcandpt > 200 && hadWcandmass > 50 && hadWcandmass < 120 && hadtopcandmass > 250"
+PreSel = "leptopcandmass > 140 && leptopcandmass < 250 && (lep2Drel>25.||lep2Ddr>0.5) && cuts[2]>0&&cuts[1]<1 && leppt > 25 && numjets > 2 && hadWcandpt > 200 && hadWcandmass > 50 && hadWcandmass < 120 && hadtopcandmass > 250"
+#PreSel = "(lep2Drel>25.||lep2Ddr>0.5) && cuts[2]>0&&cuts[1]<1 && leppt > 25 && numjets > 2 && hadWcandpt > 200 && hadWcandmass > 50 && hadWcandmass < 120 && hadtopcandmass > 250"
 
 # plots:
 mtPlot = TH2F("mtPlotM", "", varb[0],varb[1],varb[2],varb2[0],varb2[1],varb2[2])
@@ -113,6 +124,16 @@ edPlot.Add(esPlot,-1.0)
 mdPlot.Add(mtPlot,-1.0)
 mdPlot.Add(msPlot,-1.0)
 
+# Fix some bins that are zero.
+#for i in range(mdPlot.GetNbinsX()):
+#	for j in range(mdPlot.GetNbinsY()):
+#		if mdPlot.GetBinContent(i, j) < 0:
+#			mdPlot.SetBinContent(i, j, 0)
+#for i in range(edPlot.GetNbinsX()):
+#	for j in range(edPlot.GetNbinsY()):
+#		if edPlot.GetBinContent(i, j) < 0:
+#			edPlot.SetBinContent(i, j, 0)
+
 # Start Fitting:
 #First arrange the plots in a fittable way: separate by mass bins and compute P/F
 # Do thsi for Muons:
@@ -127,18 +148,32 @@ mhy = []
 mehx = []
 mehy = []
 
+mbins = [[50, 55], [55, 60], [100, 120]]#, [110, 120]]
 mbins = [[50, 55], [55, 60], [100, 110], [110, 120]]
 for b in mbins:
 	passed = 0
 	failed = 0
 	for i in range(mdPlot.GetNbinsX()): # this is slightly crude, but it works well and doens't have to be run too many times. It loops trhough the bins I define and fills them bin-by-bin (on the histogram) with pass/fail events
 		for j in range(mdPlot.GetNbinsY()):
+			if mdPlot.GetXaxis().GetBinCenter(i) > 100 and mdPlot.GetXaxis().GetBinCenter(i) < 120:
+				print "Event should pass."
+				print mdPlot.GetXaxis().GetBinCenter(i)
+				print mdPlot.GetYaxis().GetBinCenter(j)
+				print mdPlot.GetBinContent(i, j)
 			if mdPlot.GetXaxis().GetBinCenter(i) < b[1] and mdPlot.GetXaxis().GetBinCenter(i) > b[0]:
 				if mdPlot.GetYaxis().GetBinCenter(j) > tauCutoff:
 					failed = failed + mdPlot.GetBinContent(i,j)
 				else:
+					if b[0] == 100 and b[1] == 120:
+						print "Event passed"
+						print mdPlot.GetXaxis().GetBinCenter(i)
 					passed = passed + mdPlot.GetBinContent(i,j)
 	# If we have low statistics subtracting the ttbar and single top can leave us with "gaps" or just negative events in the least populated bins. This is of course bad, so we just set them to zero. If you want to change the binning it should be such that this is minimized,but this his here ot protect you if need be.
+	
+	print b
+	print "Passed: " + str(passed)
+	print "Failed: " + str(failed)
+
 	if passed < 0:
 		passed = 0
 	if failed < 0:
@@ -172,6 +207,7 @@ ehy = []
 eehx = []
 eehy = []
 
+ebins = [[50, 55], [55, 60], [100, 120]]#, [110, 120]]
 ebins = [[50, 55], [55, 60], [100, 110], [110, 120]]
 for b in ebins: # Same as above
 	passed = 0
@@ -344,6 +380,7 @@ bfunclindn.SetLineStyle(2)
 # Now some beautification:
 for G in [mG,eG,bG]:
 	G.SetMarkerStyle(21)
+	G.SetTitle('')
 	G.GetXaxis().SetTitle("#Delta(jet - W)_{mass} [GeV/c^{2}]")
 	G.GetYaxis().SetTitle("N_{passed}/N_{failed}")
 	G.GetYaxis().SetTitleSize(0.05)
@@ -371,8 +408,8 @@ mleg.AddEntry(mG, "data (#mu channel)", "PL")
 bleg = TLegend(0.2,0.6,0.55,0.89)
 bleg.SetFillColor(0)
 bleg.SetLineColor(0)
-bleg.AddEntry(efunclin, "linear fit (e channel)", "L")
-bleg.AddEntry(mfunclin, "linear fit (#mu channel)", "L")
+#bleg.AddEntry(efunclin, "linear fit (e channel)", "L")
+#bleg.AddEntry(mfunclin, "linear fit (#mu channel)", "L")
 bleg.AddEntry(bfunclin, "linear fit (both channels)", "L")
 bleg.AddEntry(bfunclinup, "error in fit", "L")
 bleg.AddEntry(bG, "data (both channels)", "PL")
@@ -388,7 +425,7 @@ mfunclin.Draw("same")
 bfunclin.Draw("same")
 efunclinup.Draw("same")
 efunclindn.Draw("same")
-#eleg.Draw()
+eleg.Draw()
 C1.cd(2)
 mG.Draw("AP")
 mG.GetYaxis().SetRangeUser(-0.,2.0)
@@ -397,18 +434,18 @@ mfunclin.Draw("same")
 bfunclin.Draw("same")
 mfunclinup.Draw("same")
 mfunclindn.Draw("same")
-#mleg.Draw()
+mleg.Draw()
 
 C2 = TCanvas("c2", "c2", 600,600)
 C2.cd()
 bG.Draw("AP")
 bG.GetYaxis().SetRangeUser(-0.,2.0)
-efunclin.Draw("same")
-mfunclin.Draw("same")
+#efunclin.Draw("same")
+#mfunclin.Draw("same")
 bfunclin.Draw("same")
 bfunclinup.Draw("same")
 bfunclindn.Draw("same")
-#bleg.Draw()
+bleg.Draw()
 
 bfunclin.Print()
 bfunclinup.Print()

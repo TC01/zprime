@@ -5,16 +5,24 @@ import ROOT
 from ROOT import *
 from CutOnTree import writeplot
 
-N = 1.6360463748350496
-a = 0.4773194160462202
+theta_n_1 = 1.0078619000542872
+theta_n_2 = 0.5214853764240832
+theta_a_1 = 0.33096947566795176
+theta_a_2 = 0.9537042884193712
 
-Nu = N + 0.4305091441738136
-au = a - 0.9397537176912021
-# no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+theta_n_1 = 0.3602306677121394
+theta_n_2 = 0.3187759198940521
+theta_a_1 = 0.17193499873689522
+theta_a_2 = 0.8768928552409063
 
-Nd = N - 0.4305091441738136
-ad = a + 0.9397537176912021
-# no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+N = 1 + 0.2*theta_n_1
+a = 0.0013 - (0.2*theta_a_1*0.0013)
+
+Nu = N + 0.2*theta_n_2
+au = a - 0.2*theta_a_2 * 0.0013
+
+Nd = N - 0.2*theta_n_2
+ad = a + 0.2*theta_a_2 * 0.0013
 
 #N = 0.96
 #a = 0.0012
@@ -32,12 +40,23 @@ TW_adn = "("+str(N)+"*2.71828^(-"+str(ad)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_Nup = "("+str(Nu)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_Ndn = "("+str(Nd)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 
-
 p0 = "0.402504"
 p1 = "0.000641416"
 p2 = "0.124863"
 p3 = "0.00452712"
 p4 = "0.00024813"
+
+p0 = '0.421642'
+p1 = '0.00912608'
+p2 = '0.210238'
+p3 = '0.00756365'
+p4 = '0.00105457'
+
+p0 = '0.583043'
+p1 = '0.00877524'
+p2 = '0.101541'
+p3 = '0.00384622'
+p4 = '0.000270291'
 
 ntW = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.))"
 ntW_el = ntW
@@ -73,7 +92,7 @@ tFilePrefix = rootDir
 El = "cuts[0]>0.&cuts[2]>0."
 Mu = "cuts[3]>0.&cuts[2]>0."
 
-PreSel = "((lep2Drel>25.||lep2Ddr>0.5) && leppt > 25 && numjets > 2 && hadWcandpt > 200)"
+PreSel = "((lep2Drel>25.||lep2Ddr>0.5) && leppt > 25 && numjets > 2 && hadWcandpt > 200 && leptopcandmass > 140 && leptopcandmass < 250 && hadtopcandmass > 140 && hadtopcandmass < 250)"
 
 # Poorly named these days, but whoops.
 TopTag = "(hadWcandmass > 50 && hadWcandmass < 120 && hadWcandtau21 < 0.5)"
@@ -186,13 +205,13 @@ C = TCanvas()
 C.Divide(2,1)
 C.cd(1)
 edZP.Draw()
-edZP.GetYaxis().SetRangeUser(0, 80)
+edZP.GetYaxis().SetRangeUser(0, 1000)
 estack.Draw("same")
 edZP.Draw("same")
 bl.Draw()
 C.cd(2)
 mdZP.Draw()
-mdZP.GetYaxis().SetRangeUser(0, 80)
+mdZP.GetYaxis().SetRangeUser(0, 1000)
 mstack.Draw("same")
 mdZP.Draw("same")
 bl.Draw()

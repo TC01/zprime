@@ -34,10 +34,20 @@ tFilePrefix = rootDir
 
 # TT fitting parameters, from theta.
 
-theta_n_1 = 1.6360463748350496
-theta_n_2 = 0.4305091441738136
-theta_a_1 = 0.4773194160462202
-theta_a_2 = 0.9397537176912021
+theta_n_1 = 1.0078619000542872
+theta_n_2 = 0.5214853764240832
+theta_a_1 = 0.33096947566795176
+theta_a_2 = 0.9537042884193712
+
+theta_n_1 = 0.4371351500441678
+theta_n_2 = 0.30648354521578813
+theta_a_1 = 0.6630395175634263
+theta_a_2 = 0.8260168850939689
+
+theta_n_1 = 0.3602306677121394
+theta_n_2 = 0.3187759198940521
+theta_a_1 = 0.17193499873689522
+theta_a_2 = 0.8768928552409063
 
 N = 1 + 0.2*theta_n_1
 a = 0.0013 - (0.2*theta_a_1*0.0013)
@@ -48,6 +58,17 @@ au = a - 0.2*theta_a_2 * 0.0013
 Nd = N - 0.2*theta_n_2
 ad = a + 0.2*theta_a_2 * 0.0013
 
+
+N = 0.96
+a = 0.0012
+
+Nu = N + 0.1
+au = a - 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+
+Nd = N - 0.1
+ad = a + 0.00023 # no this isn't a type, recall that alpha is a negative factor but the value being listed here is positive, so a smaller alpha is closer to positve
+
+
 TW = "("+str(N)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_aup = "("+str(N)+"*2.71828^(-"+str(au)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_adn = "("+str(N)+"*2.71828^(-"+str(ad)+"*0.5*(MCantitoppt+MCtoppt)))"
@@ -55,24 +76,29 @@ TW_Nup = "("+str(Nu)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 TW_Ndn = "("+str(Nd)+"*2.71828^(-"+str(a)+"*0.5*(MCantitoppt+MCtoppt)))"
 # NT-est vars (and errors)
 
-p0 = "0.402504"
-p1 = "0.000641416"
-p2 = "0.124863"
-p3 = "0.00452712"
-p4 = "0.00024813"
+p0 = '0.421642'
+p1 = '0.00912608'
+p2 = '0.210238'
+p3 = '0.00756365'
+p4 = '0.00105457'
 
-p0 = "0.691861"
-p1 = "0.0096715"
-p2 = "0.16024"
-p3 = "0.00593041"
-p4 = "0.000622613"
+p0 = '0.482869'
+p1 = '0.00532022'
+p2 = '0.089892'
+p3 = '0.00339438'
+p4 = '0.000187741'
 
+p0 = '0.547774'
+p1 = '0.00755772'
+p2 = '0.0974039'
+p3 = '0.00368537'
+p4 = '0.000239982'
 
-p0 = "0.402504"
-p1 = "0.000641416"
-p2 = "0.124863"
-p3 = "0.00452712"
-p4 = "0.00024813"
+p0 = '0.583043'
+p1 = '0.00877524'
+p2 = '0.101541'
+p3 = '0.00384622'
+p4 = '0.000270291'
 
 ntW = "(" + p0 + " + " + p1 + " * (hadWcandmass - 80.))"
 
@@ -159,8 +185,8 @@ eZPn_Ndn = TH1F("EL__NT__N__down", "", 30, 500, 3500)
 Fulltag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 Antitag = "(leptopcandmass > 140 && leptopcandmass < 250 && hadWcandtau21>0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 
-Fulltag = "(hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
-Antitag = "(hadWcandtau21>0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
+#Fulltag = "(hadWcandtau21<0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
+#Antitag = "(hadWcandtau21>0.5 && (lep2Drel>25.||lep2Ddr>0.5) && hadtopcandmass > 250. && (hadWcandmass > 50 && hadWcandmass < 120 && hadWcandpt > 200) && cuts[2] > 0 && numjets > 2 && leppt > 25)"
 
 # Subtractions:
 # ttbar:

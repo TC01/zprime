@@ -9,7 +9,7 @@ import ROOT
 
 treeName = 'tree'
 
-shouldPlot = ['QCD_TuneZ2star', 'WJets']
+shouldPlot = ['QCD_TuneZ2star', 'Jets']
 
 lumi = 19748.
 
@@ -20,67 +20,74 @@ def shouldPlotFile(filename):
 			valid = True
 	return valid
 
-def makePlot(xvar, yvar, chain, jet, xbins, ybins, useWeights=False):
-	newX = jet + xvar
-	newY = jet + yvar
-	selection = newX + '> 50 &&' + newX + " < 120 && (lep2Drel>25.||lep2Ddr>0.5) && " + jet + "pt > 200 && cuts[1]<1&&cuts[2]>0 && leppt > 25 && numjets > 2"
+def makePlot(xvar, yvar, chain, offset, xbins, ybins, weight=1, useWeights=False):
+	newX = xvar
+	newY = yvar
+	selection = newX + '> 50 &&' + newX + " < 120 && (lep2Drel>25.||lep2Ddr>0.5) && hadWcandpt > 200 && cuts[1]<1&&cuts[2]>0 && leppt > 25 && numjets > 2" # && hadtopcandmass > 250 && leptopcandmass > 140 && leptopcandmass < 250"
 	print selection
 	
-	plot = ROOT.TH2F(jet + 'plot', 'plot', xbins[0], xbins[1], xbins[2], ybins[0], ybins[1], ybins[2])
+	plot = ROOT.TH2F(offset + 'plot', offset + 'plot', xbins[0], xbins[1], xbins[2], ybins[0], ybins[1], ybins[2])
 
+	chain.Draw(newY + ":" + newX + ">>" + offset + "plot", str(weight) + "* (" + selection + ")", "goff")
 
-	if not useWeights:
-		chain.Draw(newY + ":" + newX + ">>" + jet + "plot", selection, "goff")
-	else:
-		# This is a bad hack.
-		weight = array.array('f', [1.0])
-		mass = array.array('f', [-1.0])
-		tau21 = array.array('f', [1.0])
-		pt = array.array('f', [-1.0])
-		lep2Ddr = array.array('f', [-1.0])
-
-		chain.SetBranchAddress('weight', weight)
-		chain.SetBranchAddress('lep2Ddr', lep2Ddr)
-		chain.SetBranchAddress(jet + 'pt', pt)
-		chain.SetBranchAddress(newX, mass)
-		chain.SetBranchAddress(newY, tau21)
-
-		for i in xrange(chain.GetEntries()):
-			chain.GetEntry(i)
-			if lep2Ddr[0] >= 0.5 and pt[0] > 100 and mass[0] > 50 and mass[0] < 120:
-				plot.Fill(mass[0], tau21[0], weight[0])
-#		plot.Scale(lumi)
-		chain.ResetBranchAddresses()
+#	plot.Scale(lumi)
 
 	return plot
 
-def do2DPlot(filename, outputName, xvar, yvar, xbins=[75, 0, 150], ybins=[20, 0, 1.0], wait=False, useWeights=False):
-	chain = ROOT.TChain(treeName)
-	chain.Add(filename)
+def do2DPlots(filenames, outputNames, xvar, yvar, xbins=[75, 0, 150], ybins=[20, 0, 1.0], wait=False, useWeights=False):
 
-	plot = makePlot(xvar, yvar, chain, 'jet1', xbins, ybins, useWeights)
-	plot2 = makePlot(xvar, yvar, chain, 'jet2', xbins, ybins, useWeights)
-	plot3 = makePlot(xvar, yvar, chain, 'jet3', xbins, ybins, useWeights)
+	count = 0
+	plots = []
+	for filename in filenames:
+		chain = ROOT.TChain(treeName)
+		chain.Add(filename)
 
-	plot.Add(plot2)
-	plot.Add(plot3)
+		weight = 1
+		if 'W1' in filename:
+			weight = 6662.8 / 23141598.
+		elif 'W2' in filename:
+			weight = 2159.2 / 34044921.
+		elif 'W3' in filename:
+			weight = 640.4 / 15539503.
+		elif 'W4' in filename:
+			weight = 264.0 / 13382803.
 
+		plot = makePlot(xvar, yvar, chain, str(count), xbins, ybins, weight=weight)
+
+#		canvasTest = ROOT.TCanvas()
+#		canvasTest.cd()
+#		plot.Draw('COLZ')
+#		raw_input()
+
+		plots.append(plot)
+		count += 1
+
+	plot = plots[0]
+	for i in xrange(len(plots) - 1):
+		plot.Add(plots[i + 1])
+
+	outputName = outputNames[0]
 	plot.SetStats(0)
-#	plot.SetTitle("W+Jets Monte Carlo: Merged W mass, tau21, lep2Ddr > 0.5, pt > 100")
-	plot.SetTitle(outputName)
+	plot.SetTitle('')
+	plot.Scale(lumi)
+
 	name = filename.split('/')[-1]
 	name = 'canvas_' + name.split('.')[0]
+
 	canvas = ROOT.TCanvas(name, name, 1000, 800)
 	canvas.cd()
+
 	plot.Draw('COLZ')
-	plot.GetYaxis().SetTitle(yvar)
-	plot.GetXaxis().SetTitle(xvar)
-	profile = plot.ProfileX('plot_profile')
+	plot.GetYaxis().SetTitle('Hadronic W #tau_{2}/^{}#tau_{1}')
+	plot.GetXaxis().SetTitle('Hadronic W mass (GeV)')
+	profile = plot.ProfileX('plot_profile', 1, -1, 'g')
 	profile.Draw('same')
+
 	canvas.SaveAs(outputName + '.pdf')
 	canvas.SaveAs(outputName + '.png')
-	if wait:
-		raw_input()
+#	if wait:
+
+	raw_input()
 
 def directoryPlot(dir, xvar, yvar, useWeights=False):
 	try:
@@ -89,19 +96,28 @@ def directoryPlot(dir, xvar, yvar, useWeights=False):
 	except:
 		pass
 
+	filenames = []
+	plotnames = []
 	for path, directory, files in os.walk(dir):
 		for file in files:
-			if '.root' in file and shouldPlotFile(file):
+			if '.root' in file and ('W1' in file or 'W2' in file or 'W3' in file or 'W4' in file):
 				print "Making plots for file: " + file
 				filename = os.path.join(path, file)
 				plotname = file.split('.')[0]
-				plotname = os.path.join(dir, 'plots', plotname)
-				do2DPlot(filename, plotname, xvar, yvar, useWeights=useWeights)
+#				plotname = os.path.join(dir, 'plots', plotname)
+
+				filenames.append(filename)
+				plotnames.append(plotname)
+
+	
+	
+
+	do2DPlots(filenames, plotnames, xvar, yvar)
 
 def main():
 	parser = optparse.OptionParser()
-	parser.add_option('-x', '--xvar', dest='xvar', help="The x-axis variable.", default='mass')
-	parser.add_option('-y', '--yvar', dest='yvar', help="The y-axis variable.", default='tau21')
+	parser.add_option('-x', '--xvar', dest='xvar', help="The x-axis variable.", default='hadWcandmass')
+	parser.add_option('-y', '--yvar', dest='yvar', help="The y-axis variable.", default='hadWcandtau21')
 	parser.add_option('-w', '--weights', action='store_true', dest='weights', help="The Tree has weights.")
 	(opts, args) = parser.parse_args()
 	for arg in args:

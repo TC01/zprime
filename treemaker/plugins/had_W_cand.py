@@ -52,22 +52,23 @@ def analyze(event, variables, labels, isData):
 		except KeyError:
 			candidates.remove(jet)
 			break
-		if not (jetMass < wMassMax and jetMass > wMassMin and jetPt > wPtMin):
-			candidates.remove(jet)
 
 	# Select the first jet to meet these criteria. Discard the rest.
 	# (this should be the highest energy jet. Not sure if that's what we want).
 	# (But it's better than selecting one at random?)
-	variables['possible_had_W'][0] = len(candidates)
-	for candidate in candidates:
-		variables['hadWcandpt'][0] = variables[jet + 'pt'][0]
-		variables['hadWcandeta'][0] = variables[jet + 'eta'][0]
-		variables['hadWcandphi'][0] = variables[jet + 'phi'][0]
-		variables['hadWcandmass'][0] = variables[jet + 'mass'][0]
-		variables['hadWcandtau32'][0] = variables[jet + 'tau32'][0]
-		variables['hadWcandtau21'][0] = variables[jet + 'tau21'][0]
-		break
-		
+	count = 0
+	for jet in candidates:
+		if variables[jet + 'mass'][0] > wMassMin and variables[jet + 'mass'][0] < wMassMax and variables[jet + 'pt'][0] > 200:
+			count += 1
+			variables['hadWcandpt'][0] = variables[jet + 'pt'][0]
+			variables['hadWcandeta'][0] = variables[jet + 'eta'][0]
+			variables['hadWcandphi'][0] = variables[jet + 'phi'][0]
+			variables['hadWcandmass'][0] = variables[jet + 'mass'][0]
+			variables['hadWcandtau32'][0] = variables[jet + 'tau32'][0]
+			variables['hadWcandtau21'][0] = variables[jet + 'tau21'][0]
+			break
+	variables['possible_had_W'][0] = count
+
 	return variables
 
 def reset(variables):

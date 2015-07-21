@@ -2,7 +2,7 @@
 
 TREEMAKER_CONDOR=cd working && treemaker-condor -fr
 
-all:	clean plugins config mc
+all:	clean plugins config run
 run:	data mc
 mc:		singletop ttbar qcd gstar wjets
 

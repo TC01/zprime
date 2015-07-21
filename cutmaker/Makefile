@@ -5,7 +5,7 @@ TREES=/eos/uscms/store/user/bjr/trees/
 all: clean prepare tprime
 
 tprime:
-#	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/tprime/ -t ${TREES} --no-wait
+	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/preselection.conf -p ${ANALYSISDIR}/tprime/ -t ${TREES} --no-wait
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/leptop.conf -p ${ANALYSISDIR}/tprime/leptop/ --no-wait
 
 	${ANALYSISDIR}/analyzer.py -f ${BASEDIR}/cuts/had_tprime_400.conf -p ${ANALYSISDIR}/tprime/leptop/had_tprime_400 --no-wait
